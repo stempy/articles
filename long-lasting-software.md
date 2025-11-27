@@ -11,7 +11,7 @@ A curated list of useful software that has been actively developed and maintaine
 | **GNU Emacs** | 1985 | 40 years | Text Editor | Richard Stallman's flagship GNU project, still actively maintained |
 | **Directory Opus** | 1990 | 35 years | File Manager | Started on Amiga, now a powerful Windows Explorer replacement by GPSoftware |
 | **Vim** | 1991 | 34 years | Text Editor | Bram Moolenaar's "Vi IMproved", foundational Unix editor |
-| **WinRAR/RAR** | 1993 | 32 years | Archiver | Eugene Roshal's compression tool, still the gold standard for RAR |
+| **WinRAR / RAR** | 1993 | 32 years | Archiver | Eugene Roshal's compression tool, still the gold standard for RAR |
 | **Total Commander** | 1993 | 32 years | File Manager | Originally "Windows Commander", dual-pane powerhouse by Christian Ghisler |
 | **GIMP** | 1995 | 30 years | Image Editor | GNU Image Manipulation Program, the free Photoshop alternative |
 
@@ -21,12 +21,13 @@ A curated list of useful software that has been actively developed and maintaine
 
 | Software | First Released | Years Active | Category | Notes |
 |----------|----------------|--------------|----------|-------|
+| **Winamp** | 1997 | 28 years | Audio Player | The legendary MP3 player that "really whips the llama's ass" |
 | **Beyond Compare** | 1996 | 29 years | File Comparison | Scooter Software's comparison/merge tool, still under 10 employees |
 | **IrfanView** | 1996 | 29 years | Image Viewer | Lightweight, fast image viewer by Irfan Skiljan |
 | **XnView** | 1998 | 27 years | Image Viewer | Multi-format image viewer and converter |
-| **JRiver Media Jukebox/Center** | 1999 | 26 years | Media Player | Started as "Media Jukebox" in 1999; rebranded to "JRiver Media Center" in 2003 (v9); company founded 1982 |
+| **JRiver Media Center** | 1999 | 26 years | Media Player | Started as "Media Jukebox" in 1999; company founded 1982 |
 | **7-Zip** | 1999 | 26 years | Archiver | Igor Pavlov's open-source compression with superior LZMA algorithm |
-| **PuTTY** | 1999 | 26 years | SSH/Terminal | Simon Tatham's essential Windows SSH client |
+| **PuTTY** | 1999 | 26 years | SSH / Terminal | Simon Tatham's essential Windows SSH client |
 
 ---
 
@@ -35,7 +36,7 @@ A curated list of useful software that has been actively developed and maintaine
 | Software | First Released | Years Active | Category | Notes |
 |----------|----------------|--------------|----------|-------|
 | **Audacity** | 2000 | 25 years | Audio Editor | Free multi-track audio editor, over 200 million downloads |
-| **WinSCP** | 2000 | 25 years | SFTP/SCP Client | Secure file transfer for Windows |
+| **WinSCP** | 2000 | 25 years | SFTP / SCP Client | Secure file transfer for Windows |
 | **VLC Media Player** | 2001 | 24 years | Media Player | VideoLAN's "plays everything" media player, 6+ billion downloads |
 | **FileZilla** | 2001 | 24 years | FTP Client | Open-source FTP solution started as a university project |
 | **Rainmeter** | 2001 | 24 years | Desktop Customization | Desktop customization and widget platform |
@@ -55,6 +56,8 @@ A curated list of useful software that has been actively developed and maintaine
 | **Calibre** | 2006 | 19 years | E-book Manager | Kovid Goyal's essential e-book management and conversion tool |
 | **KeePass** | 2006 | 19 years | Password Manager | Open-source password safe with strong encryption |
 | **ShareX** | 2007 | 18 years | Screenshot Tool | Feature-rich screen capture and sharing utility |
+| **Everything** | 2008 | 17 years | File Search | Instant Windows file search by voidtools |
+| **MusicBee** | 2008 | 17 years | Audio Player | Feature-rich music player and organizer |
 
 ---
 
@@ -62,9 +65,8 @@ A curated list of useful software that has been actively developed and maintaine
 
 | Software | First Released | Years Active | Category | Notes |
 |----------|----------------|--------------|----------|-------|
-| **Everything** | 2008 | 17 years | File Search | Instant Windows file search by voidtools |
-| **MusicBee** | 2008 | 17 years | Audio Player | Feature-rich music player and organizer |
-| **OBS Studio** | 2012 | 13 years | Streaming/Recording | Open Broadcaster Software, industry standard for streamers |
+| **OBS Studio** | 2012 | 13 years | Streaming / Recording | Open Broadcaster Software, industry standard for streamers |
+| **Neovim** | 2015 | 10 years | Text Editor | Modern Vim fork with Lua extensibility |
 | **Visual Studio Code** | 2015 | 10 years | Code Editor | Microsoft's lightweight but powerful code editor |
 
 ---
@@ -73,7 +75,6 @@ A curated list of useful software that has been actively developed and maintaine
 
 | Software | First Released | Years Active | Category | Notes |
 |----------|----------------|--------------|----------|-------|
-| **Neovim** | 2015 | 10 years | Text Editor | Modern Vim fork with Lua extensibility |
 | **Bitwarden** | 2016 | 9 years | Password Manager | Open-source, cross-platform password management |
 | **PowerToys** | 2019* | 6 years | Windows Utilities | Microsoft's power user toolkit (revival of 90s original) |
 

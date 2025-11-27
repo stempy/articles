@@ -35,7 +35,7 @@ The site uses a cohesive design language:
 When adding or updating content:
 
 1. **Markdown files** are the source of truth for article content
-2. **HTML files** should NOT be automaticaly regenerated/updated when markdown changes
+2. **HTML files** should be regenerated/updated when markdown changes
 3. Keep consistency between `.md` and `.html` versions
 4. Maintain the card-based structure in HTML with appropriate accent colors
 

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Local Tool Setup</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="title-wrapper">
+                <p class="subtitle">Development Environment</p>
+                <h1>My Local <span>Tool Setup</span></h1>
+            </div>
+            <p class="intro">
+                A comprehensive overview of my development environment, from virtualization to AI tooling.
+            </p>
+        </header>
+
+        <main>
+            <!-- Windows 11 Host -->
+            <section class="era-section">
+                <div class="era-header">
+                    <span class="era-badge legends">HOST</span>
+                    <h2 class="era-title">Windows 11 Host</h2>
+                </div>
+                <p class="section-description">Windows 11 host with no dev tools—keeping the host clean and dedicated to creative work.</p>
+                <div class="software-grid">
+                    <article class="software-card" style="--card-accent: var(--accent-gold);">
+                        <div class="card-header">
+                            <h3 class="software-name"><a href="https://obsidian.md/" target="_blank">Obsidian</a></h3>
+                        </div>
+                        <span class="card-category">Note Taking</span>
+                        <p class="card-description">Knowledge management and note-taking</p>
+                    </article>
+
+                    <article class="software-card" style="--card-accent: var(--accent-gold);">
+                        <div class="card-header">
+                            <h3 class="software-name"><a href="https://obsproject.com/" target="_blank">OBS Studio</a></h3>
+                        </div>
+                        <span class="card-category">Recording / Streaming</span>
+                        <p class="card-description">Screen recording and live streaming</p>
+                    </article>
+
+                    <article class="software-card" style="--card-accent: var(--accent-gold);">
+                        <div class="card-header">
+                            <h3 class="software-name"><a href="https://www.blackmagicdesign.com/products/davinciresolve" target="_blank">DaVinci Resolve</a></h3>
+                        </div>
+                        <span class="card-category">Video Editing</span>
+                        <p class="card-description">Professional video editing and color grading</p>
+                    </article>
+
+                    <article class="software-card" style="--card-accent: var(--accent-gold);">
+                        <div class="card-header">
+                            <h3 class="software-name"><a href="https://affinity.serif.com/photo/" target="_blank">Affinity Photo</a></h3>
+                        </div>
+                        <span class="card-category">Photo Editing</span>
+                        <p class="card-description">Professional photo editing software</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Virtualization -->
+            <section class="era-section">
+                <div class="era-header">
+                    <span class="era-badge veterans">VIRTUALIZATION</span>
+                    <h2 class="era-title">VMware Workstation</h2>
+                </div>
+                <div class="section-description">
+                    <p><strong>Why VMs?</strong></p>
+                    <ul>
+                        <li>Complete isolation of dev environments</li>
+                        <li>More secure</li>
+                        <li>Easy to backup entire setup</li>
+                    </ul>
+                </div>
+                <div class="software-grid">
+                    <article class="software-card" style="--card-accent: var(--accent-purple);">
+                        <div class="card-header">
+                            <h3 class="software-name">Windows 11 Guests</h3>
+                        </div>
+                        <span class="card-category">Development VMs</span>
+                        <p class="card-description">Several Windows 11 guests with 30-40GB memory, running Docker Desktop (requires nested virtualization)</p>
+                    </article>
+
+                    <article class="software-card" style="--card-accent: var(--accent-purple);">
+                        <div class="card-header">
+                            <h3 class="software-name">Fedora Guest</h3>
+                        </div>
+                        <span class="card-category">Linux Development</span>
+                        <p class="card-description">Fedora with Docker (requires nested virtualization)</p>
+                    </article>
+
+                    <article class="software-card" style="--card-accent: var(--accent-purple);">
+                        <div class="card-header">
+                            <h3 class="software-name">Ubuntu Guest</h3>
+                        </div>
+                        <span class="card-category">Linux Development</span>
+                        <p class="card-description">Ubuntu development environment</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Browsers -->
+            <section class="era-section">
+                <div class="era-header">
+                    <span class="era-badge established">BROWSERS</span>
+                    <h2 class="era-title">Web Browsing</h2>
+                </div>
+                <div class="software-grid">
+                    <article class="software-card" style="--card-accent: var(--accent-cyan);">
+                        <div class="card-header">
+                            <h3 class="software-name"><a href="https://brave.com/" target="_blank">Brave</a></h3>
+                        </div>
+                        <span class="card-category">Browser</span>
+                        <p class="card-description">Multiple profiles to separate work and personal, using sync chains</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- .NET Tooling -->
+            <section class="era-section">
+                <div class="era-header">
+                    <span class="era-badge mature">.NET STACK</span>
+                    <h2 class="era-title">.NET Development</h2>
+                </div>
+                <div class="software-grid">
+                    <article class="software-card" style="--card-accent: var(--accent-blue);">
+                        <div class="card-header">
+                            <h3 class="software-name"><a href="https://visualstudio.microsoft.com/" target="_blank">Visual Studio 2026</a></h3>
+                        </div>
+                        <span class="card-category">IDE</span>
+                        <p class="card-description">Primary .NET development environment</p>
+                    </article>
+
+                    <article class="software-card" style="--card-accent: var(--accent-blue);">
+                        <div class="card-header">
+                            <h3 class="software-name"><a href="https://www.jetbrains.com/resharper/" target="_blank">ReSharper</a></h3>
+                        </div>
+                        <span class="card-category">Productivity</span>
+                        <p class="card-description">For Visual Studio and now also with VS Code (though haven't used much in VS Code)</p>
+                    </article>
+
+                    <article class="software-card" style="--card-accent: var(--accent-blue);">
+                        <div class="card-header">
+                            <h3 class="software-name"><a href="https://www.linqpad.net/" target="_blank">LINQPad</a></h3>
+                        </div>
+                        <span class="card-category">Query Tool</span>
+                        <p class="card-description">LINQ querying and C# scripting</p>
+                    </article>
+
+                    <article class="software-card" style="--card-accent: var(--accent-blue);">
+                        <div class="card-header">
+                            <h3 class="software-name"><a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code</a></h3>
+                        </div>
+                        <span class="card-category">Editor</span>
+                        <p class="card-description">With C# DevKit—great for debugging runnable .cs scripts</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- General Dev Tooling -->
+            <section class="era-section">
+                <div class="era-header">
+                    <span class="era-badge proven">GENERAL</span>
+                    <h2 class="era-title">General Development</h2>
+                </div>
+                <div class="software-grid">
+                    <article class="software-card" style="--card-accent: var(--accent-rose);">
+                        <div class="card-header">
+                            <h3 class="software-name"><a href="https://www.scootersoftware.com/" target="_blank">Beyond Compare</a></h3>
+                        </div>
+                        <span class="card-category">File Comparison</span>
+                        <p class="card-description">File and folder comparison tool</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- AI Tooling -->
+            <section class="era-section">
+                <div class="era-header">
+                    <span class="era-badge rising">AI TOOLS</span>
+                    <h2 class="era-title">AI Tooling</h2>
+                </div>
+                <div class="software-grid">
+                    <article class="software-card" style="--card-accent: var(--accent-green);">
+                        <div class="card-header">
+                            <h3 class="software-name"><a href="https://github.com/features/copilot" target="_blank">GitHub Copilot</a></h3>
+                        </div>
+                        <span class="card-category">AI Coding Assistant</span>
+                        <p class="card-description">With Claude and GPT models in Visual Studio and Visual Studio Code</p>
+                    </article>
+
+                    <article class="software-card" style="--card-accent: var(--accent-green);">
+                        <div class="card-header">
+                            <h3 class="software-name"><a href="https://claude.ai/code" target="_blank">Claude Code CLI</a></h3>
+                        </div>
+                        <span class="card-category">AI Terminal Assistant</span>
+                        <p class="card-description">Generally used with VS Code terminal</p>
+                    </article>
+
+                    <article class="software-card" style="--card-accent: var(--accent-green);">
+                        <div class="card-header">
+                            <h3 class="software-name"><a href="https://cursor.sh/" target="_blank">Cursor</a></h3>
+                        </div>
+                        <span class="card-category">AI Code Editor</span>
+                        <p class="card-description">AI-powered code editor</p>
+                    </article>
+
+                    <article class="software-card" style="--card-accent: var(--accent-green);">
+                        <div class="card-header">
+                            <h3 class="software-name"><a href="https://claude.ai/" target="_blank">Claude Web</a></h3>
+                        </div>
+                        <span class="card-category">AI Assistant</span>
+                        <p class="card-description">For code and general tasks</p>
+                    </article>
+
+                    <article class="software-card" style="--card-accent: var(--accent-green);">
+                        <div class="card-header">
+                            <h3 class="software-name"><a href="https://x.ai/" target="_blank">Grok</a></h3>
+                        </div>
+                        <span class="card-category">AI Assistant</span>
+                        <p class="card-description">Web and mobile versions</p>
+                    </article>
+
+                    <article class="software-card" style="--card-accent: var(--accent-green);">
+                        <div class="card-header">
+                            <h3 class="software-name"><a href="https://chat.openai.com/" target="_blank">ChatGPT Web</a></h3>
+                        </div>
+                        <span class="card-category">AI Assistant</span>
+                        <p class="card-description">Used occasionally</p>
+                    </article>
+
+                    <article class="software-card" style="--card-accent: var(--accent-green);">
+                        <div class="card-header">
+                            <h3 class="software-name"><a href="https://lmstudio.ai/" target="_blank">LM Studio</a></h3>
+                        </div>
+                        <span class="card-category">Local AI Models</span>
+                        <p class="card-description">Rarely used—for running local LLMs</p>
+                    </article>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p class="footer-text">Compiled <span>November 2025</span> · My current development setup</p>
+        </footer>
+    </div>
+</body>
+</html>

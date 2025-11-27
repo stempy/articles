@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Tooling Comparison: C# & .NET 10</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #512BD4 0%, #7B3FF2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 30px;
+            background: #f8f9fa;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .legend-color {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .csharp { background: linear-gradient(135deg, #512BD4, #7B3FF2); }
+        .php { background: linear-gradient(135deg, #777BB4, #8892BF); }
+        .javascript { background: linear-gradient(135deg, #F7DF1E, #F0DB4F); }
+        .typescript { background: linear-gradient(135deg, #3178C6, #4E9BD9); }
+        .python { background: linear-gradient(135deg, #3776AB, #4B8BBE); }
+
+        .categories {
+            padding: 40px;
+        }
+
+        .category {
+            margin-bottom: 50px;
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #512BD4;
+        }
+
+        .category-icon {
+            font-size: 2.5em;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .category-title {
+            font-size: 2em;
+            color: #512BD4;
+            font-weight: 700;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .lang-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .lang-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .lang-card.highlight {
+            border: 2px solid #512BD4;
+            background: linear-gradient(135deg, #f8f5ff 0%, #ffffff 100%);
+        }
+
+        .lang-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .lang-badge {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .lang-name {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .rating-container {
+            margin: 15px 0;
+        }
+
+        .rating-label {
+            font-size: 0.85em;
+            color: #718096;
+            margin-bottom: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .rating-bar {
+            height: 28px;
+            background: #e2e8f0;
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .rating-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #512BD4, #7B3FF2);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 12px;
+            transition: width 1s ease;
+            color: white;
+            font-weight: 700;
+            font-size: 0.85em;
+        }
+
+        .php-fill { background: linear-gradient(90deg, #777BB4, #8892BF); }
+        .js-fill { background: linear-gradient(90deg, #F7DF1E, #F0DB4F); color: #333; }
+        .ts-fill { background: linear-gradient(90deg, #3178C6, #4E9BD9); }
+        .py-fill { background: linear-gradient(90deg, #3776AB, #4B8BBE); }
+
+        .feature-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .feature-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #512BD4;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .winner-badge {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-top: 10px;
+            box-shadow: 0 3px 10px rgba(255, 215, 0, 0.4);
+        }
+
+        .summary {
+            background: linear-gradient(135deg, #512BD4 0%, #7B3FF2 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+        }
+
+        .summary h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .summary-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .summary-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .summary-card p {
+            line-height: 1.7;
+            opacity: 0.95;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .subtitle { font-size: 1em; }
+            .comparison-grid { grid-template-columns: 1fr; }
+            .legend { gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Developer Tooling Showdown</h1>
+            <p class="subtitle">Why C# & .NET 10 Leads in Developer Experience</p>
+        </header>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color csharp"></div>
+                <span>C# & .NET 10</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color php"></div>
+                <span>PHP</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color javascript"></div>
+                <span>JavaScript</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color typescript"></div>
+                <span>TypeScript</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color python"></div>
+                <span>Python</span>
+            </div>
+        </div>
+
+        <div class="categories">
+            <!-- IDE & Editor Support -->
+            <div class="category">
+                <div class="category-header">
+                    <span class="category-icon">💻</span>
+                    <h2 class="category-title">IDE & Editor Support</h2>
+                </div>
+                <div class="comparison-grid">
+                    <div class="lang-card highlight">
+                        <div class="lang-header">
+                            <div class="lang-badge csharp"></div>
+                            <div class="lang-name">C# & .NET 10</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Overall Quality</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill" style="width: 98%">98%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>Visual Studio - world-class IDE</li>
+                            <li>Exceptional IntelliSense with deep semantic analysis</li>
+                            <li>50+ automated refactorings built-in</li>
+                            <li>Real-time compilation errors & warnings</li>
+                        </ul>
+                        <span class="winner-badge">🏆 Best in Class</span>
+                    </div>
+
+                    <div class="lang-card">
+                        <div class="lang-header">
+                            <div class="lang-badge php"></div>
+                            <div class="lang-name">PHP</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Overall Quality</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill php-fill" style="width: 72%">72%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>PhpStorm (paid) or VS Code</li>
+                            <li>Good IntelliSense with plugins</li>
+                            <li>Limited refactoring tools</li>
+                            <li>Requires running code for errors</li>
+                        </ul>
+                    </div>
+
+                    <div class="lang-card">
+                        <div class="lang-header">
+                            <div class="lang-badge javascript"></div>
+                            <div class="lang-name">JavaScript</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Overall Quality</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill js-fill" style="width: 65%">65%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>VS Code or WebStorm</li>
+                            <li>Basic to good IntelliSense</li>
+                            <li>Basic refactoring support</li>
+                            <li>Runtime errors only</li>
+                        </ul>
+                    </div>
+
+                    <div class="lang-card">
+                        <div class="lang-header">
+                            <div class="lang-badge typescript"></div>
+                            <div class="lang-name">TypeScript</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Overall Quality</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill ts-fill" style="width: 82%">82%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>VS Code or WebStorm</li>
+                            <li>Good to very good IntelliSense</li>
+                            <li>Good refactoring support</li>
+                            <li>Compile-time error checking</li>
+                        </ul>
+                    </div>
+
+                    <div class="lang-card">
+                        <div class="lang-header">
+                            <div class="lang-badge python"></div>
+                            <div class="lang-name">Python</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Overall Quality</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill py-fill" style="width: 70%">70%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>PyCharm (paid) or VS Code</li>
+                            <li>Good IntelliSense with plugins</li>
+                            <li>Moderate refactoring (IDE-dependent)</li>
+                            <li>Runtime errors only</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Type Safety -->
+            <div class="category">
+                <div class="category-header">
+                    <span class="category-icon">🛡️</span>
+                    <h2 class="category-title">Type Safety & Compilation</h2>
+                </div>
+                <div class="comparison-grid">
+                    <div class="lang-card highlight">
+                        <div class="lang-header">
+                            <div class="lang-badge csharp"></div>
+                            <div class="lang-name">C# & .NET 10</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Type Safety Score</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill" style="width: 100%">100%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>Strong static typing</li>
+                            <li>Nullable reference types built-in</li>
+                            <li>Full generics with constraints</li>
+                            <li>Compile-time guarantees</li>
+                        </ul>
+                        <span class="winner-badge">🏆 Most Reliable</span>
+                    </div>
+
+                    <div class="lang-card">
+                        <div class="lang-header">
+                            <div class="lang-badge php"></div>
+                            <div class="lang-name">PHP</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Type Safety Score</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill php-fill" style="width: 55%">55%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>Weak, gradually typed</li>
+                            <li>No native null safety</li>
+                            <li>Basic generics (templates)</li>
+                            <li>Limited compile checks</li>
+                        </ul>
+                    </div>
+
+                    <div class="lang-card">
+                        <div class="lang-header">
+                            <div class="lang-badge javascript"></div>
+                            <div class="lang-name">JavaScript</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Type Safety Score</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill js-fill" style="width: 25%">25%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>Weak, dynamic typing</li>
+                            <li>No null safety</li>
+                            <li>No generics</li>
+                            <li>No compile-time checks</li>
+                        </ul>
+                    </div>
+
+                    <div class="lang-card">
+                        <div class="lang-header">
+                            <div class="lang-badge typescript"></div>
+                            <div class="lang-name">TypeScript</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Type Safety Score</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill ts-fill" style="width: 85%">85%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>Strong static typing (opt-in)</li>
+                            <li>Strict null checks (optional)</li>
+                            <li>Good generics support</li>
+                            <li>Compile-time checks</li>
+                        </ul>
+                    </div>
+
+                    <div class="lang-card">
+                        <div class="lang-header">
+                            <div class="lang-badge python"></div>
+                            <div class="lang-name">Python</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Type Safety Score</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill py-fill" style="width: 40%">40%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>Dynamic with optional hints</li>
+                            <li>No null safety</li>
+                            <li>No true generics</li>
+                            <li>No compile-time checks</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Debugging & Profiling -->
+            <div class="category">
+                <div class="category-header">
+                    <span class="category-icon">🔍</span>
+                    <h2 class="category-title">Debugging & Profiling</h2>
+                </div>
+                <div class="comparison-grid">
+                    <div class="lang-card highlight">
+                        <div class="lang-header">
+                            <div class="lang-badge csharp"></div>
+                            <div class="lang-name">C# & .NET 10</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Debugging Experience</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill" style="width: 96%">96%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>Visual Studio debugger - industry standard</li>
+                            <li>Hot Reload - edit while running</li>
+                            <li>Time-travel debugging (IntelliTrace)</li>
+                            <li>Professional memory & CPU profiling</li>
+                        </ul>
+                        <span class="winner-badge">🏆 Best Debugger</span>
+                    </div>
+
+                    <div class="lang-card">
+                        <div class="lang-header">
+                            <div class="lang-badge php"></div>
+                            <div class="lang-name">PHP</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Debugging Experience</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill php-fill" style="width: 68%">68%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>Xdebug for debugging</li>
+                            <li>Limited hot reload</li>
+                            <li>No time-travel debugging</li>
+                            <li>External profiling tools needed</li>
+                        </ul>
+                    </div>
+
+                    <div class="lang-card">
+                        <div class="lang-header">
+                            <div class="lang-badge javascript"></div>
+                            <div class="lang-name">JavaScript</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Debugging Experience</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill js-fill" style="width: 75%">75%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>Browser DevTools or Node debugger</li>
+                            <li>Hot reload with frameworks</li>
+                            <li>Limited time-travel in browsers</li>
+                            <li>DevTools profiling</li>
+                        </ul>
+                    </div>
+
+                    <div class="lang-card">
+                        <div class="lang-header">
+                            <div class="lang-badge typescript"></div>
+                            <div class="lang-name">TypeScript</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Debugging Experience</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill ts-fill" style="width: 75%">75%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>Same as JavaScript</li>
+                            <li>Source maps for debugging</li>
+                            <li>Hot reload with frameworks</li>
+                            <li>DevTools profiling</li>
+                        </ul>
+                    </div>
+
+                    <div class="lang-card">
+                        <div class="lang-header">
+                            <div class="lang-badge python"></div>
+                            <div class="lang-name">Python</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Debugging Experience</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill py-fill" style="width: 70%">70%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>pdb or IDE debuggers</li>
+                            <li>Limited hot reload</li>
+                            <li>No time-travel debugging</li>
+                            <li>cProfile for profiling</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testing Tools -->
+            <div class="category">
+                <div class="category-header">
+                    <span class="category-icon">🧪</span>
+                    <h2 class="category-title">Testing & Quality Assurance</h2>
+                </div>
+                <div class="comparison-grid">
+                    <div class="lang-card highlight">
+                        <div class="lang-header">
+                            <div class="lang-badge csharp"></div>
+                            <div class="lang-name">C# & .NET 10</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Testing Ecosystem</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill" style="width: 94%">94%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>xUnit, NUnit, MSTest - all mature</li>
+                            <li>Built-in Test Explorer in Visual Studio</li>
+                            <li>Native code coverage tools</li>
+                            <li>Type-safe mocking (Moq, NSubstitute)</li>
+                        </ul>
+                        <span class="winner-badge">🏆 Best Testing</span>
+                    </div>
+
+                    <div class="lang-card">
+                        <div class="lang-header">
+                            <div class="lang-badge php"></div>
+                            <div class="lang-name">PHP</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Testing Ecosystem</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill php-fill" style="width: 75%">75%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>PHPUnit (solid framework)</li>
+                            <li>IDE integration available</li>
+                            <li>Requires Xdebug for coverage</li>
+                            <li>Mockery for mocking</li>
+                        </ul>
+                    </div>
+
+                    <div class="lang-card">
+                        <div class="lang-header">
+                            <div class="lang-badge javascript"></div>
+                            <div class="lang-name">JavaScript</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Testing Ecosystem</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill js-fill" style="width: 78%">78%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>Jest, Mocha, Vitest (fragmented)</li>
+                            <li>IDE extensions required</li>
+                            <li>Istanbul/nyc for coverage</li>
+                            <li>Various mocking libraries</li>
+                        </ul>
+                    </div>
+
+                    <div class="lang-card">
+                        <div class="lang-header">
+                            <div class="lang-badge typescript"></div>
+                            <div class="lang-name">TypeScript</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Testing Ecosystem</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill ts-fill" style="width: 80%">80%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>Same as JavaScript</li>
+                            <li>Better type safety in tests</li>
+                            <li>Istanbul/nyc for coverage</li>
+                            <li>Type-aware mocking</li>
+                        </ul>
+                    </div>
+
+                    <div class="lang-card">
+                        <div class="lang-header">
+                            <div class="lang-badge python"></div>
+                            <div class="lang-name">Python</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Testing Ecosystem</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill py-fill" style="width: 82%">82%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>pytest, unittest (excellent)</li>
+                            <li>IDE integration available</li>
+                            <li>coverage.py for coverage</li>
+                            <li>unittest.mock, fixtures</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Build & Deployment -->
+            <div class="category">
+                <div class="category-header">
+                    <span class="category-icon">📦</span>
+                    <h2 class="category-title">Build System & Deployment</h2>
+                </div>
+                <div class="comparison-grid">
+                    <div class="lang-card highlight">
+                        <div class="lang-header">
+                            <div class="lang-badge csharp"></div>
+                            <div class="lang-name">C# & .NET 10</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Build & Deploy Quality</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill" style="width: 95%">95%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>MSBuild - mature, incremental builds</li>
+                            <li>Native AOT compilation</li>
+                            <li>Self-contained single-file executables</li>
+                            <li>Built-in multi-targeting</li>
+                        </ul>
+                        <span class="winner-badge">🏆 Best Deployment</span>
+                    </div>
+
+                    <div class="lang-card">
+                        <div class="lang-header">
+                            <div class="lang-badge php"></div>
+                            <div class="lang-name">PHP</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Build & Deploy Quality</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill php-fill" style="width: 50%">50%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>No native build system</li>
+                            <li>No AOT compilation</li>
+                            <li>Requires PHP runtime</li>
+                            <li>Deploy source code</li>
+                        </ul>
+                    </div>
+
+                    <div class="lang-card">
+                        <div class="lang-header">
+                            <div class="lang-badge javascript"></div>
+                            <div class="lang-name">JavaScript</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Build & Deploy Quality</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill js-fill" style="width: 60%">60%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>Webpack/Vite/Rollup (fragmented)</li>
+                            <li>No AOT compilation</li>
+                            <li>Requires Node.js runtime</li>
+                            <li>Deploy bundled source</li>
+                        </ul>
+                    </div>
+
+                    <div class="lang-card">
+                        <div class="lang-header">
+                            <div class="lang-badge typescript"></div>
+                            <div class="lang-name">TypeScript</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Build & Deploy Quality</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill ts-fill" style="width: 65%">65%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>Webpack/Vite/Rollup (fragmented)</li>
+                            <li>Compiles to JavaScript</li>
+                            <li>Requires Node.js runtime</li>
+                            <li>Deploy transpiled code</li>
+                        </ul>
+                    </div>
+
+                    <div class="lang-card">
+                        <div class="lang-header">
+                            <div class="lang-badge python"></div>
+                            <div class="lang-name">Python</div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-label">Build & Deploy Quality</div>
+                            <div class="rating-bar">
+                                <div class="rating-fill py-fill" style="width: 55%">55%</div>
+                            </div>
+                        </div>
+                        <ul class="feature-list">
+                            <li>No native build system</li>
+                            <li>Limited AOT (Cython, Nuitka)</li>
+                            <li>Requires Python runtime</li>
+                            <li>Deploy source code</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="summary">
+            <h2>Why C# & .NET 10 Leads the Pack</h2>
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <h3>🎯 Productivity</h3>
+                    <p>Visual Studio provides unmatched IDE experience with intelligent code completion, powerful refactoring, and real-time error detection that catches bugs before they run.</p>
+                </div>
+                <div class="summary-card">
+                    <h3>🛡️ Reliability</h3>
+                    <p>Strong static typing with nullable reference types eliminates entire categories of bugs. Compile-time guarantees ensure your code works before deployment.</p>
+                </div>
+                <div class="summary-card">
+                    <h3>🚀 Performance</h3>
+                    <p>Native AOT compilation delivers blazing-fast startup times and minimal memory footprint. Professional profiling tools help optimize every bottleneck.</p>
+                </div>
+                <div class="summary-card">
+                    <h3>🏢 Enterprise-Ready</h3>
+                    <p>Cohesive ecosystem with mature tooling, long-term support, built-in security scanning, and professional documentation generation for mission-critical applications.</p>
+                </div>
+            </div>
+            <div class="summary-divider"></div>
+                <h3 style="font-size: 1.8em; margin-bottom: 20px;">📚 Learn More</h3>
+                <div style="background: rgba(255,255,255,0.1); padding: 25px; border-radius: 12px; text-align: left;">
+                    <p style="margin-bottom: 15px; font-size: 1.1em;">For detailed analysis, benchmarks, and complete comparisons:</p>
+                    <a href="https://github.com/stempy/programming-language-comparisons/blob/main/developer-tooling-comparisons.md" 
+                       style="color: #FFD700; text-decoration: none; font-weight: 600; font-size: 1.1em; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease;"
+                       onmouseover="this.style.color='#FFA500'; this.style.transform='translateX(5px)'"
+                       onmouseout="this.style.color='#FFD700'; this.style.transform='translateX(0)'">
+                        🔗 View Full Developer Tooling Comparison on GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Animate rating bars on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const fills = entry.target.querySelectorAll('.rating-fill');
+                    fills.forEach(fill => {
+                        const width = fill.style.width;
+                        fill.style.width = '0%';
+                        setTimeout(() => {
+                            fill.style.width = width;
+                        }, 100);
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.category').forEach(category => {
+            observer.observe(category);
+        });
+
+        // Add hover effects
+        document.querySelectorAll('.lang-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

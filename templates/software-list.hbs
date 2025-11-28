@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    {{#each css_files}}
+    <link rel="stylesheet" href="{{this}}">
+    {{/each}}
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="title-wrapper">
+                <p class="subtitle">{{subtitle}}</p>
+                <h1>{{{header_title}}}</h1>
+            </div>
+            <p class="intro">
+                {{intro}}
+            </p>
+        </header>
+
+        <main>
+            {{#each era_sections}}
+            <section class="era-section">
+                <div class="era-header">
+                    <span class="era-badge {{badge_class}}">{{years}}</span>
+                    <h2 class="era-title">{{name}}</h2>
+                </div>
+                {{#if description}}
+                <div class="section-description">
+                    {{{description}}}
+                </div>
+                {{/if}}
+                <div class="software-grid">
+                    {{#each software}}
+                    <article class="software-card" style="--card-accent: var(--accent-{{../color}});">
+                        <div class="card-header">
+                            <h3 class="software-name">
+                                {{#if url}}
+                                <a href="{{url}}" target="_blank">{{name}}</a>
+                                {{else}}
+                                {{name}}
+                                {{/if}}
+                            </h3>
+                            {{#if years_active}}
+                            <span class="years-badge">{{years_active}}</span>
+                            {{/if}}
+                        </div>
+                        <div class="card-meta">
+                            <span class="meta-item"><strong>{{year}}</strong></span>
+                        </div>
+                        <span class="card-category">{{category}}</span>
+                        <p class="card-description">{{description}}</p>
+                    </article>
+                    {{/each}}
+                </div>
+            </section>
+            {{/each}}
+
+            {{#if traits}}
+            <section class="era-section">
+                <div class="era-header">
+                    <h2 class="era-title">Common Traits of Long-Lasting Software</h2>
+                </div>
+                <div class="traits-grid">
+                    {{#each traits}}
+                    <div class="trait">
+                        <span class="trait-number">{{inc @index}}</span>
+                        <div class="trait-content">
+                            <h4>{{title}}</h4>
+                            <p>{{description}}</p>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </section>
+            {{/if}}
+        </main>
+
+        <footer>
+            <p>{{{footer_text}}}</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -778,7 +778,7 @@ FileInfo GetOutputPath(FileInfo sourceFile, DirectoryInfo sourceRoot, Config con
 Func<object, string> LoadHandlebarsTemplate(IHandlebars handlebars, string templateName)
 {
     var templatePath = Path.Combine(config.Source.TemplatesDir, templateName);
-
+    Console.WriteLine($"  Using template: {templateName}");
     if (!File.Exists(templatePath))
     {
         // Try without .hbs extension

@@ -1,16 +1,47 @@
 /* Portfolio-specific styles */
 
+/* Back link styling */
+.back-link {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin-bottom: 2rem;
+    transition: color 0.2s ease;
+}
+
+.back-link::before {
+    content: '← ';
+    color: var(--accent-color);
+}
+
+.back-link:hover {
+    color: var(--accent-color);
+}
+
+/* Portfolio header */
 .portfolio-header {
-    margin-bottom: 3rem;
+    padding: 2rem 0 3rem;
+    position: relative;
+}
+
+.portfolio-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
 }
 
 .portfolio-meta {
-    display: flex;
-    gap: 2rem;
-    margin-bottom: 1.5rem;
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     color: var(--text-secondary);
+    margin-bottom: 1rem;
 }
 
 .portfolio-meta-item {
@@ -24,9 +55,10 @@
 
 .portfolio-title {
     font-family: 'Instrument Serif', serif;
-    font-size: 3rem;
+    font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: 400;
-    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--accent-color);
     margin-bottom: 1.5rem;
 }
 
@@ -66,34 +98,65 @@
     display: block;
 }
 
+/* Portfolio content */
 .portfolio-content {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.125rem;
-    line-height: 1.8;
+    padding: 3rem 0;
+}
+
+.portfolio-content a {
+    color: var(--accent-color);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-bottom-color 0.2s ease;
+}
+
+.portfolio-content a:hover {
+    border-bottom-color: var(--accent-color);
 }
 
 .portfolio-content h2 {
     font-family: 'Instrument Serif', serif;
-    font-size: 2rem;
-    margin-top: 3rem;
-    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--text-primary);
+    margin: 2rem 0 1rem;
 }
 
 .portfolio-content h3 {
-    font-family: 'Instrument Serif', serif;
-    font-size: 1.5rem;
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 1.5rem 0 0.75rem;
+}
+
+.portfolio-content p {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+}
+
+.portfolio-content ul,
+.portfolio-content ol {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    padding-left: 2rem;
+}
+
+.portfolio-content li {
+    margin-bottom: 0.5rem;
 }
 
 .portfolio-content code {
     font-family: 'IBM Plex Mono', monospace;
-    background: var(--bg-secondary);
+    font-size: 0.9em;
+    background: var(--bg-card);
     padding: 0.2em 0.4em;
     border-radius: 3px;
-    font-size: 0.9em;
+    color: var(--accent-color);
 }
 
+/* Gallery */
 .image-gallery {
     margin-top: 4rem;
 }
@@ -111,11 +174,14 @@
 }
 
 .gallery-item {
-    display: block;
-    border: 2px solid transparent;
+    border: 1px solid var(--border);
     border-radius: 8px;
     overflow: hidden;
-    transition: border-color 0.2s;
+    transition: border-color 0.3s ease;
+}
+
+.gallery-item:hover {
+    border-color: var(--accent-color);
 }
 
 .gallery-item img {
@@ -124,19 +190,7 @@
     display: block;
 }
 
-.back-link {
-    display: inline-block;
-    margin-bottom: 2rem;
-    text-decoration: none;
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 500;
-    transition: opacity 0.2s;
-}
-
-.back-link:hover {
-    opacity: 0.7;
-}
-
+/* Footer link styling */
 footer {
     margin-top: 4rem;
     padding-top: 2rem;
@@ -146,8 +200,17 @@ footer {
     color: var(--text-secondary);
 }
 
-.footer-text a {
+footer a {
+    color: var(--accent-color);
     text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+footer a:hover {
+    color: var(--text-primary);
+}
+
+.footer-text a {
     border-bottom: 1px solid transparent;
     transition: border-bottom-color 0.2s;
 }

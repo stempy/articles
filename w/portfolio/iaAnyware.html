@@ -7,31 +7,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/portfolio.css">
     
-    <style>
-        /* Dynamic accent color for this portfolio item */
-        .portfolio-title {
-            color: var(--accent-green);
-        }
-
-        .portfolio-content a {
-            color: var(--accent-green);
-        }
-
-        .portfolio-content a:hover {
-            border-bottom-color: var(--accent-green);
-        }
-
-        .gallery-item:hover {
-            border-color: var(--accent-green);
-        }
-
-        .back-link {
-            color: var(--accent-green);
-        }
-    </style>
 </head>
-<body>
+<body style="--accent-color: var(--accent-green);">
     <div class="container">
         <a href="../../index.html" class="back-link">Back to Collections</a>
 
@@ -46,159 +26,159 @@
         </header>
 
         <main class="portfolio-content">
-            &lt;p&gt;August 2012 - July 2019 (6 month contracted extended to 7 years)&lt;/p&gt;
-&lt;p&gt;iaAnyware had built a winforms ASP.NET 3.5 Desktop application to provide line of business applications for brokers to manage clients, quotes, policies, and claims information.&lt;/p&gt;
-&lt;p&gt;I introduced web development, and streamlined development processes, full lifecycle development from conception to development, to training web development concepts, architecture, infrastructure, ci/cd. Effectively DevOps And Software Architecture, along with backend and frontend development.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Unit testing with nunit/xunit&lt;/li&gt;
-&lt;li&gt;Web APIs (prev SOAP)&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/stempy/cloud-architecture/blob/master/what-azure-devops-and-ci-provide.md&quot;&gt;Continuous Integration and Delivery prev manual deployments&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;ASP.NET MVC&lt;/li&gt;
-&lt;li&gt;Frontend development with javascript based components and apps&lt;/li&gt;
-&lt;li&gt;S.O.L.I.D and best practice programming principles, clean coding&lt;/li&gt;
-&lt;li&gt;Introduced entity framework&lt;/li&gt;
-&lt;li&gt;Introduced and taught LINQ&lt;/li&gt;
-&lt;li&gt;Modern Dev tools LinqPad, Postman, Slack, Trello.&lt;/li&gt;
-&lt;li&gt;Taught javascript, html and css to other developers.&lt;/li&gt;
-&lt;li&gt;Researched and recommended approaches and design paradigms to problems.&lt;/li&gt;
-&lt;li&gt;Introduced Git, and GitFlow versioning&lt;/li&gt;
-&lt;li&gt;Implemented Azure cloud services, azure websites, blobs, queues.&lt;/li&gt;
-&lt;li&gt;Upgraded legacy code to .NET core&lt;/li&gt;
-&lt;li&gt;Rearchitected legacy approaches to modern web based&lt;/li&gt;
-&lt;li&gt;Developed lots of batch, powershell scripts&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;From 2012 to about 2015 I created web libraries and architecture for their Web based version, I created all the libraries, repositories in Git, build and deployments with MsBuild scripts and batch files. And trained developers basic html,css,js.  From there other developers became involved in the web development, and than as I migrated the ASP.NET Framework code to .NET Core, the web development became the main focus.&lt;/p&gt;
-&lt;h2 id=&quot;web-architecture&quot;&gt;Web Architecture&lt;/h2&gt;
-&lt;hr /&gt;
-&lt;p&gt;The initial application was a giant monolithic desktop winforms application, with other desktop apps for administration and other features... and soap web services to serve data. These applications were targeted to insurance brokers, and not end clients.&lt;/p&gt;
-&lt;p&gt;The new web architecture consisted of splitting components down into respective microservices, and creating Web API's suited for each part. Initially ASP.NET Framework, and later migrated to ASP.NET Core&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Authentication&lt;/li&gt;
-&lt;li&gt;Report Generation&lt;/li&gt;
-&lt;li&gt;Client Management&lt;/li&gt;
-&lt;li&gt;Searching / Queries&lt;/li&gt;
-&lt;li&gt;Document Management&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Along with this, iaAnyware desired an online quoting application for new customers, and a client portal specifically for clients of the brokers to self-serve.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Online quoting application&lt;/li&gt;
-&lt;li&gt;Client Portal&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;platforms&quot;&gt;Platforms&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;ASP.NET Framework initially than migrated about 25 projects to .NET Core including libraries and Web backends.&lt;/li&gt;
-&lt;li&gt;ES5 Javascript with prototyped functions, than scripted processes to convert to ES6 based classes.&lt;/li&gt;
-&lt;li&gt;Entity Framework 5.0 initially, than EF 6, and migrated to EF Core 2.1&lt;/li&gt;
-&lt;li&gt;I.I.S hosted on-premise in Datacentre in Sydney, migrated to Azure Websites, along with all publishing, build and deployments.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;prototyping&quot;&gt;Prototyping&lt;/h2&gt;
-&lt;hr /&gt;
-&lt;p&gt;I prototyped the first iteration of the iAdviser web application in ASP.NET MVC around 2013 to 2015. This was full stack development backend/frontend and so on.
-I approached it from a domain-driven design using best practices at the time.&lt;/p&gt;
-&lt;p&gt;Implemented repository-service patterns with SOLID principles where possible. LINQ to EF, Mapping.&lt;/p&gt;
-&lt;p&gt;With shared libraries I initially setup a hosted nuget server on ia's VM in the datacentre, and later migrated nuget projects to MyGet. Along with scripting processes to simplify nuget package creation.&lt;/p&gt;
-&lt;h2 id=&quot;database-refactoring&quot;&gt;Database refactoring&lt;/h2&gt;
-&lt;p&gt;One of the big challenges with implementing Entity Framework was subtle differences (extra fields, and tables) in the core databases across Australia and New Zealand, this was a database with ~800 tables in Sql Server... now with EF initially this meant having 2 different contexts to work across both, and using some funky magic to apply these different contexts across regions. This was a big time-sink.&lt;/p&gt;
-&lt;p&gt;So I recommended to consolidate Australian And New Zealand databases to match the same structure which would prove to be a big winner. The development manager did the actual database consolidation, and I updated all the web based projects.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Built batch files to simplify EF7 reverse engineered database contexts, effectively to a one line call to completely refresh context, also allowed partial contexts (with specified tables)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;report-re-architecture&quot;&gt;Report Re-Architecture&lt;/h2&gt;
-&lt;p&gt;Over a period of approx 9 months and the implementation by a colleague, we re-architected how their report generation was done. Previously using Crystal Reports in the monolithic Desktop app, with a lot of SQL SPROCS to generate reports, done completely in the Winforms app.&lt;/p&gt;
-&lt;p&gt;The new approach I recommended was to generate these complex reports entirely server side... html, csv, pdf, everything. Data would be sent up to the server as a json to specify criteria for report generation, it would return a generation &amp;quot;guid&amp;quot; and be processed via another service (Azure WebJob), the frontends could poll the api's for current generation status, details etc.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Data querying was implemented using EF 5.0 Linq, Later migrated to 6.0.  The core database was ~800 tables in Sql Server.&lt;/li&gt;
-&lt;li&gt;I created an interfaced component structure that was applied to query the data in a consistent approach and return models that could be used directly in the Razor views (with strong typing), effectively create a new class inheriting a base, override methods, and than these new reports were dynamically found without needing to register.&lt;/li&gt;
-&lt;li&gt;Report templates generated using Razor-html-css, which significantly simplified report development once the developers were up to speed with razor.&lt;/li&gt;
-&lt;li&gt;Reports consisted of multiple documents and were time-consuming. The solution to this was Azure Queues, Storage, WebJobs, along with MongoDb to store various stages of the generation.&lt;/li&gt;
-&lt;li&gt;Reports generated using asynchronous tasks to handle concurrent processing, which also meant considering how the EF contexts were created and disposed for each one.&lt;/li&gt;
-&lt;li&gt;The desktop app used this new report api, replacing crystal reports.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;Components&lt;/strong&gt;:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Report API - Provided the web API's for the client apps to request a report. A request would be sent, than Azure Queues and MongoDb would have a record created.&lt;/li&gt;
-&lt;li&gt;Report Generation - Actually generating the report data models from the database.&lt;/li&gt;
-&lt;li&gt;HTML Template Generation - Composing HTML result pages with report data models using Razor&lt;/li&gt;
-&lt;li&gt;HTML to PDF Conversion - this was a microservice api that used &amp;quot;Chromium&amp;quot; (the engine the powers Chrome) to render a PDF from HTML.&lt;/li&gt;
-&lt;li&gt;Report Processer - This handled the full process in the background, concurrently.&lt;/li&gt;
-&lt;li&gt;Frontend testing page&lt;/li&gt;
-&lt;li&gt;Frontend client apps - Desktop&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;I created a frontend report testing page in native html,css and Javascript to test the end-to-end process of generation across dynamic sample reports. Polling was applied to update the u.i as it's processing.&lt;/p&gt;
-&lt;p&gt;I advised architectural design, did code reviews, refactoring, and assisted as needed for this process.&lt;/p&gt;
-&lt;p&gt;There were several iterations in order to complete the process to suit all scenarios.&lt;/p&gt;
-&lt;p&gt;Now this was a project done before the introduction of .NET Core and using EF6.0 .Net Framework, and the biggest issue with migrating to .NET Core at this stage was updating the hundreds of EF LINQ queries to work properly with it.Instead I wrote some wrappers to use .NET Core's configuration so at least we could share the same configuration source as all the new .NET Core projects.&lt;/p&gt;
-&lt;h2 id=&quot;authentication-layers&quot;&gt;Authentication Layers&lt;/h2&gt;
-&lt;p&gt;With the new Web layers, there were multiple API's to serve different requests, so I created an Authentication microservice API to generate JSON Web Tokens that all the API's would consume.&lt;/p&gt;
-&lt;p&gt;These tokens would contain the build environment that the token is configured for, this build environment would than setup the Dependency Injections and configuration for the connections for that specific environment per request:&lt;/p&gt;
-&lt;p&gt;For example, &amp;quot;local&amp;quot;, &amp;quot;dev&amp;quot;, or &amp;quot;stage&amp;quot; stored in token, when request made than connection factories would be applied so when the D.I contexts and libraries get injected into the constructors, it would suit the correct environment. Simpler than it sounds&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;EF 7&lt;/li&gt;
-&lt;li&gt;Mongo&lt;/li&gt;
-&lt;li&gt;Azure&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;azure&quot;&gt;Azure&lt;/h2&gt;
-&lt;p&gt;I initially implemented the Azure storage libraries, for azure queues, blobs, file shares. Than created wrappers to abstract the blob file stores, and other azure services.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Created console apps to migrate binary data from database to Azure blobs, with resume so it could be stopped and restarted&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Created .NET Core Config Source Providers to use Azure File Shares as a multiple build environment config loader.
-This meant that the json config files for all environments (local,dev,stage,live...etc there were more) can be stored in a central location on azure files, instead of within each API or Console application. CI/CD was also setup for the config repositories to update the Azure file shares when config files were updated. Than it was a simple restart on the apps to refresh configs.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Created batch scripts to handle single line calls to start/stop/restart - create and delete web slots in Azure Websites&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;devops&quot;&gt;DevOps&lt;/h2&gt;
-&lt;p&gt;Yeah, batch files, powershell scripts, MSBuild builds and deployments, later migrated to VSTS (Azure DevOps).&lt;/p&gt;
-&lt;p&gt;Here I created the VSTS (now Azure DevOps) company login, set up the backend and frontend builds and releases.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;.NET Framework&lt;/li&gt;
-&lt;li&gt;.NET Core&lt;/li&gt;
-&lt;li&gt;NodeJS frontend based apps using Aurelia JS framework&lt;/li&gt;
-&lt;li&gt;Azure File Share Deployments for JSON based configurations (created custom .NET Core Azure Config loaders)&lt;/li&gt;
-&lt;li&gt;Created build pipelines&lt;/li&gt;
-&lt;li&gt;Created release pipelines for all apis, using multiple Web slots in Azure Websites to match the deployment environments.&lt;/li&gt;
-&lt;li&gt;Created Task groups to share release deployments across slots without duplicating individual tasks, using variables and release name to match web deployment slot name.&lt;/li&gt;
-&lt;li&gt;Created Task groups to post slack information after web deployments.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;frontend-components&quot;&gt;Frontend Components&lt;/h2&gt;
-&lt;h3 id=&quot;general&quot;&gt;General&lt;/h3&gt;
-&lt;p&gt;Wrote general javascript for iAdviser prototype.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Admin areas&lt;/li&gt;
-&lt;li&gt;Datagrids&lt;/li&gt;
-&lt;li&gt;Ajax Requests&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Much of this was native es5 javascript, which later with the new versions we moved to Aurelia (similar to Angular).&lt;/p&gt;
-&lt;p&gt;Assisted development and teaching in Javascript for other projects.&lt;/p&gt;
-&lt;h3 id=&quot;online-quoting-wizard&quot;&gt;Online Quoting Wizard&lt;/h3&gt;
-&lt;p&gt;Wrote a SPA online quoting wizard in native ES5 Javascript which had 5 steps, each step loaded it's data dynamically to save resources.&lt;/p&gt;
-&lt;h3 id=&quot;report-testing-page&quot;&gt;Report Testing Page&lt;/h3&gt;
-&lt;p&gt;Test all reports via sample json queries, with polling for u.i updates as generation is occuring on the server.&lt;/p&gt;
-&lt;h3 id=&quot;question-collection-editor&quot;&gt;Question Collection Editor&lt;/h3&gt;
-&lt;p&gt;I built a frontend question collection editor entirely in javascript ES5 designed to handle their complex question form data. This was about 10 tables in the database to define question structure, formats, conditionals, calculations and so on.&lt;/p&gt;
-&lt;p&gt;This also consisted of backend model projections to/from the database to a clean structured set of viewmodels for the frontend, and api's to handle querying, and updating of responses.&lt;/p&gt;
-&lt;p&gt;Initially I created the frontend in ES5 Javascript with prototyped functions, than later wrote migration scripts to help migrate it to ES6 based classes, arrow syntax etc with the help of the &lt;code&gt;lebab&lt;/code&gt; transpiler.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;input mask formatting for dates, numbers, currencies, and specific regex style responses.&lt;/li&gt;
-&lt;li&gt;es5 prototyped functions, later converted to ES6 classes&lt;/li&gt;
-&lt;li&gt;conditional questions based on answer responses&lt;/li&gt;
-&lt;li&gt;dropdowns&lt;/li&gt;
-&lt;li&gt;calculated questions (ie sum of sets of question answers, dollar figures etc)&lt;/li&gt;
-&lt;li&gt;datagrids with rows of data.&lt;/li&gt;
-&lt;li&gt;free text areas&lt;/li&gt;
-&lt;li&gt;validation for all types&lt;/li&gt;
-&lt;li&gt;grouped sets of questions with conditional logic to hide/show according to answers&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;testing&quot;&gt;Testing&lt;/h2&gt;
-&lt;p&gt;On the legacy desktop application, there was no unit testing. So on new web apps implemented unit testing with Xunit, TDD where possible.&lt;/p&gt;
-&lt;p&gt;Also created a large variety of linqpad scripts to help with scratchpad experiments, and even some simple tooling&lt;/p&gt;
-&lt;h2 id=&quot;tooling&quot;&gt;Tooling&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;I setup postman company login, and created the postman collections, and requests to test API endpoints.&lt;/li&gt;
-&lt;li&gt;I created the repository folder structure&lt;/li&gt;
-&lt;li&gt;I created the slack company login, and setup automatic slack notifications task groups in Azure DevOps to post deployment completions.&lt;/li&gt;
-&lt;/ul&gt;
+            <p>August 2012 - July 2019 (6 month contracted extended to 7 years)</p>
+<p>iaAnyware had built a winforms ASP.NET 3.5 Desktop application to provide line of business applications for brokers to manage clients, quotes, policies, and claims information.</p>
+<p>I introduced web development, and streamlined development processes, full lifecycle development from conception to development, to training web development concepts, architecture, infrastructure, ci/cd. Effectively DevOps And Software Architecture, along with backend and frontend development.</p>
+<ul>
+<li>Unit testing with nunit/xunit</li>
+<li>Web APIs (prev SOAP)</li>
+<li><a href="https://github.com/stempy/cloud-architecture/blob/master/what-azure-devops-and-ci-provide.md">Continuous Integration and Delivery prev manual deployments</a></li>
+<li>ASP.NET MVC</li>
+<li>Frontend development with javascript based components and apps</li>
+<li>S.O.L.I.D and best practice programming principles, clean coding</li>
+<li>Introduced entity framework</li>
+<li>Introduced and taught LINQ</li>
+<li>Modern Dev tools LinqPad, Postman, Slack, Trello.</li>
+<li>Taught javascript, html and css to other developers.</li>
+<li>Researched and recommended approaches and design paradigms to problems.</li>
+<li>Introduced Git, and GitFlow versioning</li>
+<li>Implemented Azure cloud services, azure websites, blobs, queues.</li>
+<li>Upgraded legacy code to .NET core</li>
+<li>Rearchitected legacy approaches to modern web based</li>
+<li>Developed lots of batch, powershell scripts</li>
+</ul>
+<p>From 2012 to about 2015 I created web libraries and architecture for their Web based version, I created all the libraries, repositories in Git, build and deployments with MsBuild scripts and batch files. And trained developers basic html,css,js.  From there other developers became involved in the web development, and than as I migrated the ASP.NET Framework code to .NET Core, the web development became the main focus.</p>
+<h2 id="web-architecture">Web Architecture</h2>
+<hr />
+<p>The initial application was a giant monolithic desktop winforms application, with other desktop apps for administration and other features... and soap web services to serve data. These applications were targeted to insurance brokers, and not end clients.</p>
+<p>The new web architecture consisted of splitting components down into respective microservices, and creating Web API's suited for each part. Initially ASP.NET Framework, and later migrated to ASP.NET Core</p>
+<ul>
+<li>Authentication</li>
+<li>Report Generation</li>
+<li>Client Management</li>
+<li>Searching / Queries</li>
+<li>Document Management</li>
+</ul>
+<p>Along with this, iaAnyware desired an online quoting application for new customers, and a client portal specifically for clients of the brokers to self-serve.</p>
+<ul>
+<li>Online quoting application</li>
+<li>Client Portal</li>
+</ul>
+<h3 id="platforms">Platforms</h3>
+<ul>
+<li>ASP.NET Framework initially than migrated about 25 projects to .NET Core including libraries and Web backends.</li>
+<li>ES5 Javascript with prototyped functions, than scripted processes to convert to ES6 based classes.</li>
+<li>Entity Framework 5.0 initially, than EF 6, and migrated to EF Core 2.1</li>
+<li>I.I.S hosted on-premise in Datacentre in Sydney, migrated to Azure Websites, along with all publishing, build and deployments.</li>
+</ul>
+<h2 id="prototyping">Prototyping</h2>
+<hr />
+<p>I prototyped the first iteration of the iAdviser web application in ASP.NET MVC around 2013 to 2015. This was full stack development backend/frontend and so on.
+I approached it from a domain-driven design using best practices at the time.</p>
+<p>Implemented repository-service patterns with SOLID principles where possible. LINQ to EF, Mapping.</p>
+<p>With shared libraries I initially setup a hosted nuget server on ia's VM in the datacentre, and later migrated nuget projects to MyGet. Along with scripting processes to simplify nuget package creation.</p>
+<h2 id="database-refactoring">Database refactoring</h2>
+<p>One of the big challenges with implementing Entity Framework was subtle differences (extra fields, and tables) in the core databases across Australia and New Zealand, this was a database with ~800 tables in Sql Server... now with EF initially this meant having 2 different contexts to work across both, and using some funky magic to apply these different contexts across regions. This was a big time-sink.</p>
+<p>So I recommended to consolidate Australian And New Zealand databases to match the same structure which would prove to be a big winner. The development manager did the actual database consolidation, and I updated all the web based projects.</p>
+<ul>
+<li>Built batch files to simplify EF7 reverse engineered database contexts, effectively to a one line call to completely refresh context, also allowed partial contexts (with specified tables)</li>
+</ul>
+<h2 id="report-re-architecture">Report Re-Architecture</h2>
+<p>Over a period of approx 9 months and the implementation by a colleague, we re-architected how their report generation was done. Previously using Crystal Reports in the monolithic Desktop app, with a lot of SQL SPROCS to generate reports, done completely in the Winforms app.</p>
+<p>The new approach I recommended was to generate these complex reports entirely server side... html, csv, pdf, everything. Data would be sent up to the server as a json to specify criteria for report generation, it would return a generation &quot;guid&quot; and be processed via another service (Azure WebJob), the frontends could poll the api's for current generation status, details etc.</p>
+<ul>
+<li>Data querying was implemented using EF 5.0 Linq, Later migrated to 6.0.  The core database was ~800 tables in Sql Server.</li>
+<li>I created an interfaced component structure that was applied to query the data in a consistent approach and return models that could be used directly in the Razor views (with strong typing), effectively create a new class inheriting a base, override methods, and than these new reports were dynamically found without needing to register.</li>
+<li>Report templates generated using Razor-html-css, which significantly simplified report development once the developers were up to speed with razor.</li>
+<li>Reports consisted of multiple documents and were time-consuming. The solution to this was Azure Queues, Storage, WebJobs, along with MongoDb to store various stages of the generation.</li>
+<li>Reports generated using asynchronous tasks to handle concurrent processing, which also meant considering how the EF contexts were created and disposed for each one.</li>
+<li>The desktop app used this new report api, replacing crystal reports.</li>
+</ul>
+<p><strong>Components</strong>:</p>
+<ul>
+<li>Report API - Provided the web API's for the client apps to request a report. A request would be sent, than Azure Queues and MongoDb would have a record created.</li>
+<li>Report Generation - Actually generating the report data models from the database.</li>
+<li>HTML Template Generation - Composing HTML result pages with report data models using Razor</li>
+<li>HTML to PDF Conversion - this was a microservice api that used &quot;Chromium&quot; (the engine the powers Chrome) to render a PDF from HTML.</li>
+<li>Report Processer - This handled the full process in the background, concurrently.</li>
+<li>Frontend testing page</li>
+<li>Frontend client apps - Desktop</li>
+</ul>
+<p>I created a frontend report testing page in native html,css and Javascript to test the end-to-end process of generation across dynamic sample reports. Polling was applied to update the u.i as it's processing.</p>
+<p>I advised architectural design, did code reviews, refactoring, and assisted as needed for this process.</p>
+<p>There were several iterations in order to complete the process to suit all scenarios.</p>
+<p>Now this was a project done before the introduction of .NET Core and using EF6.0 .Net Framework, and the biggest issue with migrating to .NET Core at this stage was updating the hundreds of EF LINQ queries to work properly with it.Instead I wrote some wrappers to use .NET Core's configuration so at least we could share the same configuration source as all the new .NET Core projects.</p>
+<h2 id="authentication-layers">Authentication Layers</h2>
+<p>With the new Web layers, there were multiple API's to serve different requests, so I created an Authentication microservice API to generate JSON Web Tokens that all the API's would consume.</p>
+<p>These tokens would contain the build environment that the token is configured for, this build environment would than setup the Dependency Injections and configuration for the connections for that specific environment per request:</p>
+<p>For example, &quot;local&quot;, &quot;dev&quot;, or &quot;stage&quot; stored in token, when request made than connection factories would be applied so when the D.I contexts and libraries get injected into the constructors, it would suit the correct environment. Simpler than it sounds</p>
+<ul>
+<li>EF 7</li>
+<li>Mongo</li>
+<li>Azure</li>
+</ul>
+<h2 id="azure">Azure</h2>
+<p>I initially implemented the Azure storage libraries, for azure queues, blobs, file shares. Than created wrappers to abstract the blob file stores, and other azure services.</p>
+<ul>
+<li><p>Created console apps to migrate binary data from database to Azure blobs, with resume so it could be stopped and restarted</p>
+</li>
+<li><p>Created .NET Core Config Source Providers to use Azure File Shares as a multiple build environment config loader.
+This meant that the json config files for all environments (local,dev,stage,live...etc there were more) can be stored in a central location on azure files, instead of within each API or Console application. CI/CD was also setup for the config repositories to update the Azure file shares when config files were updated. Than it was a simple restart on the apps to refresh configs.</p>
+</li>
+<li><p>Created batch scripts to handle single line calls to start/stop/restart - create and delete web slots in Azure Websites</p>
+</li>
+</ul>
+<h2 id="devops">DevOps</h2>
+<p>Yeah, batch files, powershell scripts, MSBuild builds and deployments, later migrated to VSTS (Azure DevOps).</p>
+<p>Here I created the VSTS (now Azure DevOps) company login, set up the backend and frontend builds and releases.</p>
+<ul>
+<li>.NET Framework</li>
+<li>.NET Core</li>
+<li>NodeJS frontend based apps using Aurelia JS framework</li>
+<li>Azure File Share Deployments for JSON based configurations (created custom .NET Core Azure Config loaders)</li>
+<li>Created build pipelines</li>
+<li>Created release pipelines for all apis, using multiple Web slots in Azure Websites to match the deployment environments.</li>
+<li>Created Task groups to share release deployments across slots without duplicating individual tasks, using variables and release name to match web deployment slot name.</li>
+<li>Created Task groups to post slack information after web deployments.</li>
+</ul>
+<h2 id="frontend-components">Frontend Components</h2>
+<h3 id="general">General</h3>
+<p>Wrote general javascript for iAdviser prototype.</p>
+<ul>
+<li>Admin areas</li>
+<li>Datagrids</li>
+<li>Ajax Requests</li>
+</ul>
+<p>Much of this was native es5 javascript, which later with the new versions we moved to Aurelia (similar to Angular).</p>
+<p>Assisted development and teaching in Javascript for other projects.</p>
+<h3 id="online-quoting-wizard">Online Quoting Wizard</h3>
+<p>Wrote a SPA online quoting wizard in native ES5 Javascript which had 5 steps, each step loaded it's data dynamically to save resources.</p>
+<h3 id="report-testing-page">Report Testing Page</h3>
+<p>Test all reports via sample json queries, with polling for u.i updates as generation is occuring on the server.</p>
+<h3 id="question-collection-editor">Question Collection Editor</h3>
+<p>I built a frontend question collection editor entirely in javascript ES5 designed to handle their complex question form data. This was about 10 tables in the database to define question structure, formats, conditionals, calculations and so on.</p>
+<p>This also consisted of backend model projections to/from the database to a clean structured set of viewmodels for the frontend, and api's to handle querying, and updating of responses.</p>
+<p>Initially I created the frontend in ES5 Javascript with prototyped functions, than later wrote migration scripts to help migrate it to ES6 based classes, arrow syntax etc with the help of the <code>lebab</code> transpiler.</p>
+<ul>
+<li>input mask formatting for dates, numbers, currencies, and specific regex style responses.</li>
+<li>es5 prototyped functions, later converted to ES6 classes</li>
+<li>conditional questions based on answer responses</li>
+<li>dropdowns</li>
+<li>calculated questions (ie sum of sets of question answers, dollar figures etc)</li>
+<li>datagrids with rows of data.</li>
+<li>free text areas</li>
+<li>validation for all types</li>
+<li>grouped sets of questions with conditional logic to hide/show according to answers</li>
+</ul>
+<h2 id="testing">Testing</h2>
+<p>On the legacy desktop application, there was no unit testing. So on new web apps implemented unit testing with Xunit, TDD where possible.</p>
+<p>Also created a large variety of linqpad scripts to help with scratchpad experiments, and even some simple tooling</p>
+<h2 id="tooling">Tooling</h2>
+<ul>
+<li>I setup postman company login, and created the postman collections, and requests to test API endpoints.</li>
+<li>I created the repository folder structure</li>
+<li>I created the slack company login, and setup automatic slack notifications task groups in Azure DevOps to post deployment completions.</li>
+</ul>
 
             
         </main>

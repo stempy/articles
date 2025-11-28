@@ -1,0 +1,34 @@
+# Portfolio Conversion Configuration
+
+# Source directories
+source:
+  portfolio_dir: docs/portfolio          # Directory containing markdown source files
+  templates_dir: docs/portfolio/templates  # Directory containing HTML templates
+  images_dir: docs/portfolio/_pages      # Directory containing images
+
+# Output directories
+output:
+  html_dir: w/portfolio             # Output directory for generated HTML files
+
+# Path configuration for generated HTML files
+paths:
+  # Relative path from HTML output to root styles.css
+  styles_css: ../../css/styles.css
+
+  # Relative path from HTML output to portfolio.css (in same folder)
+  portfolio_css: portfolio.css
+
+  # Relative path from HTML output to images directory (without _pages since it's in the markdown)
+  images_base: ../../portfolio
+
+  # Relative path from HTML output back to root index.html
+  root_index: ../../index.html
+
+  # Relative path to portfolio index from individual items (same folder)
+  portfolio_index: index.html
+
+# Template files
+templates:
+  portfolio_item: portfolio-item.html
+  portfolio_index: portfolio-index.html
+  portfolio_card: portfolio-card.html

@@ -194,13 +194,32 @@ h1 span {
     font-style: italic;
 }
 
-/* Software grid */
+/* Card grid - generic grid layout for all card types */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 1.25rem;
+}
+
+/* Legacy alias for backward compatibility */
 .software-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
     gap: 1.25rem;
 }
 
+/* Card - generic card component for articles, items, etc. */
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Legacy alias for backward compatibility */
 .software-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
@@ -211,6 +230,7 @@ h1 span {
     overflow: hidden;
 }
 
+.card::before,
 .software-card::before {
     content: '';
     position: absolute;
@@ -223,12 +243,14 @@ h1 span {
     transition: opacity 0.3s ease;
 }
 
+.card:hover,
 .software-card:hover {
     background: var(--bg-card-hover);
     border-color: var(--card-accent, var(--accent-gold));
     transform: translateY(-2px);
 }
 
+.card:hover::before,
 .software-card:hover::before {
     opacity: 1;
 }
@@ -240,6 +262,36 @@ h1 span {
     margin-bottom: 1rem;
 }
 
+/* Card title - works for any card content */
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.card-title a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.card-title a:hover {
+    color: var(--card-accent, var(--accent-gold));
+}
+
+.card-title a::after {
+    content: ' ↗';
+    font-size: 0.8em;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.card:hover .card-title a::after,
+.software-card:hover .card-title a::after {
+    opacity: 0.6;
+}
+
+/* Legacy alias for backward compatibility */
 .software-name {
     font-size: 1.25rem;
     font-weight: 600;
@@ -508,6 +560,35 @@ footer {
     content: '…';
 }
 
+/* Section description - text between section header and content */
+.section-description {
+    margin-bottom: 2rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.section-description p {
+    margin-bottom: 0.75rem;
+}
+
+.section-description ul {
+    list-style: none;
+    padding-left: 1.5rem;
+}
+
+.section-description li {
+    position: relative;
+    padding-left: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.section-description li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent-gold);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .container {
@@ -518,6 +599,7 @@ footer {
         padding: 4rem 0 3rem;
     }
 
+    .card-grid,
     .software-grid {
         grid-template-columns: 1fr;
     }

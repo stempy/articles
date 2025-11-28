@@ -1,0 +1,16 @@
+<section class="era-section">
+    <div class="era-header">
+        <span class="era-badge {{ badge_class }}">{{ years }}</span>
+        <h2 class="era-title">{{ name }}</h2>
+    </div>
+    {%- if description %}
+    <div class="section-description">
+        {{ description | safe }}
+    </div>
+    {%- endif %}
+    <div class="card-grid">
+        {%- for software in software_list %}
+        {% include 'partials/software-card.html' with software %}
+        {%- endfor %}
+    </div>
+</section>

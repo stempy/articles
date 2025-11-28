@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} - Stempy Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    {{css_links}}
+    <style>
+        /* Dynamic accent color for this portfolio item */
+        .portfolio-title {
+            color: var(--accent-{{accent_color}});
+        }
+
+        .portfolio-content a {
+            color: var(--accent-{{accent_color}});
+        }
+
+        .portfolio-content a:hover {
+            border-bottom-color: var(--accent-{{accent_color}});
+        }
+
+        .gallery-item:hover {
+            border-color: var(--accent-{{accent_color}});
+        }
+
+        .back-link {
+            color: var(--accent-{{accent_color}});
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{{back_link}}" class="back-link">Back to Collections</a>
+
+        <header class="portfolio-header">
+            <div class="portfolio-meta">
+                {{meta_items}}
+            </div>
+            <h1 class="portfolio-title">{{title}}</h1>
+            {{excerpt}}
+            {{tech_tags}}
+            {{hero_image}}
+        </header>
+
+        <main class="portfolio-content">
+            {{body_content}}
+            {{gallery}}
+        </main>
+
+        <footer>
+            <p class="footer-text">Part of the <a href="index.html">Stempy Portfolio</a> · <span>{{formatted_date}}</span></p>
+        </footer>
+    </div>
+</body>
+</html>

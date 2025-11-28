@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+{{css_links}}
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="title-wrapper">
+                <p class="subtitle">{{subtitle}}</p>
+                <h1>{{header_title}}</h1>
+            </div>
+            <p class="intro">
+                {{intro}}
+            </p>
+        </header>
+
+        <main>
+            <section class="article-section">
+                <div class="section-heading">
+                    <span class="section-label">{{section_label}}</span>
+                    <h2>{{section_title}}</h2>
+                </div>
+
+                <div class="software-grid article-grid">
+{{article_cards}}
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p class="footer-text">{{footer_text}}</p>
+        </footer>
+    </div>
+</body>
+</html>

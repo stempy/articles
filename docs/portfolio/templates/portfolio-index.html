@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Stempy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="portfolio.css">
+</head>
+<body>
+    <div class="container">
+        <a href="../../index.html" class="back-link">Back to Collections</a>
+
+        <header>
+            <div class="title-wrapper">
+                <p class="subtitle">Portfolio</p>
+                <h1>Projects & <span>Experience</span></h1>
+            </div>
+            <p class="intro">
+                A collection of projects, contracts, and professional work spanning multiple years
+            </p>
+        </header>
+
+        <main>
+            <div class="portfolio-stats">
+                <span class="count">{{project_count}}</span>
+                <p>Total Projects</p>
+            </div>
+
+            <section class="article-section">
+                <div class="section-heading">
+                    <span class="section-label">All Projects</span>
+                    <h2>Sorted by Date</h2>
+                </div>
+
+                <div class="software-grid article-grid">
+                    {{portfolio_cards}}
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p class="footer-text">Portfolio compiled · Newest projects first</p>
+        </footer>
+    </div>
+</body>
+</html>

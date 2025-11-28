@@ -1,0 +1,153 @@
+/* Portfolio-specific styles */
+
+.portfolio-header {
+    margin-bottom: 3rem;
+}
+
+.portfolio-meta {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.portfolio-meta-item {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.portfolio-meta-label {
+    font-weight: 600;
+}
+
+.portfolio-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 3rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+}
+
+.portfolio-excerpt {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.tech-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    background: var(--bg-secondary);
+    border-radius: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.hero-image {
+    margin: 2rem 0 3rem;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.hero-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.portfolio-content {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.125rem;
+    line-height: 1.8;
+}
+
+.portfolio-content h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2rem;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+}
+
+.portfolio-content h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+.portfolio-content code {
+    font-family: 'IBM Plex Mono', monospace;
+    background: var(--bg-secondary);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+.image-gallery {
+    margin-top: 4rem;
+}
+
+.image-gallery h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.gallery-item {
+    display: block;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 2rem;
+    text-decoration: none;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+.back-link:hover {
+    opacity: 0.7;
+}
+
+footer {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-subtle);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.footer-text a {
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-bottom-color 0.2s;
+}

@@ -1,0 +1,19 @@
+<article class="card" style="--card-accent: var(--accent-{{ color }});">
+    <div class="card-header">
+        <h3 class="card-title">
+            {%- if url -%}
+            <a href="{{ url }}" target="_blank">{{ name }}</a>
+            {%- else -%}
+            {{ name }}
+            {%- endif -%}
+        </h3>
+        {%- if years_active and 'yr' in years_active %}
+        <span class="years-badge">{{ years_active }}</span>
+        {%- endif %}
+    </div>
+    <div class="card-meta">
+        <span class="meta-item"><strong>{{ year }}</strong></span>
+    </div>
+    <span class="card-category">{{ category }}</span>
+    <p class="card-description">{{ description }}</p>
+</article>

@@ -1,0 +1,80 @@
+# Generic Markdown to HTML Conversion Configuration
+
+# Global source settings
+source:
+  root_dir: docs                    # Root directory to scan for markdown files
+  templates_dir: templates           # Directory containing HTML templates
+  exclude_dirs:                      # Directories to exclude from conversion
+    - _pages
+    - templates
+  exclude_files:                     # Files to exclude from conversion
+    - README.md
+
+# Global output settings
+output:
+  root_dir: w                        # Root output directory for generated HTML
+  preserve_structure: true           # Preserve source directory structure in output
+
+# Content type mappings (based on source directory)
+content_types:
+  index:
+    source_path: ''                  # Match index.md in root
+    template: index.html             # Use index template
+    css_files:                       # CSS files to include (relative to output HTML)
+      - ../css/styles.css
+    back_link: ''                    # No back link for index
+    output_subdir: ''                # Output to root of w/
+    is_index: true                   # Special flag for index pages
+
+  portfolio:
+    source_path: portfolio           # Match files in docs/portfolio/
+    template: portfolio.html         # Use this template
+    css_files:                       # CSS files to include (relative to output HTML)
+      - ../../css/styles.css
+      - ../../css/portfolio.css
+    back_link: ../../index.html      # Back link for navigation
+    output_subdir: portfolio         # Output to w/portfolio/
+
+  software_list:
+    source_path: posts               # Match files in docs/posts/ that are software lists
+    template: software-list.html     # Use software list template
+    css_files:                       # CSS files to include
+      - ../../css/styles.css
+    back_link: ../../index.html      # Back link for navigation
+    output_subdir: posts             # Output to w/posts/
+    is_software_list: true           # Flag to indicate software list content type
+
+  posts:
+    source_path: posts               # Match files in docs/posts/
+    template: article.html           # Use this template
+    css_files:                       # CSS files to include
+      - ../../css/styles.css
+      - ../../css/article.css
+    back_link: ../../index.html      # Back link for navigation
+    output_subdir: posts             # Output to w/posts/
+
+  default:
+    template: default.html           # Fallback template for other files
+    css_files:
+      - ../css/styles.css
+    back_link: ../index.html
+    output_subdir: ''                # Output to root of w/
+
+# Path configuration for image handling
+paths:
+  # Base path for images (relative to output HTML)
+  images_base: ../../
+
+# Accent colors for styling (rotated per file)
+accent_colors:
+  - gold
+  - purple
+  - cyan
+  - rose
+  - green
+  - blue
+  - orange
+
+# Default frontmatter values
+defaults:
+  footer_text: 'Stempy Articles'

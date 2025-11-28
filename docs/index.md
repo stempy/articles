@@ -13,7 +13,7 @@ Notes, research, and curated content
 
 A tribute to long-running applications that remain actively developed years after release.
 
-[Explore](long-lasting-software.html)
+[Explore](posts/long-lasting-software.html)
 
 ---
 
@@ -22,7 +22,7 @@ A tribute to long-running applications that remain actively developed years afte
 
 Comparing modern programming languages to find the best for your needs.
 
-[Explore](programming-language-comparisons.html)
+[Explore](posts/programming-language-comparisons.html)
 
 ---
 
@@ -31,7 +31,7 @@ Comparing modern programming languages to find the best for your needs.
 
 Local Tooling I use
 
-[Explore](my-local-tool-setup.html)
+[Explore](posts/my-local-tool-setup.html)
 
 ---
 

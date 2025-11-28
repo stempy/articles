@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    {%- for css_file in css_files %}
+    <link rel="stylesheet" href="{{ css_file }}">
+    {%- endfor %}
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="title-wrapper">
+                <p class="subtitle">{{ subtitle }}</p>
+                <h1>{{ header_title | safe }}</h1>
+            </div>
+            <p class="intro">
+                {{ intro }}
+            </p>
+        </header>
+
+        <main>
+            {%- for era in era_sections %}
+            <section class="era-section">
+                <div class="era-header">
+                    <span class="era-badge {{ era.badge_class }}">{{ era.years }}</span>
+                    <h2 class="era-title">{{ era.name }}</h2>
+                </div>
+                {%- if era.description %}
+                <div class="section-description">
+                    {{ era.description | safe }}
+                </div>
+                {%- endif %}
+                <div class="card-grid">
+                    {%- for software in era.software %}
+                    <article class="card" style="--card-accent: var(--accent-{{ era.color }});">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                {%- if software.url -%}
+                                <a href="{{ software.url }}" target="_blank">{{ software.name }}</a>
+                                {%- else -%}
+                                {{ software.name }}
+                                {%- endif -%}
+                            </h3>
+                            {%- if software.years_active and 'yr' in software.years_active %}
+                            <span class="years-badge">{{ software.years_active }}</span>
+                            {%- endif %}
+                        </div>
+                        <div class="card-meta">
+                            <span class="meta-item"><strong>{{ software.year }}</strong></span>
+                        </div>
+                        <span class="card-category">{{ software.category }}</span>
+                        <p class="card-description">{{ software.description }}</p>
+                    </article>
+                    {%- endfor %}
+                </div>
+            </section>
+            {%- endfor %}
+
+            {%- if traits %}
+            <section class="traits-section">
+                <h2 class="traits-title">Common Traits of Long-Lasting Software</h2>
+                <div class="traits-grid">
+                    {%- for trait in traits %}
+                    <div class="trait">
+                        <span class="trait-number">{{ loop.index }}</span>
+                        <div class="trait-content">
+                            <h4>{{ trait.title }}</h4>
+                            <p>{{ trait.description }}</p>
+                        </div>
+                    </div>
+                    {%- endfor %}
+                </div>
+            </section>
+            {%- endif %}
+        </main>
+
+        <footer>
+            <p class="footer-text">{{ footer_text | safe }}</p>
+        </footer>
+    </div>
+</body>
+</html>

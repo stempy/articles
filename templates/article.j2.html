@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - Stempy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    {%- for css_file in css_files %}
+    <link rel="stylesheet" href="{{ css_file }}">
+    {%- endfor %}
+    <style>
+        /* Dynamic accent color for this article */
+        .article-title {
+            color: var(--accent-{{ accent_color }});
+        }
+
+        .article-content a {
+            color: var(--accent-{{ accent_color }});
+        }
+
+        .article-content a:hover {
+            border-bottom-color: var(--accent-{{ accent_color }});
+        }
+
+        .article-content h2 {
+            color: var(--accent-{{ accent_color }});
+        }
+
+        .article-content th {
+            color: var(--accent-{{ accent_color }});
+        }
+
+        .back-link {
+            color: var(--accent-{{ accent_color }});
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{{ back_link }}" class="back-link">Back to Collections</a>
+
+        <header class="article-header">
+            <div class="article-meta">{{ date }}</div>
+            <h1 class="article-title">{{ title }}</h1>
+            {%- if excerpt %}
+            <p class="article-excerpt">{{ excerpt }}</p>
+            {%- endif %}
+        </header>
+
+        <main class="article-content">
+            {{ body_content | safe }}
+        </main>
+
+        <footer>
+            <p class="footer-text">{{ footer_text }}</p>
+        </footer>
+    </div>
+</body>
+</html>

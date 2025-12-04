@@ -14,16 +14,16 @@ sidebar:
     text: "Lead Development of a Brain Training Portal"
 gallery:
   - url: /_pages/Berlei/berlei_homepage.jpg
-    image_path: /_pages/Berlei/berlei_homepage.jpg
+    image_path: _pages/Berlei/berlei_homepage.jpg
     alt: "placeholder image 1"
   - url: /_pages/Berlei/berlei_productrange.jpg
-    image_path: /_pages/Berlei/berlei_productrange.jpg
+    image_path: _pages/Berlei/berlei_productrange.jpg
     alt: "placeholder image 11"
   - url: /_pages/Berlei/berlei_3.jpg
-    image_path: /_pages/Berlei/berlei_3.jpg
+    image_path: _pages/Berlei/berlei_3.jpg
     alt: "placeholder image 12"
   - url: /_pages/Berlei/berlei_4.jpg
-    image_path: /_pages/Berlei/berlei_3.jpg
+    image_path: _pages/Berlei/berlei_3.jpg
     alt: "placeholder image 13"    
 tags:
   - ASP.NET

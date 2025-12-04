@@ -19,31 +19,31 @@ sidebar:
     text: "Architecture, Specifications to Build the web application"
 gallery:
   - url: /_pages/TheWeddingShow/theweddingshow_.jpg
-    image_path: /_pages/TheWeddingShow/theweddingshow_.jpg
+    image_path: _pages/TheWeddingShow/theweddingshow_.jpg
     alt: "placeholder image 1"
   - url: /_pages/TheWeddingShow/theweddingshow_2010-01-20_225036.jpg
-    image_path: /_pages/TheWeddingShow/theweddingshow_2010-01-20_225036.jpg
+    image_path: _pages/TheWeddingShow/theweddingshow_2010-01-20_225036.jpg
     alt: "placeholder image 2"
   - url: /_pages/TheWeddingShow/theweddingshow_2010-01-20_225321.jpg
-    image_path: /_pages/TheWeddingShow/theweddingshow_2010-01-20_225321.jpg
+    image_path: _pages/TheWeddingShow/theweddingshow_2010-01-20_225321.jpg
     alt: "placeholder image 3"
   - url: /_pages/TheWeddingShow/theweddingshow1.jpg
-    image_path: /_pages/TheWeddingShow/theweddingshow1.jpg
+    image_path: _pages/TheWeddingShow/theweddingshow1.jpg
     alt: "placeholder image 4"
   - url: /_pages/TheWeddingShow/theweddingshow2.jpg
-    image_path: /_pages/TheWeddingShow/theweddingshow2.jpg
+    image_path: _pages/TheWeddingShow/theweddingshow2.jpg
     alt: "placeholder image 5"
   - url: /_pages/TheWeddingShow/theweddingshow3.jpg
-    image_path: /_pages/TheWeddingShow/theweddingshow2.jpg
+    image_path: _pages/TheWeddingShow/theweddingshow2.jpg
     alt: "placeholder image 6"
   - url: /_pages/TheWeddingShow/theweddingshow4.jpg
-    image_path: /_pages/TheWeddingShow/theweddingshow2.jpg
+    image_path: _pages/TheWeddingShow/theweddingshow2.jpg
     alt: "placeholder image 7"
   - url: /_pages/TheWeddingShow/theweddingshow5.jpg
-    image_path: /_pages/TheWeddingShow/theweddingshow2.jpg
+    image_path: _pages/TheWeddingShow/theweddingshow2.jpg
     alt: "placeholder image 8"
   - url: /_pages/TheWeddingShow/weddingshow.jpg
-    image_path: /_pages/TheWeddingShow/weddingshow.jpg
+    image_path: _pages/TheWeddingShow/weddingshow.jpg
     alt: "placeholder image 9"    
 ---
 

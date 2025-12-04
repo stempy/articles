@@ -11,16 +11,16 @@ sidebar:
     image_alt: "logo"
 gallery:
   - url: /_pages/Netcomm/netcomm_banner.jpg
-    image_path: /_pages/Netcomm/netcomm_banner.jpg
+    image_path: _pages/Netcomm/netcomm_banner.jpg
     alt: "placeholder image 1"
   - url: /_pages/Netcomm/netcomm_admin_edit_screenshot.jpg
-    image_path: /_pages/Netcomm/netcomm_admin_edit_screenshot.jpg
+    image_path: _pages/Netcomm/netcomm_admin_edit_screenshot.jpg
     alt: "placeholder image 2"
   - url: /_pages/Netcomm/banner1_screenshot.jpg
-    image_path: /_pages/Netcomm/banner1_screenshot.jpg
+    image_path: _pages/Netcomm/banner1_screenshot.jpg
     alt: "placeholder image 3"
   - url: /_pages/Netcomm/app_browser_xmlfile.png
-    image_path: /_pages/Netcomm/netcomm_nb5_admin_browse_screenshot.jpg
+    image_path: _pages/Netcomm/netcomm_nb5_admin_browse_screenshot.jpg
     alt: "placeholder image 4"
 ---
 

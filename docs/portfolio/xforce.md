@@ -12,13 +12,13 @@ sidebar:
     image_alt: "logo"
 gallery:
   - url: /_pages/xforce/xforce_homepage.jpg
-    image_path: /_pages/xforce/xforce_homepage.jpg
+    image_path: _pages/xforce/xforce_homepage.jpg
     alt: "placeholder image 1"
   - url: /_pages/xforce/xforce1.jpg
-    image_path: /_pages/xforce/xforce1.jpg
+    image_path: _pages/xforce/xforce1.jpg
     alt: "placeholder image 2"
   - url: /_pages/xforce/xforce_admin.jpg
-    image_path: /_pages/xforce/xforce_admin.jpg
+    image_path: _pages/xforce/xforce_admin.jpg
     alt: "placeholder image 3"
 tags:
   - PHP

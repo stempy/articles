@@ -14,13 +14,13 @@ sidebar:
     text: "Lead Development of a Brain Training Portal"
 gallery:
   - url: /_pages/MyBrainSolution/MyBrainSolutions_Dashboard20-11-08.jpg
-    image_path: /_pages/MyBrainSolution/MyBrainSolutions_Dashboard20-11-08.jpg
+    image_path: _pages/MyBrainSolution/MyBrainSolutions_Dashboard20-11-08.jpg
     alt: "placeholder image 1"
   - url: /_pages/MyBrainSolution/mybrainsolutions_1.JPG
-    image_path: /_pages/MyBrainSolution/mybrainsolutions_1.JPG
+    image_path: _pages/MyBrainSolution/mybrainsolutions_1.JPG
     alt: "placeholder image 11"
   - url: /_pages/MyBrainSolution/mybrainsolutions_2.JPG
-    image_path: /_pages/MyBrainSolution/mybrainsolutions_2.JPG
+    image_path: _pages/MyBrainSolution/mybrainsolutions_2.JPG
     alt: "placeholder image 12"
 tags:
   - ASP.NET Framework

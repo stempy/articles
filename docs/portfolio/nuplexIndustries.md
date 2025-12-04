@@ -12,13 +12,13 @@ sidebar:
     image_alt: "logo"
 gallery:
   - url: /_pages/NuplexIndustries/NuplexHome.JPG
-    image_path: /_pages/NuplexIndustries/NuplexHome.JPG
+    image_path: _pages/NuplexIndustries/NuplexHome.JPG
     alt: "placeholder image 1"
   - url: /_pages/NuplexIndustries/nuplex2.jpg
-    image_path: /_pages/NuplexIndustries/nuplex2.jpg
+    image_path: _pages/NuplexIndustries/nuplex2.jpg
     alt: "placeholder image 2"
   - url: /_pages/NuplexIndustries/nuplex3.jpg
-    image_path: /_pages/NuplexIndustries/nuplex3.jpg
+    image_path: _pages/NuplexIndustries/nuplex3.jpg
     alt: "placeholder image 3"
 tags:
   - Drupal

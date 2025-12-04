@@ -16,43 +16,43 @@ sidebar:
     text: "Design and Develop an application to handle scheduled music playback"
 gallery:
   - url: /_pages/Emstream/2007-09-08_123138.jpg
-    image_path: /_pages/Emstream/2007-09-08_123138.jpg
+    image_path: _pages/Emstream/2007-09-08_123138.jpg
     alt: "placeholder image 1"
   - url: /_pages/Emstream/2007-09-08_123252.jpg
-    image_path: /_pages/Emstream/2007-09-08_123252.jpg
+    image_path: _pages/Emstream/2007-09-08_123252.jpg
     alt: "placeholder image 2"
   - url: /_pages/Emstream/2007-09-08_124709.jpg
-    image_path: /_pages/Emstream/2007-09-08_124709.jpg
+    image_path: _pages/Emstream/2007-09-08_124709.jpg
     alt: "placeholder image 3"
   - url: /_pages/Emstream/emstream_controller_controlpanel030407.png
-    image_path: /_pages/Emstream/emstream_controller_controlpanel030407.png
+    image_path: _pages/Emstream/emstream_controller_controlpanel030407.png
     alt: "placeholder image 4"
   - url: /_pages/Emstream/emstream_controller_fullscreen030407.png
-    image_path: /_pages/Emstream/emstream_controller_fullscreen030407.png
+    image_path: _pages/Emstream/emstream_controller_fullscreen030407.png
     alt: "placeholder image 5"
   - url: /_pages/Emstream/emstream_controller.jpg
-    image_path: /_pages/Emstream/emstream_controller.jpg
+    image_path: _pages/Emstream/emstream_controller.jpg
     alt: "placeholder image 6"
   - url: /_pages/Emstream/emstream_controller3.jpg
-    image_path: /_pages/Emstream/emstream_controller3.jpg
+    image_path: _pages/Emstream/emstream_controller3.jpg
     alt: "placeholder image 7"
   - url: /_pages/Emstream/emstream_controller4.jpg
-    image_path: /_pages/Emstream/emstream_controller4.jpg
+    image_path: _pages/Emstream/emstream_controller4.jpg
     alt: "placeholder image 8"
   - url: /_pages/Emstream/emstream_mccontroller_fullscreen_screenshot.jpg
-    image_path: /_pages/Emstream/emstream_mccontroller_fullscreen_screenshot.jpg
+    image_path: _pages/Emstream/emstream_mccontroller_fullscreen_screenshot.jpg
     alt: "placeholder image 9"
   - url: /_pages/Emstream/emstream_scheduler1.jpg
-    image_path: /_pages/Emstream/emstream_scheduler1.jpg
+    image_path: _pages/Emstream/emstream_scheduler1.jpg
     alt: "placeholder image 10"
   - url: /_pages/Emstream/mccontroller_fullscreen_screenshot.jpg
-    image_path: /_pages/Emstream/mccontroller_fullscreen_screenshot.jpg
+    image_path: _pages/Emstream/mccontroller_fullscreen_screenshot.jpg
     alt: "placeholder image 11"
   - url: /_pages/Emstream/MZM_fullscreen_search.jpg
-    image_path: /_pages/Emstream/MZM_fullscreen_search.jpg
+    image_path: _pages/Emstream/MZM_fullscreen_search.jpg
     alt: "placeholder image 12"
   - url: /_pages/Emstream/MZM_fullscreen.jpg
-    image_path: /_pages/Emstream/MZM_fullscreen.jpg
+    image_path: _pages/Emstream/MZM_fullscreen.jpg
     alt: "placeholder image 13"
 ---
 

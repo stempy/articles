@@ -14,13 +14,13 @@ sidebar:
     text: "Lead Development of a Brain Training Portal"
 gallery:
   - url: /_pages/Fairfax%20Digital/fairfax_community_news_nsw.jpg
-    image_path: /_pages/Fairfax%20Digital/fairfax_community_news_nsw.jpg
+    image_path: _pages/Fairfax%20Digital/fairfax_community_news_nsw.jpg
     alt: "placeholder image 1"
   - url: /_pages/Fairfax%20Digital/fairfax2.png
-    image_path: /_pages/Fairfax%20Digital/fairfax2.png
+    image_path: _pages/Fairfax%20Digital/fairfax2.png
     alt: "placeholder image 11"
   - url: /_pages/Fairfax%20Digital/fairfax3.jpg
-    image_path: /_pages/Fairfax%20Digital/fairfax3.jpg
+    image_path: _pages/Fairfax%20Digital/fairfax3.jpg
     alt: "placeholder image 12"
 
 tags:

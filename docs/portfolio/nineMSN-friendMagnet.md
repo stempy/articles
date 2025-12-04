@@ -14,16 +14,16 @@ sidebar:
     text: "Lead Development of a Brain Training Portal"
 gallery:
   - url: /_pages/NineMSN%20FriendMagnet/friendmagnet_preview15-08-2008_2128.jpg
-    image_path: /_pages/NineMSN%20FriendMagnet/friendmagnet_preview15-08-2008_2128.jpg
+    image_path: _pages/NineMSN%20FriendMagnet/friendmagnet_preview15-08-2008_2128.jpg
     alt: "placeholder image 1"
   - url: /_pages/NineMSN%20FriendMagnet/friendmagnet_landing230608.jpg
-    image_path: /_pages/NineMSN%20FriendMagnet/friendmagnet_landing230608.jpg
+    image_path: _pages/NineMSN%20FriendMagnet/friendmagnet_landing230608.jpg
     alt: "placeholder image 11"
   - url: /_pages/NineMSN%20FriendMagnet/friendmagnet_gamepage230608.jpg
-    image_path: /_pages/NineMSN%20FriendMagnet/friendmagnet_gamepage230608.jpg
+    image_path: _pages/NineMSN%20FriendMagnet/friendmagnet_gamepage230608.jpg
     alt: "placeholder image 12"
   - url: /_pages/NineMSN%20FriendMagnet/friendmagnet_addfriends230608.jpg
-    image_path: /_pages/NineMSN%20FriendMagnet/friendmagnet_addfriends230608.jpg
+    image_path: _pages/NineMSN%20FriendMagnet/friendmagnet_addfriends230608.jpg
     alt: "placeholder image 12"
 
 tags:

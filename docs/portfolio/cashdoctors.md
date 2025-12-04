@@ -14,7 +14,7 @@ sidebar:
     text: "Lead Development of a Brain Training Portal"
 gallery:
   - url: /_pages/CashDoctors/cashdoctors_lending_calculator.png
-    image_path: /_pages/CashDoctors/cashdoctors_lending_calculator.png
+    image_path: _pages/CashDoctors/cashdoctors_lending_calculator.png
     alt: "placeholder image 1" 
 tags:
   - .NET

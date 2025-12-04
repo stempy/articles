@@ -13,7 +13,7 @@ sidebar:
 
 gallery:
   - url: /_pages/EssentialEnergy/loa_dashboard.png
-    image_path: /_pages/EssentialEnergy/loa_dashboard.png
+    image_path: _pages/EssentialEnergy/loa_dashboard.png
     alt: "placeholder image 1"
 
 tags:

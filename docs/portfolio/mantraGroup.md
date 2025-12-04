@@ -14,54 +14,54 @@ sidebar:
     text: "Full Stack development on many of mantra web assets"
 gallery:
   - url: /_pages/MantraGroup/mantracircleoncavill.com.au_7june2011.png
-    image_path: /_pages/MantraGroup/mantracircleoncavill.com.au_7june2011.png
+    image_path: _pages/MantraGroup/mantracircleoncavill.com.au_7june2011.png
     alt: "placeholder image 1"
   - url: /_pages/MantraGroup/breakfreebeachcomber.com.au_7june2011.png
-    image_path: /_pages/MantraGroup/breakfreebeachcomber.com.au_7june2011.png
+    image_path: _pages/MantraGroup/breakfreebeachcomber.com.au_7june2011.png
     alt: "placeholder image 11"
   - url: /_pages/MantraGroup/clubcusoon_jquery_templates_cufon.png
-    image_path: /_pages/MantraGroup/clubcusoon_jquery_templates_cufon.png
+    image_path: _pages/MantraGroup/clubcusoon_jquery_templates_cufon.png
     alt: "placeholder image 12"
   - url: /_pages/MantraGroup/Stone-Restaurant-and-Bar.png
-    image_path: /_pages/MantraGroup/Stone-Restaurant-and-Bar.png
+    image_path: _pages/MantraGroup/Stone-Restaurant-and-Bar.png
     alt: "placeholder image 13"
   - url: /_pages/MantraGroup/coc.png
-    image_path: /_pages/MantraGroup/coc.png
+    image_path: _pages/MantraGroup/coc.png
     alt: "placeholder image 14"
   - url: /_pages/MantraGroup/stella-accom-resorts.png
-    image_path: /_pages/MantraGroup/stella-accom-resorts.png
+    image_path: _pages/MantraGroup/stella-accom-resorts.png
     alt: "placeholder image 15"
   - url: /_pages/MantraGroup/confidence-to-lead.png
-    image_path: /_pages/MantraGroup/confidence-to-lead.png
+    image_path: _pages/MantraGroup/confidence-to-lead.png
     alt: "placeholder image 16"
   - url: /_pages/MantraGroup/mantra_patrafter_clickable_backgrounds_using_js.png
-    image_path: /_pages/MantraGroup/mantra_patrafter_clickable_backgrounds_using_js.png
+    image_path: _pages/MantraGroup/mantra_patrafter_clickable_backgrounds_using_js.png
     alt: "placeholder image 17"
   - url: /_pages/MantraGroup/patrafter_leisurehub.png
-    image_path: /_pages/MantraGroup/patrafter_leisurehub.png
+    image_path: _pages/MantraGroup/patrafter_leisurehub.png
     alt: "placeholder image 18"
   - url: /_pages/MantraGroup/peppers_masterchef4-7-2011.jpg
-    image_path: /_pages/MantraGroup/peppers_masterchef4-7-2011.jpg
+    image_path: _pages/MantraGroup/peppers_masterchef4-7-2011.jpg
     alt: "placeholder image 19"            
   - url: /_pages/MantraGroup/peppers.com.au_7june2011.png
-    image_path: /_pages/MantraGroup/peppers.com.au_7june2011.png
+    image_path: _pages/MantraGroup/peppers.com.au_7june2011.png
     alt: "placeholder image 20"    
   - url: /_pages/MantraGroup/pepperssalt.com.au_7june2011.png
-    image_path: /_pages/MantraGroup/pepperssalt.com.au_7june2011.png
+    image_path: _pages/MantraGroup/pepperssalt.com.au_7june2011.png
     alt: "placeholder image 21"
   - url: /_pages/MantraGroup/mantra_mobile.png
-    image_path: /_pages/MantraGroup/mantra_mobile.png
+    image_path: _pages/MantraGroup/mantra_mobile.png
     alt: "placeholder image 22"    
   - url: /_pages/MantraGroup/mantra_youtube_player.png
-    image_path: /_pages/MantraGroup/mantra_youtube_player.png
+    image_path: _pages/MantraGroup/mantra_youtube_player.png
     alt: "placeholder image 23"  
     
 gallery2:
   - url: /_pages/MantraGroup/DNNEventLogViewer.png
-    image_path: /_pages/MantraGroup/DNNEventLogViewer.png
+    image_path: _pages/MantraGroup/DNNEventLogViewer.png
     alt: "placeholder image 12"    
   - url: /_pages/MantraGroup/EdmHtmlEmailCampaigns.png
-    image_path: /_pages/MantraGroup/EdmHtmlEmailCampaigns.png
+    image_path: _pages/MantraGroup/EdmHtmlEmailCampaigns.png
     alt: "placeholder image 12"    
 
 tags:

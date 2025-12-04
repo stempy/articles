@@ -34,6 +34,8 @@ content_types:
       - ../../css/portfolio.css
     back_link: ../../index.html      # Back link for navigation
     output_subdir: portfolio         # Output to w/portfolio/
+    include_paths:                   # Additional paths to copy to output
+      - _pages
 
   software_list:
     source_path: posts               # Match files in docs/posts/ that are software lists

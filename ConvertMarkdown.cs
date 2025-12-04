@@ -1,7 +1,10 @@
+#:property PublishAot=false
+//#:property RuntimeIdentifier=linux-x64
 #:package YamlDotNet@16.2.0
 #:package Markdig@0.38.0
 #:package Handlebars.Net@2.1.6
 
+using System.Text;
 using System.Text.RegularExpressions;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -47,7 +50,7 @@ for (var index = 0; index < mdFiles.Count; index++)
         var content = File.ReadAllText(mdFile.FullName);
 
         // Parse frontmatter and body
-        var (frontmatter, body) = ParseFrontmatter(content);
+        var (frontmatter, body, rawFrontmatter) = ParseFrontmatter(content);
 
         // Ensure there's always a title - fallback to formatted filename
         if (string.IsNullOrWhiteSpace(frontmatter.Title))
@@ -94,6 +97,10 @@ for (var index = 0; index < mdFiles.Count; index++)
         }
         else
         {
+            // Process gallery liquid tags BEFORE markdown conversion
+            // This prevents the gallery HTML from being wrapped in <p> tags
+            body = Gallery.ProcessGalleries(body, rawFrontmatter);
+
             // Standard article - use Markdig for robust markdown conversion
             var pipeline = new MarkdownPipelineBuilder()
                 .UseAdvancedExtensions()
@@ -104,6 +111,7 @@ for (var index = 0; index < mdFiles.Count; index++)
                 .Build();
 
             var bodyHtml = Markdown.ToHtml(body, pipeline);
+
             var accentColor = GetAccentColor(index, config);
 
             templateData["accent_color"] = accentColor;
@@ -142,6 +150,9 @@ for (var index = 0; index < mdFiles.Count; index++)
 
 Console.WriteLine($"Conversion complete! Converted {converted} of {mdFiles.Count} files.");
 
+// Copy included paths from content types
+CopyIncludedPaths(config, sourceRoot);
+
 // ===== Helper Functions =====
 
 Config LoadConfig(string configFile)
@@ -154,10 +165,11 @@ Config LoadConfig(string configFile)
     return deserializer.Deserialize<Config>(yaml);
 }
 
-(Frontmatter frontmatter, string body) ParseFrontmatter(string content)
+(Frontmatter frontmatter, string body, Dictionary<string, object> rawFrontmatter) ParseFrontmatter(string content)
 {
     var frontmatter = new Frontmatter();
     var body = content;
+    var rawFrontmatter = new Dictionary<string, object>();
 
     if (!content.StartsWith("---"))
     {
@@ -177,12 +189,12 @@ Config LoadConfig(string configFile)
             newLines.Add(line);
         }
 
-        return (frontmatter, string.Join('\n', newLines));
+        return (frontmatter, string.Join('\n', newLines), rawFrontmatter);
     }
 
     var parts = content.Split("---", 3, StringSplitOptions.TrimEntries);
     if (parts.Length < 3)
-        return (frontmatter, content);
+        return (frontmatter, content, rawFrontmatter);
 
     var frontmatterText = parts[1];
     body = parts[2];
@@ -195,6 +207,16 @@ Config LoadConfig(string configFile)
             .Build();
 
         frontmatter = deserializer.Deserialize<Frontmatter>(frontmatterText) ?? new Frontmatter();
+
+        // Also deserialize as raw dictionary to preserve all fields (like gallery)
+        var rawDeserializer = new DeserializerBuilder()
+            .Build();
+
+        var rawData = rawDeserializer.Deserialize<Dictionary<string, object>>(frontmatterText);
+        if (rawData != null)
+        {
+            rawFrontmatter = rawData;
+        }
     }
     catch
     {
@@ -215,7 +237,7 @@ Config LoadConfig(string configFile)
         }
     }
 
-    return (frontmatter, body);
+    return (frontmatter, body, rawFrontmatter);
 }
 
 string FormatFilenameAsTitle(string filename)
@@ -836,6 +858,81 @@ void RegisterHandlebarsHelpers(IHandlebars handlebars)
     });
 }
 
+void CopyIncludedPaths(Config config, DirectoryInfo sourceRoot)
+{
+    Console.WriteLine();
+    Console.WriteLine("Copying included paths...");
+
+    var copiedCount = 0;
+
+    foreach (var (typeName, typeConfig) in config.ContentTypes)
+    {
+        if (typeConfig.IncludePaths == null || typeConfig.IncludePaths.Count == 0)
+            continue;
+
+        if (string.IsNullOrWhiteSpace(typeConfig.SourcePath))
+            continue;
+
+        foreach (var includePath in typeConfig.IncludePaths)
+        {
+            var sourcePath = Path.Combine(sourceRoot.FullName, typeConfig.SourcePath, includePath);
+            var destPath = Path.Combine(config.Output.RootDir, typeConfig.OutputSubdir ?? "", includePath);
+
+            if (Directory.Exists(sourcePath))
+            {
+                Console.WriteLine($"  Copying directory: {sourcePath} → {destPath}");
+                CopyDirectory(sourcePath, destPath);
+                copiedCount++;
+            }
+            else if (File.Exists(sourcePath))
+            {
+                Console.WriteLine($"  Copying file: {sourcePath} → {destPath}");
+                var destDir = Path.GetDirectoryName(destPath);
+                if (!string.IsNullOrWhiteSpace(destDir))
+                    Directory.CreateDirectory(destDir);
+                File.Copy(sourcePath, destPath, overwrite: true);
+                copiedCount++;
+            }
+            else
+            {
+                Console.WriteLine($"  Warning: Include path not found: {sourcePath}");
+            }
+        }
+    }
+
+    if (copiedCount > 0)
+    {
+        Console.WriteLine($"Copied {copiedCount} include path(s).");
+    }
+    else
+    {
+        Console.WriteLine("No include paths to copy.");
+    }
+    Console.WriteLine();
+}
+
+void CopyDirectory(string sourceDir, string destDir)
+{
+    // Create destination directory
+    Directory.CreateDirectory(destDir);
+
+    // Copy all files
+    foreach (var file in Directory.GetFiles(sourceDir))
+    {
+        var fileName = Path.GetFileName(file);
+        var destFile = Path.Combine(destDir, fileName);
+        File.Copy(file, destFile, overwrite: true);
+    }
+
+    // Recursively copy all subdirectories
+    foreach (var subDir in Directory.GetDirectories(sourceDir))
+    {
+        var dirName = Path.GetFileName(subDir);
+        var destSubDir = Path.Combine(destDir, dirName);
+        CopyDirectory(subDir, destSubDir);
+    }
+}
+
 // ===== Custom Handlebars File System =====
 
 class CustomFileSystem : ViewEngineFileSystem
@@ -911,6 +1008,7 @@ record ContentTypeConfig
     public string? OutputSubdir { get; init; }
     public bool IsIndex { get; init; }
     public bool IsSoftwareList { get; init; }
+    public List<string>? IncludePaths { get; init; }
 }
 
 record DefaultsConfig
@@ -929,4 +1027,177 @@ record Frontmatter
     public string? Excerpt { get; init; }
     public string? Date { get; init; }
     public List<string>? Tags { get; init; }
+}
+
+/// <summary>
+/// Processes Jekyll-style gallery liquid tags and renders them as HTML
+/// </summary>
+public static class Gallery
+{
+    /// <summary>
+    /// Processes all {% include gallery %} tags in the content and replaces them with rendered HTML
+    /// </summary>
+    /// <param name="content">The HTML/markdown content containing liquid tags</param>
+    /// <param name="frontmatterData">Dictionary containing frontmatter data including gallery arrays</param>
+    /// <returns>Content with gallery tags replaced by rendered HTML</returns>
+    public static string ProcessGalleries(string content, Dictionary<string, object> frontmatterData)
+    {
+        // Pattern to match {% include gallery ... %}
+        var pattern = @"{%\s*include\s+gallery\s*([^%]*?)%}";
+        var regex = new Regex(pattern, RegexOptions.Multiline);
+
+        return regex.Replace(content, match =>
+        {
+            var parameters = ParseLiquidParameters(match.Groups[1].Value);
+            return RenderGallery(parameters, frontmatterData);
+        });
+    }
+
+    /// <summary>
+    /// Parses liquid include parameters like: caption="My caption" id="gallery2" layout="half"
+    /// </summary>
+    private static Dictionary<string, string> ParseLiquidParameters(string paramString)
+    {
+        var parameters = new Dictionary<string, string>();
+
+        // Match key="value" or key='value' patterns
+        var paramPattern = @"(\w+)\s*=\s*[""']([^""']*)[""']";
+        var matches = Regex.Matches(paramString, paramPattern);
+
+        foreach (Match match in matches)
+        {
+            var key = match.Groups[1].Value;
+            var value = match.Groups[2].Value;
+            parameters[key] = value;
+        }
+
+        return parameters;
+    }
+
+    /// <summary>
+    /// Renders the gallery HTML based on the template logic from gallery.liquid
+    /// </summary>
+    private static string RenderGallery(Dictionary<string, string> parameters, Dictionary<string, object> frontmatterData)
+    {
+        // Determine which gallery to use (from id parameter or default "gallery")
+        var galleryId = parameters.GetValueOrDefault("id", "gallery");
+
+        // Get gallery array from frontmatter
+        List<Dictionary<string, object>>? galleryItems = null;
+
+        if (frontmatterData.TryGetValue(galleryId, out var galleryObj))
+        {
+            // Convert to list of dictionaries
+            if (galleryObj is List<object> objList)
+            {
+                galleryItems = objList
+                    .OfType<Dictionary<object, object>>()
+                    .Select(dict => dict.ToDictionary(
+                        kvp => kvp.Key.ToString() ?? "",
+                        kvp => kvp.Value
+                    ))
+                    .ToList();
+            }
+        }
+
+        if (galleryItems == null || galleryItems.Count == 0)
+        {
+            return $"<!-- Gallery '{galleryId}' not found or empty -->";
+        }
+
+        // Determine layout (from parameter or auto-detect based on size)
+        string layout;
+        if (parameters.ContainsKey("layout"))
+        {
+            layout = parameters["layout"];
+        }
+        else
+        {
+            layout = galleryItems.Count switch
+            {
+                2 => "half",
+                >= 3 => "third",
+                _ => ""
+            };
+        }
+
+        // Get optional class and caption
+        var customClass = parameters.GetValueOrDefault("class", "");
+        var caption = parameters.GetValueOrDefault("caption", "");
+
+        // Build HTML
+        var html = new StringBuilder();
+        var figureClasses = string.Join(" ", new[] { layout, customClass }.Where(s => !string.IsNullOrWhiteSpace(s)));
+
+        html.AppendLine($"<figure class=\"{figureClasses}\">");
+
+        // Render each image
+        foreach (var img in galleryItems)
+        {
+            var imagePath = GetValue(img, "image_path");
+            var url = GetValue(img, "url");
+            var alt = GetValue(img, "alt");
+            var title = GetValue(img, "title");
+
+            if (string.IsNullOrWhiteSpace(imagePath))
+                continue;
+
+            // If URL is provided, wrap image in anchor tag
+            if (!string.IsNullOrWhiteSpace(url))
+            {
+                html.Append($"    <a href=\"{EscapeHtml(url)}\"");
+
+                if (!string.IsNullOrWhiteSpace(title))
+                {
+                    html.Append($" title=\"{EscapeHtml(title)}\"");
+                }
+
+                html.AppendLine(">");
+                html.AppendLine($"      <img src=\"{EscapeHtml(imagePath)}\" alt=\"{EscapeHtml(alt)}\">");
+                html.AppendLine("    </a>");
+            }
+            else
+            {
+                html.AppendLine($"    <img src=\"{EscapeHtml(imagePath)}\" alt=\"{EscapeHtml(alt)}\">");
+            }
+        }
+
+        // Add caption if provided
+        if (!string.IsNullOrWhiteSpace(caption))
+        {
+            html.AppendLine($"  <figcaption>{EscapeHtml(caption)}</figcaption>");
+        }
+
+        html.AppendLine("</figure>");
+
+        return html.ToString();
+    }
+
+    /// <summary>
+    /// Safely gets a string value from a dictionary
+    /// </summary>
+    private static string GetValue(Dictionary<string, object> dict, string key)
+    {
+        if (dict.TryGetValue(key, out var value) && value != null)
+        {
+            return value.ToString() ?? "";
+        }
+        return "";
+    }
+
+    /// <summary>
+    /// Basic HTML escaping for attribute values
+    /// </summary>
+    private static string EscapeHtml(string? text)
+    {
+        if (string.IsNullOrEmpty(text))
+            return "";
+
+        return text
+            .Replace("&", "&amp;")
+            .Replace("<", "&lt;")
+            .Replace(">", "&gt;")
+            .Replace("\"", "&quot;")
+            .Replace("'", "&#39;");
+    }
 }

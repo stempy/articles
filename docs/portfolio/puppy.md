@@ -12,16 +12,16 @@ sidebar:
     image_alt: "logo"
 gallery:
   - url: /_pages/Masterfoods-puppy/tequila_puppy_com_au.jpg
-    image_path: /_pages/Masterfoods-puppy/tequila_puppy_com_au.jpg
+    image_path: _pages/Masterfoods-puppy/tequila_puppy_com_au.jpg
     alt: "placeholder image 1"
   - url: /_pages/Masterfoods-puppy/puppy_specs2.jpg
-    image_path: /_pages/Masterfoods-puppy/puppy_specs2.jpg
+    image_path: _pages/Masterfoods-puppy/puppy_specs2.jpg
     alt: "placeholder image 2"
   - url: /_pages/Masterfoods-puppy/tequila_puppy_com_au_health.jpg
-    image_path: /_pages/Masterfoods-puppy/tequila_puppy_com_au_health.jpg
+    image_path: _pages/Masterfoods-puppy/tequila_puppy_com_au_health.jpg
     alt: "placeholder image 3"
   - url: /_pages/Masterfoods-puppy/puppy3.jpg
-    image_path: /_pages/Masterfoods-puppy/puppy3.jpg
+    image_path: _pages/Masterfoods-puppy/puppy3.jpg
     alt: "placeholder image 4"
 
 tags:

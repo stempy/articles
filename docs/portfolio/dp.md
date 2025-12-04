@@ -12,13 +12,13 @@ sidebar:
     image_alt: "logo"
 gallery:
   - url: /_pages/DiscoverPerformance/dp_frontpage.jpg
-    image_path: /_pages/DiscoverPerformance/dp_frontpage.jpg
+    image_path: _pages/DiscoverPerformance/dp_frontpage.jpg
     alt: "placeholder image 1"
   - url: /_pages/DiscoverPerformance/dp_becomemember.jpg
-    image_path: /_pages/DiscoverPerformance/dp_becomemember.jpg
+    image_path: _pages/DiscoverPerformance/dp_becomemember.jpg
     alt: "placeholder image 2"
   - url: /_pages/DiscoverPerformance/dp_presenting.jpg
-    image_path: /_pages/DiscoverPerformance/dp_presenting.jpg
+    image_path: _pages/DiscoverPerformance/dp_presenting.jpg
     alt: "placeholder image 3" 
 tags:
   - MODX CMS

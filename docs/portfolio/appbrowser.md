@@ -11,17 +11,17 @@ sidebar:
     image: /_pages/Rob-AppBrowser/app_browser_main.png
     image_alt: "logo"
 gallery:
-  - url: /_pages/Rob-AppBrowser/app_browser_main.png
-    image_path: /_pages/Rob-AppBrowser/app_browser_main.png
+  - url: _pages/Rob-AppBrowser/app_browser_main.png
+    image_path: _pages/Rob-AppBrowser/app_browser_main.png
     alt: "placeholder image 1"
-  - url: /_pages/Rob-AppBrowser/app_browser_main2.png
-    image_path: /_pages/Rob-AppBrowser/app_browser_main2.png
+  - url: _pages/Rob-AppBrowser/app_browser_main2.png
+    image_path: _pages/Rob-AppBrowser/app_browser_main2.png
     alt: "placeholder image 2"
-  - url: /_pages/Rob-AppBrowser/app_browser_downloadmgr.png
-    image_path: /_pages/Rob-AppBrowser/app_browser_downloadmgr.png
+  - url: _pages/Rob-AppBrowser/app_browser_downloadmgr.png
+    image_path: _pages/Rob-AppBrowser/app_browser_downloadmgr.png
     alt: "placeholder image 3"
-  - url: /_pages/Rob-AppBrowser/app_browser_xmlfile.png
-    image_path: /_pages/Rob-AppBrowser/app_browser_xmlfile.png
+  - url: _pages/Rob-AppBrowser/app_browser_xmlfile.png
+    image_path: _pages/Rob-AppBrowser/app_browser_xmlfile.png
     alt: "placeholder image 3"
 
 tags:

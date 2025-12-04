@@ -14,7 +14,7 @@ sidebar:
     text: "Lead Development of a Brain Training Portal"
 gallery:
   - url: /_pages/Extra500/extra500.asia_homepage.png
-    image_path: /_pages/Extra500/extra500.asia_homepage.png
+    image_path: _pages/Extra500/extra500.asia_homepage.png
     alt: "placeholder image 1"
 
 tags:

@@ -12,7 +12,7 @@ sidebar:
     image_alt: "logo"
 gallery:
   - url: /_pages/Chrome-FormViewer/chrome_form_viewer_extension.jpg
-    image_path: /_pages/Chrome-FormViewer/chrome_form_viewer_extension.jpg
+    image_path: _pages/Chrome-FormViewer/chrome_form_viewer_extension.jpg
     alt: "placeholder image 1"
 tags:
   - Javascript

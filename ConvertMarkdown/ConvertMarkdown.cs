@@ -1,4 +1,4 @@
-﻿//#:property RuntimeIdentifier=linux-x64
+//#:property RuntimeIdentifier=linux-x64
 
 using System.Text.RegularExpressions;
 using YamlDotNet.Serialization;

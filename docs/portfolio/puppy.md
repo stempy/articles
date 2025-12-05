@@ -4,24 +4,24 @@ excerpt: "Website Architecture & Development in ASP.NET"
 date: "2008-03-10"
 header:
 #   image: /assets/images/unsplash-gallery-image-1.jpg
-    teaser: _pages/Masterfoods-puppy/tequila_puppy_com_au.jpg
+    teaser: _pages/Masterfoods-Puppy/tequila_puppy_com_au.jpg
 sidebar:
   - title: "Role"
     text: "ASP.NET Software Developer"
-    image: /_pages/Masterfoods-puppy/tequila_puppy_com_au.jpg
+    image: /_pages/Masterfoods-Puppy/tequila_puppy_com_au.jpg
     image_alt: "logo"
 gallery:
-  - url: /_pages/Masterfoods-puppy/tequila_puppy_com_au.jpg
+  - url: /_pages/Masterfoods-Puppy/tequila_puppy_com_au.jpg
     image_path: _pages/Masterfoods-puppy/tequila_puppy_com_au.jpg
     alt: "placeholder image 1"
-  - url: /_pages/Masterfoods-puppy/puppy_specs2.jpg
-    image_path: _pages/Masterfoods-puppy/puppy_specs2.jpg
+  - url: /_pages/Masterfoods-Puppy/puppy_specs2.jpg
+    image_path: _pages/Masterfoods-Puppy/puppy_specs2.jpg
     alt: "placeholder image 2"
-  - url: /_pages/Masterfoods-puppy/tequila_puppy_com_au_health.jpg
-    image_path: _pages/Masterfoods-puppy/tequila_puppy_com_au_health.jpg
+  - url: /_pages/Masterfoods-Puppy/tequila_puppy_com_au_health.jpg
+    image_path: _pages/Masterfoods-Puppy/tequila_puppy_com_au_health.jpg
     alt: "placeholder image 3"
-  - url: /_pages/Masterfoods-puppy/puppy3.jpg
-    image_path: _pages/Masterfoods-puppy/puppy3.jpg
+  - url: /_pages/Masterfoods-Puppy/puppy3.jpg
+    image_path: _pages/Masterfoods-Puppy/puppy3.jpg
     alt: "placeholder image 4"
 
 tags:

@@ -1,10 +1,9 @@
-//#:property RuntimeIdentifier=linux-x64
-
 using System.Text.RegularExpressions;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 using Markdig;
 using HandlebarsDotNet;
+using Spectre.Console;
 
 Directory.SetCurrentDirectory(Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../..")));
 
@@ -14,7 +13,7 @@ var sourceRoot = new DirectoryInfo(config.Source.RootDir);
 
 if (!sourceRoot.Exists)
 {
-    Console.WriteLine($"Error: Source directory '{sourceRoot.FullName}' not found");
+    AnsiConsole.MarkupLine("[red]✗ Error:[/] Source directory '{0}' not found", sourceRoot.FullName);
     return;
 }
 
@@ -35,10 +34,15 @@ registry.Register(new StandardArticleProcessor());
 
 // Find all markdown files
 var mdFiles = Helpers.FindMarkdownFiles(sourceRoot, config);
-Console.WriteLine($"Found {mdFiles.Count} markdown files to convert");
-Console.WriteLine($"Source directory: {sourceRoot.FullName}");
-Console.WriteLine($"Output directory: {config.Output.RootDir}");
-Console.WriteLine();
+
+AnsiConsole.MarkupLine("[bold cyan]╭─────────────────────────────────────────────────────╮[/]");
+AnsiConsole.MarkupLine("[bold cyan]│[/] [bold white]ConvertMarkdown Static Site Generator[/]        [bold cyan]│[/]");
+AnsiConsole.MarkupLine("[bold cyan]╰─────────────────────────────────────────────────────╯[/]");
+AnsiConsole.WriteLine();
+AnsiConsole.MarkupLine("[cyan]ℹ[/] Found [yellow]{0}[/] markdown files to convert", mdFiles.Count);
+AnsiConsole.MarkupLine("[cyan]ℹ[/] Source: [dim]{0}[/]", sourceRoot.FullName);
+AnsiConsole.MarkupLine("[cyan]ℹ[/] Output: [dim]{0}[/]", config.Output.RootDir);
+AnsiConsole.WriteLine();
 
 var converted = 0;
 
@@ -47,7 +51,8 @@ for (var index = 0; index < mdFiles.Count; index++)
     try
     {
         var mdFile = mdFiles[index];
-        Console.WriteLine($"Converting: {Path.GetRelativePath(sourceRoot.FullName, mdFile.FullName)}");
+        var relativePath = Path.GetRelativePath(sourceRoot.FullName, mdFile.FullName);
+        AnsiConsole.MarkupLine("[dim][[{0}/{1}]][/] [white]{2}[/]", index + 1, mdFiles.Count, relativePath);
 
         // Read markdown file
         var content = File.ReadAllText(mdFile.FullName);
@@ -82,11 +87,11 @@ for (var index = 0; index < mdFiles.Count; index++)
         var processor = registry.FindProcessor(mdFile, content, context);
         if (processor == null)
         {
-            Console.WriteLine($"  ERROR: No processor found for {mdFile.Name}");
+            AnsiConsole.MarkupLine("  [red]✗ ERROR:[/] No processor found for {0}", mdFile.Name);
             continue;
         }
 
-        Console.WriteLine($"  Type: {contentType} (Processor: {processor.ProcessorType})");
+        AnsiConsole.MarkupLine("  [yellow]→[/] Type: [cyan]{0}[/] [dim](Processor: {1})[/]", contentType, processor.ProcessorType);
 
         // Process gallery liquid tags BEFORE processor runs
         // This prevents the gallery HTML from being wrapped in <p> tags
@@ -148,21 +153,39 @@ for (var index = 0; index < mdFiles.Count; index++)
         // Write HTML file
         File.WriteAllText(outputFile.FullName, html);
 
-        Console.WriteLine($"  → {outputFile.FullName}");
-        Console.WriteLine();
+        var relativeOutput = Path.GetRelativePath(Directory.GetCurrentDirectory(), outputFile.FullName);
+        AnsiConsole.MarkupLine("  [green]✓[/] [dim]{0}[/]", relativeOutput);
+        AnsiConsole.WriteLine();
 
         converted++;
     }
     catch (Exception e)
     {
-        Console.WriteLine($"  ERROR: {e.Message}");
-        Console.WriteLine($"  {e.StackTrace}");
-        Console.WriteLine();
+        AnsiConsole.MarkupLine("  [red]✗ ERROR:[/] {0}", e.Message.EscapeMarkup());
+        AnsiConsole.MarkupLine("  [dim]{0}[/]", e.StackTrace?.EscapeMarkup() ?? "");
+        AnsiConsole.WriteLine();
     }
 }
 
-Console.WriteLine($"Conversion complete! Converted {converted} of {mdFiles.Count} files.");
+// Summary
+var failed = mdFiles.Count - converted;
+var table = new Table()
+    .Border(TableBorder.Rounded)
+    .AddColumn(new TableColumn("[bold cyan]Summary[/]").Centered());
+
+table.AddRow($"[green]✓ Converted:[/] [white]{converted}[/] files");
+if (failed > 0)
+{
+    table.AddRow($"[red]✗ Failed:[/] [white]{failed}[/] files");
+}
+table.AddRow($"[cyan]Total:[/] [white]{mdFiles.Count}[/] files");
+
+AnsiConsole.Write(table);
+AnsiConsole.WriteLine();
 
 // Copy included paths from content types
+AnsiConsole.MarkupLine("[cyan]ℹ[/] Copying static assets...");
 Helpers.CopyIncludedPaths(config, sourceRoot);
+AnsiConsole.MarkupLine("[green]✓[/] [bold]Conversion complete![/]");
+AnsiConsole.WriteLine();
 

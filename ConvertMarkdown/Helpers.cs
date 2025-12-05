@@ -5,6 +5,7 @@ using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 using Markdig;
 using HandlebarsDotNet;
+using Spectre.Console;
 
 /// <summary>
 /// Helper functions for the static site generator
@@ -214,7 +215,7 @@ static class Helpers
     public static Func<object, string> LoadHandlebarsTemplate(IHandlebars handlebars, string templateName, Config config)
     {
         var templatePath = Path.Combine(config.Source.TemplatesDir, templateName);
-        Console.WriteLine($"  Using template: {templateName}");
+        AnsiConsole.MarkupLine("  [dim]Using template: {0}[/]", templateName);
         if (!File.Exists(templatePath))
         {
             // Try without .hbs extension
@@ -223,7 +224,7 @@ static class Helpers
 
         if (!File.Exists(templatePath))
         {
-            Console.WriteLine($"Warning: Template not found: {templateName}");
+            AnsiConsole.MarkupLine("  [yellow]⚠ Warning:[/] Template not found: {0}", templateName);
             return data =>
             {
                 var dict = data as Dictionary<string, object>;
@@ -274,9 +275,6 @@ static class Helpers
 
     public static void CopyIncludedPaths(Config config, DirectoryInfo sourceRoot)
     {
-        Console.WriteLine();
-        Console.WriteLine("Copying included paths...");
-
         var copiedCount = 0;
 
         foreach (var (typeName, typeConfig) in config.ContentTypes)
@@ -294,13 +292,13 @@ static class Helpers
 
                 if (Directory.Exists(sourcePath))
                 {
-                    Console.WriteLine($"  Copying directory: {sourcePath} → {destPath}");
+                    AnsiConsole.MarkupLine("  [dim]Copying directory: {0} → {1}[/]", sourcePath, destPath);
                     Helpers.CopyDirectory(sourcePath, destPath);
                     copiedCount++;
                 }
                 else if (File.Exists(sourcePath))
                 {
-                    Console.WriteLine($"  Copying file: {sourcePath} → {destPath}");
+                    AnsiConsole.MarkupLine("  [dim]Copying file: {0} → {1}[/]", sourcePath, destPath);
                     var destDir = Path.GetDirectoryName(destPath);
                     if (!string.IsNullOrWhiteSpace(destDir))
                         Directory.CreateDirectory(destDir);
@@ -309,20 +307,19 @@ static class Helpers
                 }
                 else
                 {
-                    Console.WriteLine($"  Warning: Include path not found: {sourcePath}");
+                    AnsiConsole.MarkupLine("  [yellow]⚠ Warning:[/] Include path not found: {0}", sourcePath);
                 }
             }
         }
 
         if (copiedCount > 0)
         {
-            Console.WriteLine($"Copied {copiedCount} include path(s).");
+            AnsiConsole.MarkupLine("[dim]Copied {0} include path(s).[/]", copiedCount);
         }
         else
         {
-            Console.WriteLine("No include paths to copy.");
+            AnsiConsole.MarkupLine("[dim]No include paths to copy.[/]");
         }
-        Console.WriteLine();
     }
 
     public static void CopyDirectory(string sourceDir, string destDir)

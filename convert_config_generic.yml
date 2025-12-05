@@ -58,7 +58,7 @@ content_types:
   default:
     template: default.html           # Fallback template for other files
     css_files:
-      - ../css/styles.css
+      - ../../css/styles.css
     back_link: ../index.html
     output_subdir: ''                # Output to root of w/
 

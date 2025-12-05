@@ -1,3 +1,9 @@
+---
+title: Software that stands the test of time
+created: 2025-11-29
+---
+
+
 # Software That Stands the Test of Time
 
 A curated list of useful software that has been actively developed and maintained for years—testament to quality, community, and enduring utility.

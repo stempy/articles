@@ -2,211 +2,367 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Overview
+## Project Overview
 
-This is a static site generator (SSG) for converting markdown files to HTML. The primary implementation is a single-file C# script (`ConvertMarkdown.cs`) using .NET 10's `#package` directive syntax, which processes markdown files from `docs/` and outputs HTML to `w/`.
+This is a static site generator (SSG) that converts Markdown files into HTML. It's designed to generate a personal articles/portfolio site with support for multiple content types: articles, software lists, portfolio items, and an index page.
 
-**Branch Strategy:**
-- Main branch: `main`
+**Key Technology:** C# (.NET 10.0) with top-level statements, Handlebars templating, YamlDotNet for config parsing, and Markdig for Markdown conversion.
 
-## Build & Run Commands
+## Build and Run Commands
 
-### Convert Markdown to HTML
-
+### Build the project
 ```bash
-# Run the C# converter (primary method)
-dotnet run ConvertMarkdown.cs
-
-# First run downloads NuGet packages automatically
-# Output: Converts all markdown files from docs/ to HTML in w/
+dotnet build ConvertMarkdown/ConvertMarkdown.csproj
 ```
 
-### Preview Generated Site
-
-The generated HTML files are in the `w/` directory. Open them directly in a browser or serve with a local HTTP server:
-
+### Run the converter
 ```bash
-# Using .NET
-dotnet tool install --global dotnet-serve
-dotnet serve -d w -p 8000
+dotnet run --project ConvertMarkdown/ConvertMarkdown.csproj
 ```
 
-## Project Architecture
-
-### Core Components
-
-1. **ConvertMarkdown.cs** (930 lines)
-   - Single-file .NET 10 script with inline NuGet package references
-   - Uses Handlebars.Net templating engine
-   - Markdig for markdown conversion (CommonMark + extensions)
-   - YamlDotNet for frontmatter parsing
-   - Supports three content types: standard articles, software lists, and index pages
-
-2. **Content Types Detection**
-   The converter automatically detects content type based on:
-   - **Index pages:** Filename is `index.md`
-   - **Default:** Fallback for other content
-
-3. **Template System** (Handlebars)
-   - Templates in `templates/` with `.hbs` or `.html` extension
-   - Uses Handlebars syntax: `{{var}}`, `{{{unescaped}}}`, `{{#each}}`, `{{#if}}`
-   - Custom helpers registered: `eq`, `if`, `inc` (increment for 1-based indexing)
-   - File system integration for partials support
-
-4. **Configuration** (`convert_config_generic.yml`)
-   - Defines content types, templates, CSS files per type
-   - Source/output directory mapping
-   - Exclude patterns for directories and files
-   - Accent color rotation for styling
-
-### Directory Structure
-
-```
-docs/                   # Source markdown files
-├── index.md           # Site index (special: card-based article listing)
-├── portfolio/         # Portfolio items
-└── posts/             # Blog posts and software lists
-templates/             # Handlebars templates
-├── index.hbs          # Index page template
-├── software-list.hbs  # Software list template
-├── article.hbs        # Standard article template
-└── partials/          # Reusable template fragments
-css/                   # Stylesheets
-└── styles.css         # Main stylesheet
-w/                     # Generated HTML output (mirrors docs/ structure, and should be specified via convert_config_generic.yml)
+### Watch mode (auto-rebuild on changes)
+```bash
+dotnet watch run --project ConvertMarkdown/ConvertMarkdown.csproj
 ```
 
-### Markdown Frontmatter
-
-Standard frontmatter (YAML):
-```yaml
----
-title: Article Title
-date: 2025-01-15
-excerpt: Brief description
-tags:
-  - tag1
-  - tag2
----
+### Publish
+```bash
+dotnet publish ConvertMarkdown/ConvertMarkdown.csproj
 ```
 
-**Title Extraction** (3-tier fallback):
-1. YAML frontmatter `title:` field
-2. First H1 heading (`# Title`) in markdown body
-3. Formatted filename (`my-article.md` → "My Article")
+## Architecture
+
+### Processing Pipeline
+
+1. **Config Loading** (`convert_config_generic.yml`): Defines source/output directories, content type mappings, templates, and CSS paths
+2. **File Discovery**: Recursively finds Markdown files in `docs/`, respecting exclude patterns
+3. **Content Type Detection**: Determines content type based on:
+   - File location (e.g., `docs/posts/` → posts content type)
+   - Content structure (software list detection via table headers)
+   - Filename (`index.md` → index content type)
+4. **Frontmatter Parsing**: YAML frontmatter extracted (title, date, excerpt, custom fields like gallery)
+5. **Content Processing**:
+   - **Software lists**: Custom parser extracts era sections, software tables, traits
+   - **Index pages**: Parses article listings with status, dates, links
+   - **Standard articles**: Markdig converts Markdown → HTML, gallery liquid tags processed
+6. **Template Rendering**: Handlebars templates in `templates/` render final HTML
+7. **Output**: HTML files written to `w/` directory (gitignored), preserving source structure
+
+### Plugin Architecture
+
+The converter uses a **plugin-based architecture** where different content types are handled by specialized processors. This allows for easy extension without modifying core code.
+
+**Core Components:**
+
+**ProcessorRegistry** (`ConvertMarkdown/Processors/ProcessorRegistry.cs`)
+- Manages all registered content processors
+- Processors are sorted by priority (higher = evaluated first)
+- Finds the first processor that can handle a given file
+
+**IContentProcessor** (`ConvertMarkdown/Processors/IContentProcessor.cs`)
+- Interface that all processors implement
+- `CanProcess()`: Determines if processor can handle the file
+- `Process()`: Processes content and returns template data
+- `ConfigureMarkdownPipeline()`: Configures Markdig if needed
+- `Priority`: Determines evaluation order (higher first)
+
+**Built-in Processors:**
+
+**IndexPageProcessor** (`ConvertMarkdown/Processors/IndexPageProcessor.cs`)
+- Priority: 90
+- Handles `index.md` files
+- Parses article listings with status, dates, links
+- Extracts H1/H2/H3 structure for navigation
+
+**SoftwareListProcessor** (`ConvertMarkdown/Processors/SoftwareListProcessor.cs`)
+- Priority: 100
+- Detects files with `| Software |` and `| Years Active |` tables
+- Parses era sections, software tables, traits
+- Supports badge/color mappings (currently hardcoded, will be config-driven)
+
+**StandardArticleProcessor** (`ConvertMarkdown/Processors/StandardArticleProcessor.cs`)
+- Priority: 0 (lowest - acts as fallback)
+- Handles standard Markdown articles
+- Uses Markdig pipeline for conversion
+- Always matches (fallback processor)
+
+**Supporting Components:**
+
+**ConvertMarkdown.cs** (`ConvertMarkdown/ConvertMarkdown.cs:1-160`)
+- Main entry point with top-level statements
+- Sets up ProcessorRegistry and registers built-in processors
+- Main processing loop: finds processor, processes content, renders template
+
+**Helpers.cs** (`ConvertMarkdown/Helpers.cs`)
+- `LoadConfig()`: YAML config deserialization
+- `ParseFrontmatter()`: Extracts YAML frontmatter from Markdown
+- `DetermineContentType()`: Content type detection for template/CSS config
+- `GetOutputPath()`: Calculates output file paths
+- `RegisterHandlebarsHelpers()`: Custom Handlebars helpers (eq, if, inc)
+- `CopyIncludedPaths()`: Copies static assets
+
+**Gallery.cs** (`ConvertMarkdown/Gallery.cs`)
+- Processes Jekyll-style `{% include gallery %}` liquid tags
+- Parses frontmatter gallery arrays
+- Renders responsive image galleries with configurable layouts (half, third)
+- Must run BEFORE processor to prevent wrapping gallery HTML in `<p>` tags
+
+**CustomFileSystem.cs** (`ConvertMarkdown/CustomFileSystem.cs`)
+- Handlebars file system adapter for template loading
+
+**Frontmatter.cs** (`ConvertMarkdown/Frontmatter.cs`)
+- DTO for frontmatter fields (Title, Date, Excerpt, Template, Tags)
+
+**Dtos/** (`ConvertMarkdown/Dtos/`)
+- Config DTOs for YAML deserialization (Config, ContentTypeConfig, ProcessorConfigDto, etc.)
+
+### Content Type System
+
+The SSG supports multiple content types configured in `convert_config_generic.yml`:
+
+- **index**: Main landing page with article listings
+- **software_list**: Special format with software tables organized by eras
+- **posts**: Standard articles with Markdown content
+- **portfolio**: Portfolio items
+- **default**: Fallback for uncategorized content
+
+Each content type specifies:
+- `source_path`: Directory pattern to match
+- `template`: Handlebars template to use
+- `css_files`: CSS files to include (paths relative to output HTML)
+- `back_link`: Navigation back link
+- `output_subdir`: Output directory within `w/`
+- `include_paths`: Additional files/directories to copy
+
+### Template System
+
+Templates are Handlebars (`.hbs`) files in `templates/`:
+- `index.hbs`: Landing page with article cards
+- `article.hbs`: Standard article layout
+- `software-list.hbs`: Software list with era sections
+- `portfolio.html`: Portfolio item layout
+
+Templates receive context objects with keys like:
+- `title`, `css_files`, `footer_text`
+- `body_content` (for articles)
+- `era_sections`, `traits` (for software lists)
+- `articles` (for index pages)
+- `accent_color` (rotated per file from config)
 
 ### CSS Class Naming Convention
 
-The CSS uses **generic, semantic class names** (see CSS_CLASS_NAMING.md):
+The project uses **generic, semantic CSS classes** (see `CSS_CLASS_NAMING.md`):
 
-**Modern (preferred):**
-- `.card-grid`, `.card`, `.card-title`, `.card-header`, `.card-meta`
+**Preferred Modern Classes:**
+- `.card-grid`, `.card`, `.card-header`, `.card-title`, `.card-description`
 - `.era-section`, `.era-header`, `.era-badge`, `.era-title`
-- `.article-grid`, `.article-card`, `.article-status`
+- `.article-section`, `.article-grid`, `.article-card`
 
-**Legacy (deprecated but supported):**
-- `.software-grid` → Use `.card-grid`
-- `.software-card` → Use `.card`
-- `.software-name` → Use `.card-title`
+**Deprecated (but backward compatible):**
+- `.software-grid` → use `.card-grid`
+- `.software-card` → use `.card`
+- `.software-name` → use `.card-title`
 
-## Template Variables
+**Accent Colors (CSS Custom Properties):**
+- `--accent-gold`, `--accent-purple`, `--accent-cyan`, `--accent-rose`, `--accent-orange`, `--accent-green`, `--accent-blue`
 
-### Common Variables (all templates)
-- `{{title}}` - Document title
-- `{{css_files}}` - Array of CSS file paths
-- `{{footer_text}}` - Footer text
+When modifying templates or adding new content types, use the modern generic class names.
 
-### Standard Article Template
-- `{{accent_color}}` - Rotating color (gold, purple, cyan, etc.)
-- `{{back_link}}` - Navigation back link
-- `{{date}}` - Formatted date (MMMM yyyy)
-- `{{excerpt}}` - Document excerpt
-- `{{{body_content}}}` - Converted markdown (unescaped HTML)
+## Directory Structure
 
-### Software List Template
-- `{{subtitle}}` - Subtitle text
-- `{{{header_title}}}` - Main header with HTML formatting
-- `{{intro}}` - Introduction paragraph
-- `{{era_sections}}` - Array of era objects:
-  - `{{years}}` - Era years display
-  - `{{name}}` - Era name
-  - `{{badge_class}}` - CSS class for badge
-  - `{{color}}` - Accent color for section
-  - `{{{description}}}` - Section description HTML
-  - `{{software}}` - Array of software items:
-    - `{{name}}`, `{{year}}`, `{{years_active}}`, `{{category}}`, `{{description}}`, `{{url}}`
-- `{{traits}}` - Array of trait objects:
-  - `{{title}}`, `{{description}}`
+```
+.
+├── ConvertMarkdown/           # C# SSG source code
+│   ├── ConvertMarkdown.cs     # Main entry point
+│   ├── Helpers.cs             # Core helper functions
+│   ├── SoftwareHelpers.cs     # Software list parsing
+│   ├── Gallery.cs             # Gallery liquid tag processor
+│   ├── Frontmatter.cs         # Frontmatter DTO
+│   ├── CustomFileSystem.cs    # Handlebars file system
+│   └── Dtos/                  # Configuration DTOs
+├── docs/                      # Source Markdown files
+│   ├── index.md               # Main landing page
+│   ├── posts/                 # Article markdown files
+│   └── portfolio/             # Portfolio markdown files
+├── templates/                 # Handlebars templates
+│   ├── index.hbs
+│   ├── article.hbs
+│   ├── software-list.hbs
+│   └── partials/
+├── css/                       # CSS stylesheets
+├── w/                         # Generated HTML output (gitignored)
+├── convert_config_generic.yml # SSG configuration
+└── CSS_CLASS_NAMING.md        # CSS convention documentation
+```
 
-## Development Workflow
+## Important Implementation Details
 
-### Making Changes
+### Gallery Processing Order
+Gallery liquid tags MUST be processed BEFORE Markdig conversion (`ConvertMarkdown.cs:99`), otherwise the rendered HTML gets wrapped in `<p>` tags.
 
-1. **Edit markdown** in `docs/` directory
-2. **Run converter:** `dotnet run ConvertMarkdown.cs`
-3. **Preview:** Open `w/index.html` in browser or use local server
-4. **Modify templates** in `templates/` (Handlebars syntax)
-5. **Update styles** in `css/`
+### Frontmatter Title Fallback
+The system has multiple fallback strategies for missing titles:
+1. YAML frontmatter `title` field
+2. First H1 (`# Title`) in document body
+3. Formatted filename (e.g., `my-article.md` → "My Article")
 
-### Adding New Content Types
+### Template Override via Frontmatter
+Individual markdown files can override their content type's default template using the `template:` frontmatter field. Template selection priority (`ConvertMarkdown.cs:122-125`):
+1. Frontmatter `template` field (e.g., `template: software-list`)
+2. Content type's configured template
+3. Default template (`default.hbs`)
 
-1. Create template in `templates/new-type.hbs`
-2. (Optional) Create CSS in `css/new-type.css`
-3. Add content type to `convert_config_generic.yml`:
+Example:
+```yaml
+---
+template: software-list
+title: My Article
+---
+```
+
+### Software List Detection
+A file is detected as a software list if it contains both:
+- `| Software |` header
+- `| Years Active |` header
+
+### Content Type Priority
+Detection order: index.md → software list (content-based) → path-based content types → default
+
+### Accent Color Rotation
+Accent colors are assigned per file using modulo index (`Helpers.cs:142-146`):
+```csharp
+var accentColor = colors[index % colors.Count];
+```
+
+### Handlebars Custom Helpers
+- `eq`: Equality comparison (`{{#if (eq status "live")}}`)
+- `if`: Enhanced conditional with inverse support
+- `inc`: Increment helper for 1-based indexing (`{{inc @index}}`)
+
+## Configuration
+
+The main config file `convert_config_generic.yml` controls:
+- Source/output root directories
+- Excluded directories/files
+- Content type mappings
+- Template assignments
+- CSS file paths
+- Accent color palette
+- Default frontmatter values
+
+When adding new content types or modifying the pipeline, update this file.
+
+## Common Workflows
+
+### Adding a New Content Type
+1. Add entry to `content_types` in `convert_config_generic.yml`
+2. Create corresponding Handlebars template in `templates/`
+3. Add CSS file if needed in `css/`
+4. Run converter to test
+
+### Adding a New Article
+1. Create `.md` file in `docs/posts/`
+2. Add YAML frontmatter (title, date, excerpt)
+3. Write Markdown content
+4. Run converter: `dotnet run --project ConvertMarkdown/ConvertMarkdown.csproj`
+5. Output appears in `w/posts/`
+
+### Adding Custom Processors
+
+To add a new content processor for a custom content type:
+
+**1. Create a new processor class in `ConvertMarkdown/Processors/`:**
+
+```csharp
+public class TutorialProcessor : IContentProcessor
+{
+    public int Priority => 80; // Higher than standard (0) but lower than software list (100)
+    public string ProcessorType => "tutorial";
+
+    public bool CanProcess(FileInfo file, string content, ProcessorContext context)
+    {
+        // Detect by frontmatter type or content pattern
+        return content.Contains("## Prerequisites") && content.Contains("## Steps");
+    }
+
+    public MarkdownPipelineBuilder? ConfigureMarkdownPipeline(MarkdownPipelineBuilder builder)
+    {
+        // Return null if you handle HTML generation yourself
+        // Or configure Markdig pipeline for markdown conversion
+        return builder
+            .UseAdvancedExtensions()
+            .UseTaskLists();
+    }
+
+    public ProcessorResult Process(string body, Dictionary<string, object> rawFrontmatter,
+        ProcessorContext context)
+    {
+        // Parse your custom content format
+        var sections = ParseTutorialSections(body);
+
+        return new ProcessorResult
+        {
+            TemplateData = new Dictionary<string, object>
+            {
+                ["sections"] = sections,
+                ["difficulty"] = DetermineDifficulty(body),
+                ["estimated_time"] = CalculateTime(sections)
+            }
+        };
+    }
+
+    private List<Dictionary<string, object>> ParseTutorialSections(string body)
+    {
+        // Custom parsing logic here
+        return new List<Dictionary<string, object>>();
+    }
+}
+```
+
+**2. Register the processor in `ConvertMarkdown.cs`:**
+
+Find the processor registry setup (around line 30) and add:
+```csharp
+registry.Register(new TutorialProcessor());
+```
+
+**3. Create a corresponding template in `templates/`:**
+
+Create `templates/tutorial.hbs` with your custom HTML structure.
+
+**4. (Optional) Add content type config in `convert_config_generic.yml`:**
+
 ```yaml
 content_types:
-  new_type:
-    source_path: new_type        # Matches docs/new_type/
-    template: new-type.hbs
+  tutorials:
+    source_path: tutorials
+    template: tutorial.html
     css_files:
       - ../../css/styles.css
-      - ../../css/new-type.css
+      - ../../css/tutorial.css
     back_link: ../../index.html
-    output_subdir: new_type      # Outputs to w/new_type/
-```
-4. Run converter
-
-### Extending the Converter
-
-**Add custom Handlebars helper** (ConvertMarkdown.cs:804-837):
-```csharp
-handlebars.RegisterHelper("uppercase", (context, arguments) =>
-{
-    if (arguments.Length > 0)
-        return arguments[0].ToString()?.ToUpper() ?? "";
-    return "";
-});
+    output_subdir: tutorials
 ```
 
-**Add markdown extensions** (ConvertMarkdown.cs:98-104):
-```csharp
-var pipeline = new MarkdownPipelineBuilder()
-    .UseAdvancedExtensions()
-    .UseAutoLinks()
-    .UseBootstrap()
-    .UseEmojiAndSmiley()
-    .UseTaskLists()
-    .UseDiagrams()           // Add this
-    .UseMathematics()        // Or this
-    .Build();
+**Priority Guidelines:**
+- 100+: High-priority special formats (software lists, data tables)
+- 50-99: Medium-priority custom content (tutorials, reviews, guides)
+- 1-49: Low-priority specialized articles
+- 0: Standard article fallback (always matches)
+
+### Debugging Template Issues
+1. Check console output for "Using template: X" message
+2. Verify template exists in `templates/` directory
+3. Check template data keys match what's passed from code
+4. Use `Console.WriteLine` in helper functions to inspect data
+
+### Adding Image Galleries
+1. Add `gallery` array to frontmatter:
+```yaml
+gallery:
+  - image_path: /images/photo1.jpg
+    alt: Description
+    title: Optional title
 ```
-
-## File Exclusions
-
-Configured in `convert_config_generic.yml`:
-- **Excluded directories:** `_pages`, `templates`
-- **Excluded files:** `README.md` (when not at root)
-
-Deprecated Python scripts moved to `_deprecated_dont_use/`.
-
-## Performance Notes
-
-- C# compiled performance: ~0.8s for 100 files (vs ~2.5s Python)
-- First run downloads NuGet packages (cached thereafter)
-- Markdig provides robust CommonMark + extensions (vs regex in Python version)
-
-## Git Workflow
-
-- Deleted files visible in status are deprecated Python scripts and old CLAUDE.md
-- Working on feature branch: `feature/ssg`
-- Merge to `main` when ready for deployment
+2. Use liquid tag in body: `{% include gallery %}`
+3. Optional parameters: `{% include gallery id="gallery2" layout="half" caption="My Gallery" %}`

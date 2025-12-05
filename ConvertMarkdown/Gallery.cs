@@ -1,6 +1,7 @@
+//#:property RuntimeIdentifier=linux-x64
+
 using System.Text;
 using System.Text.RegularExpressions;
-
 /// <summary>
 /// Processes Jekyll-style gallery liquid tags and renders them as HTML
 /// </summary>

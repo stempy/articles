@@ -39,10 +39,29 @@ AnsiConsole.MarkupLine("[bold cyan]╭──────────────
 AnsiConsole.MarkupLine("[bold cyan]│[/] [bold white]ConvertMarkdown Static Site Generator[/]        [bold cyan]│[/]");
 AnsiConsole.MarkupLine("[bold cyan]╰─────────────────────────────────────────────────────╯[/]");
 AnsiConsole.WriteLine();
-AnsiConsole.MarkupLine("[cyan]ℹ[/] Found [yellow]{0}[/] markdown files to convert", mdFiles.Count);
-AnsiConsole.MarkupLine("[cyan]ℹ[/] Source: [dim]{0}[/]", sourceRoot.FullName);
-AnsiConsole.MarkupLine("[cyan]ℹ[/] Output: [dim]{0}[/]", config.Output.RootDir);
+
+var infoTable = new Table()
+    .Border(TableBorder.None)
+    .HideHeaders()
+    .AddColumn(new TableColumn("Label"))
+    .AddColumn(new TableColumn("Value"));
+
+infoTable.AddRow("[cyan]Found:[/]", $"[yellow]{mdFiles.Count}[/] markdown files");
+infoTable.AddRow("[cyan]Source:[/]", $"[dim]{sourceRoot.FullName}[/]");
+infoTable.AddRow("[cyan]Output:[/]", $"[dim]{config.Output.RootDir}[/]");
+
+AnsiConsole.Write(infoTable);
 AnsiConsole.WriteLine();
+
+// Create processing table
+var processTable = new Table()
+    .Border(TableBorder.Rounded)
+    .BorderColor(Color.Grey)
+    .AddColumn(new TableColumn("[bold]#[/]").Centered().Width(5))
+    .AddColumn(new TableColumn("[bold]Source File[/]").LeftAligned())
+    .AddColumn(new TableColumn("[bold]Type[/]").Centered().Width(12))
+    .AddColumn(new TableColumn("[bold]Status[/]").Centered().Width(8))
+    .AddColumn(new TableColumn("[bold]Output[/]").LeftAligned());
 
 var converted = 0;
 
@@ -52,7 +71,6 @@ for (var index = 0; index < mdFiles.Count; index++)
     {
         var mdFile = mdFiles[index];
         var relativePath = Path.GetRelativePath(sourceRoot.FullName, mdFile.FullName);
-        AnsiConsole.MarkupLine("[dim][[{0}/{1}]][/] [white]{2}[/]", index + 1, mdFiles.Count, relativePath);
 
         // Read markdown file
         var content = File.ReadAllText(mdFile.FullName);
@@ -87,11 +105,15 @@ for (var index = 0; index < mdFiles.Count; index++)
         var processor = registry.FindProcessor(mdFile, content, context);
         if (processor == null)
         {
-            AnsiConsole.MarkupLine("  [red]✗ ERROR:[/] No processor found for {0}", mdFile.Name);
+            processTable.AddRow(
+                $"[dim]{index + 1}[/]",
+                $"[white]{relativePath}[/]",
+                "[dim]—[/]",
+                "[red]✗[/]",
+                "[red]No processor found[/]"
+            );
             continue;
         }
-
-        AnsiConsole.MarkupLine("  [yellow]→[/] Type: [cyan]{0}[/] [dim](Processor: {1})[/]", contentType, processor.ProcessorType);
 
         // Process gallery liquid tags BEFORE processor runs
         // This prevents the gallery HTML from being wrapped in <p> tags
@@ -154,18 +176,33 @@ for (var index = 0; index < mdFiles.Count; index++)
         File.WriteAllText(outputFile.FullName, html);
 
         var relativeOutput = Path.GetRelativePath(Directory.GetCurrentDirectory(), outputFile.FullName);
-        AnsiConsole.MarkupLine("  [green]✓[/] [dim]{0}[/]", relativeOutput);
-        AnsiConsole.WriteLine();
+
+        processTable.AddRow(
+            $"[dim]{index + 1}[/]",
+            $"[white]{relativePath}[/]",
+            $"[cyan]{contentType}[/]",
+            "[green]✓[/]",
+            $"[dim]{relativeOutput}[/]"
+        );
 
         converted++;
     }
     catch (Exception e)
     {
-        AnsiConsole.MarkupLine("  [red]✗ ERROR:[/] {0}", e.Message.EscapeMarkup());
-        AnsiConsole.MarkupLine("  [dim]{0}[/]", e.StackTrace?.EscapeMarkup() ?? "");
-        AnsiConsole.WriteLine();
+        var relativePath = Path.GetRelativePath(sourceRoot.FullName, mdFiles[index].FullName);
+        processTable.AddRow(
+            $"[dim]{index + 1}[/]",
+            $"[white]{relativePath}[/]",
+            "[dim]—[/]",
+            "[red]✗[/]",
+            $"[red]{e.Message.EscapeMarkup()}[/]"
+        );
     }
 }
+
+// Display processing results
+AnsiConsole.Write(processTable);
+AnsiConsole.WriteLine();
 
 // Summary
 var failed = mdFiles.Count - converted;
@@ -184,8 +221,24 @@ AnsiConsole.Write(table);
 AnsiConsole.WriteLine();
 
 // Copy included paths from content types
-AnsiConsole.MarkupLine("[cyan]ℹ[/] Copying static assets...");
+var assetTable = new Table()
+    .Border(TableBorder.None)
+    .HideHeaders()
+    .AddColumn(new TableColumn("Icon"))
+    .AddColumn(new TableColumn("Message"));
+
+assetTable.AddRow("[cyan]ℹ[/]", "Copying static assets...");
+AnsiConsole.Write(assetTable);
+
 Helpers.CopyIncludedPaths(config, sourceRoot);
-AnsiConsole.MarkupLine("[green]✓[/] [bold]Conversion complete![/]");
+
+assetTable = new Table()
+    .Border(TableBorder.None)
+    .HideHeaders()
+    .AddColumn(new TableColumn("Icon"))
+    .AddColumn(new TableColumn("Message"));
+
+assetTable.AddRow("[green]✓[/]", "[bold green]Conversion complete![/]");
+AnsiConsole.Write(assetTable);
 AnsiConsole.WriteLine();
 

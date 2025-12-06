@@ -215,7 +215,7 @@ static class Helpers
     public static Func<object, string> LoadHandlebarsTemplate(IHandlebars handlebars, string templateName, Config config)
     {
         var templatePath = Path.Combine(config.Source.TemplatesDir, templateName);
-        AnsiConsole.MarkupLine("  [dim]Using template: {0}[/]", templateName);
+        // AnsiConsole.MarkupLine("  [dim]Using template: {0}[/]", templateName);
         if (!File.Exists(templatePath))
         {
             // Try without .hbs extension

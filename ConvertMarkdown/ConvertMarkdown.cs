@@ -8,7 +8,7 @@ using Spectre.Console;
 Directory.SetCurrentDirectory(Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../..")));
 
 // Configuration
-var config = Helpers.LoadConfig("convert_config_generic.yml");
+var config = Helpers.LoadConfig("convertmarkdown_config.yml");
 var sourceRoot = new DirectoryInfo(config.Source.RootDir);
 
 if (!sourceRoot.Exists)

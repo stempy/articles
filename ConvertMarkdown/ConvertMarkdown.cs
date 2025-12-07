@@ -18,13 +18,17 @@ if (!sourceRoot.Exists)
 }
 
 // Setup Handlebars
+var fileSystem = new CustomFileSystem(config.Source.TemplatesDir);
 var handlebars = Handlebars.Create(new HandlebarsConfiguration
 {
-    FileSystem = new CustomFileSystem(config.Source.TemplatesDir)
+    FileSystem = fileSystem
 });
 
 // Register Handlebars helpers
 Helpers.RegisterHandlebarsHelpers(handlebars);
+
+// Register layout partials
+fileSystem.RegisterLayoutPartials(handlebars);
 
 // Setup processor registry
 var registry = new ProcessorRegistry();

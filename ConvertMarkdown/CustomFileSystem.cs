@@ -6,10 +6,12 @@ using HandlebarsDotNet;
 class CustomFileSystem : ViewEngineFileSystem
 {
     private readonly string _templatesDir;
+    private readonly string _layoutsDir;
 
     public CustomFileSystem(string templatesDir)
     {
         _templatesDir = templatesDir;
+        _layoutsDir = Path.Combine(templatesDir, "layouts");
     }
 
     protected override string CombinePath(string dir, string otherFileName)
@@ -38,5 +40,26 @@ class CustomFileSystem : ViewEngineFileSystem
             return File.ReadAllText(fullPath);
 
         throw new FileNotFoundException($"Template not found: {filename}");
+    }
+
+    public void RegisterLayoutPartials(IHandlebars handlebars)
+    {
+        if (!Directory.Exists(_layoutsDir))
+        {
+            Console.WriteLine($"[Layouts] Directory not found: {_layoutsDir}");
+            return;
+        }
+
+        var layoutFiles = Directory.GetFiles(_layoutsDir, "*.hbs");
+        foreach (var layoutFile in layoutFiles)
+        {
+            var layoutName = Path.GetFileNameWithoutExtension(layoutFile);
+            var layoutContent = File.ReadAllText(layoutFile);
+
+            // Register as partial (Handlebars.Net handles {{!< layout}} automatically)
+            handlebars.RegisterTemplate(layoutName, layoutContent);
+        }
+
+        Console.WriteLine($"[Layouts] Registered {layoutFiles.Length} layout partials");
     }
 }

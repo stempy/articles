@@ -130,6 +130,11 @@ for (var index = 0; index < mdFiles.Count; index++)
             ["footer_text"] = config.Defaults?.FooterText ?? "Articles"
         };
 
+        // Generate CSS link tags
+        var cssLinks = string.Join("\n    ", contentTypeConfig.CssFiles.Select(css =>
+            $"<link rel=\"stylesheet\" href=\"{css}\">"));
+        templateData["css_links"] = cssLinks;
+
         // Merge processor results
         foreach (var kvp in result.TemplateData)
         {
@@ -231,6 +236,20 @@ assetTable.AddRow("[cyan]ℹ[/]", "Copying static assets...");
 AnsiConsole.Write(assetTable);
 
 Helpers.CopyIncludedPaths(config, sourceRoot);
+
+// Copy CSS folder to output root
+var cssSourceDir = Path.Combine(Directory.GetCurrentDirectory(), "css");
+var cssDestDir = Path.Combine(config.Output.RootDir, "css");
+
+if (Directory.Exists(cssSourceDir))
+{
+    AnsiConsole.MarkupLine("  [dim]Copying CSS directory: {0} → {1}[/]", cssSourceDir, cssDestDir);
+    Helpers.CopyDirectory(cssSourceDir, cssDestDir);
+}
+else
+{
+    AnsiConsole.MarkupLine("  [yellow]⚠ Warning:[/] CSS directory not found: {0}", cssSourceDir);
+}
 
 assetTable = new Table()
     .Border(TableBorder.None)

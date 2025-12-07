@@ -21,19 +21,19 @@ content_types:
     source_path: ''                  # Match index.md in root
     template: index.html             # Use index template
     css_files:                       # CSS files to include (relative to output HTML)
-      - ../css/styles.css
+      - css/styles.css
     back_link: ''                    # No back link for index
-    output_subdir: ''                # Output to root of w/
+    output_subdir: ''                # Output to root of site/
     is_index: true                   # Special flag for index pages
 
   portfolio:
     source_path: portfolio           # Match files in docs/portfolio/
     template: portfolio.html         # Use this template
     css_files:                       # CSS files to include (relative to output HTML)
-      - ../../css/styles.css
-      - ../../css/portfolio.css
-    back_link: ../../index.html      # Back link for navigation
-    output_subdir: portfolio         # Output to w/portfolio/
+      - ../css/styles.css
+      - ../css/portfolio.css
+    back_link: ../index.html         # Back link for navigation
+    output_subdir: portfolio         # Output to site/portfolio/
     include_paths:                   # Additional paths to copy to output
       - _pages
 

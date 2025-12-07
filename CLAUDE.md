@@ -131,7 +131,7 @@ Each content type specifies:
 - `template`: Handlebars template to use
 - `css_files`: CSS files to include (paths relative to output HTML)
 - `back_link`: Navigation back link
-- `output_subdir`: Output directory within `w/`
+- `output_subdir`: Output directory within `site/`
 - `include_paths`: Additional files/directories to copy
 
 ### Template System

@@ -12,6 +12,7 @@
 *.env
 
 w/
+site/
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

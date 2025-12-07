@@ -12,7 +12,7 @@ source:
 
 # Global output settings
 output:
-  root_dir: w                        # Root output directory for generated HTML
+  root_dir: site                        # Root output directory for generated HTML
   preserve_structure: true           # Preserve source directory structure in output
 
 # Content type mappings (based on source directory)

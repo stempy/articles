@@ -138,7 +138,7 @@ Each content type specifies:
 
 Templates are Handlebars (`.hbs`) files in `templates/`:
 - `index.hbs`: Landing page with article cards
-- `article.hbs`: Standard article layout
+- `post.hbs`: Standard article layout
 - `software-list.hbs`: Software list with era sections
 - `portfolio.html`: Portfolio item layout
 
@@ -186,7 +186,7 @@ When modifying templates or adding new content types, use the modern generic cla
 │   └── portfolio/             # Portfolio markdown files
 ├── templates/                 # Handlebars templates
 │   ├── index.hbs
-│   ├── article.hbs
+│   ├── post.hbs
 │   ├── software-list.hbs
 │   └── partials/
 ├── css/                       # CSS stylesheets

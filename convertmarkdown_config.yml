@@ -48,7 +48,7 @@ content_types:
 
   posts:
     source_path: posts               # Match files in docs/posts/
-    template: article.html           # Use this template
+    template: post.html              # Use this template
     css_files:                       # CSS files to include
       - ../../css/styles.css
       - ../../css/article.css

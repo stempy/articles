@@ -145,6 +145,13 @@ for (var index = 0; index < mdFiles.Count; index++)
             templateData[kvp.Key] = kvp.Value;
         }
 
+        // Extract and format date (after processor merge, so we take precedence)
+        var dateStr = Helpers.ExtractDate(rawFrontmatter, mdFile);
+        if (!string.IsNullOrWhiteSpace(dateStr))
+        {
+            templateData["date"] = Helpers.FormatDate(dateStr);
+        }
+
         // Override title if processor provided one
         if (!string.IsNullOrWhiteSpace((string?)result.TemplateData.GetValueOrDefault("title")))
         {

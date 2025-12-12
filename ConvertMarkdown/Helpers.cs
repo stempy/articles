@@ -157,6 +157,32 @@ static class Helpers
         return dateStr;
     }
 
+    public static string? ExtractDate(Dictionary<string, object> rawFrontmatter, FileInfo file)
+    {
+        // Priority 1: Check frontmatter fields in order
+        var dateFieldNames = new[] { "created", "createdAt", "date", "createdDate" };
+
+        foreach (var fieldName in dateFieldNames)
+        {
+            if (rawFrontmatter.TryGetValue(fieldName, out var value))
+            {
+                var dateStr = value?.ToString();
+                if (!string.IsNullOrWhiteSpace(dateStr))
+                    return dateStr;
+            }
+        }
+
+        // Priority 2: Extract from filename (YYYY-MM-DD format)
+        var filename = Path.GetFileNameWithoutExtension(file.Name);
+        var datePattern = @"(\d{4}-\d{2}-\d{2})";
+        var match = Regex.Match(filename, datePattern);
+
+        if (match.Success)
+            return match.Groups[1].Value;
+
+        return null;
+    }
+
 
     public static List<FileInfo> FindMarkdownFiles(DirectoryInfo root, Config config)
     {

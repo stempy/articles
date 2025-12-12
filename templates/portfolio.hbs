@@ -1,0 +1,24 @@
+{{#> base}}
+<a href="{{back_link}}" class="back-link">Back to Collections</a>
+
+<header class="portfolio-header">
+    <div class="portfolio-meta">
+        {{{meta_items}}}
+    </div>
+    <h1 class="portfolio-title">{{title}}</h1>
+    {{#if excerpt}}
+    <p class="portfolio-excerpt">{{excerpt}}</p>
+    {{/if}}
+    {{{tech_tags}}}
+    {{{hero_image}}}
+</header>
+
+<main class="portfolio-content">
+    {{{body_content}}}
+    {{{gallery}}}
+</main>
+
+<footer>
+    <p class="footer-text">{{footer_text}}</p>
+</footer>
+{{/base}}

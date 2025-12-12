@@ -1,0 +1,44 @@
+{{#> base}}
+<header>
+    <div class="title-wrapper">
+        <p class="subtitle">{{subtitle}}</p>
+        <h1>{{{header_title}}}</h1>
+    </div>
+    <p class="intro">
+        {{intro}}
+    </p>
+</header>
+
+<main>
+    {{#each era_sections}}
+    <section class="era-section">
+        <div class="era-header">
+            <h2 class="era-title">{{name}}</h2>
+        </div>
+        {{#if description}}
+        <div class="section-description">
+            {{{description}}}
+        </div>
+        {{/if}}
+        <div class="software-grid">
+            {{#each software}}
+            <article class="software-card" style="--card-accent: var(--accent-{{../color}});">
+                <h3 class="software-name">
+                    {{#if url}}
+                    <a href="{{url}}" target="_blank">{{name}}</a>
+                    {{else}}
+                    {{name}}
+                    {{/if}}
+                </h3>
+                <p class="card-description">{{description}}</p>
+            </article>
+            {{/each}}
+        </div>
+    </section>
+    {{/each}}
+</main>
+
+<footer>
+    <p>{{{footer_text}}}</p>
+</footer>
+{{/base}}

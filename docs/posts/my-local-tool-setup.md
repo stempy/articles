@@ -1,3 +1,8 @@
+---
+title: My Local Tool Setup
+template: tool-setup.hbs
+---
+
 # My Local Tool Setup
 
 A comprehensive overview of my development environment, from virtualization to AI tooling.

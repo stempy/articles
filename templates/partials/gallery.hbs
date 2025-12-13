@@ -1,59 +1,184 @@
-{{!-- Support both generic (data="key") and backward-compatible (no data parameter) usage --}}
-{{!-- Set galleryData to items if provided, otherwise use page.gallery for backward compatibility --}}
+{{!-- Determine which gallery data to use --}}
+{{!-- Priority: items (from data="key") > page[id] (from id="key") > page.gallery (legacy) --}}
 {{#if items}}
-{{!-- Auto-detect layout based on item count if not provided --}}
+{{!-- Modern usage with data="galleryname" parameter --}}
 {{#if layout}}
-<figure class="{{layout}} {{class}}">
+<figure class="image-gallery {{layout}} {{class}}">
 {{else}}
 {{#if (eq (length items) 2)}}
-<figure class="half {{class}}">
+<figure class="image-gallery half {{class}}">
 {{else}}
 {{#if (eq (length items) 1)}}
-<figure class="{{class}}">
+<figure class="image-gallery {{class}}">
 {{else}}
-<figure class="third {{class}}">
+<figure class="image-gallery third {{class}}">
 {{/if}}
 {{/if}}
 {{/if}}
-{{#each items}}
-    {{#if url}}
-        <a href="{{url}}"{{#if title}} title="{{title}}"{{/if}}>
-        <img src="{{image_path}}" alt="{{#if alt}}{{alt}}{{/if}}">
-        </a>
-    {{else}}
-        <img src="{{image_path}}" alt="{{#if alt}}{{alt}}{{/if}}">
-    {{/if}}
-{{/each}}
 {{#if caption}}
-    <figcaption>{{caption}}</figcaption>
+    <figcaption class="gallery-caption">{{caption}}</figcaption>
 {{/if}}
+<div class="gallery-grid">
+{{#each items}}
+    <div class="gallery-item">
+        <img src="{{image_path}}" alt="{{#if alt}}{{alt}}{{else}}{{title}}{{/if}}" class="gallery-thumbnail" data-full="{{image_path}}"{{#if title}} data-caption="{{title}}"{{/if}}>
+    </div>
+{{/each}}
+</div>
 </figure>
 {{else}}
-{{!-- Backward compatibility: use page.gallery when no data parameter provided --}}
+{{!-- Legacy usage with id="galleryname" or no parameter (uses page.gallery) --}}
+{{!-- Try to get gallery by id from page[id], otherwise fall back to page.gallery --}}
+{{#if id}}
+{{#with (lookup page id)}}
 {{#if layout}}
-<figure class="{{layout}} {{class}}">
+<figure class="image-gallery {{../layout}} {{../class}}">
+{{else}}
+{{#if (eq (length this) 2)}}
+<figure class="image-gallery half {{../class}}">
+{{else}}
+{{#if (eq (length this) 1)}}
+<figure class="image-gallery {{../class}}">
+{{else}}
+<figure class="image-gallery third {{../class}}">
+{{/if}}
+{{/if}}
+{{/if}}
+{{#if ../caption}}
+    <figcaption class="gallery-caption">{{../caption}}</figcaption>
+{{/if}}
+<div class="gallery-grid">
+{{#each this}}
+    <div class="gallery-item">
+        <img src="{{image_path}}" alt="{{#if alt}}{{alt}}{{else}}{{title}}{{/if}}" class="gallery-thumbnail" data-full="{{image_path}}"{{#if title}} data-caption="{{title}}"{{/if}}>
+    </div>
+{{/each}}
+</div>
+</figure>
+{{/with}}
+{{else}}
+{{!-- No id parameter, use page.gallery --}}
+{{#if layout}}
+<figure class="image-gallery {{layout}} {{class}}">
 {{else}}
 {{#if (eq (length page.gallery) 2)}}
-<figure class="half {{class}}">
+<figure class="image-gallery half {{class}}">
 {{else}}
 {{#if (eq (length page.gallery) 1)}}
-<figure class="{{class}}">
+<figure class="image-gallery {{class}}">
 {{else}}
-<figure class="third {{class}}">
+<figure class="image-gallery third {{class}}">
 {{/if}}
 {{/if}}
 {{/if}}
-{{#each page.gallery}}
-    {{#if url}}
-        <a href="{{url}}"{{#if title}} title="{{title}}"{{/if}}>
-        <img src="{{image_path}}" alt="{{#if alt}}{{alt}}{{/if}}">
-        </a>
-    {{else}}
-        <img src="{{image_path}}" alt="{{#if alt}}{{alt}}{{/if}}">
-    {{/if}}
-{{/each}}
 {{#if caption}}
-    <figcaption>{{caption}}</figcaption>
+    <figcaption class="gallery-caption">{{caption}}</figcaption>
 {{/if}}
+<div class="gallery-grid">
+{{#each page.gallery}}
+    <div class="gallery-item">
+        <img src="{{image_path}}" alt="{{#if alt}}{{alt}}{{else}}{{title}}{{/if}}" class="gallery-thumbnail" data-full="{{image_path}}"{{#if title}} data-caption="{{title}}"{{/if}}>
+    </div>
+{{/each}}
+</div>
 </figure>
 {{/if}}
+{{/if}}
+
+<script>
+// Gallery lightbox - initialized once per page
+(function() {
+if (window.galleryLightboxInitialized) return;
+window.galleryLightboxInitialized = true;
+
+// Wait for DOM to be ready
+const init = function() {
+// Create lightbox modal if it doesn't exist
+if (!document.getElementById('gallery-lightbox')) {
+const lightboxHTML = '<div id="gallery-lightbox" class="gallery-lightbox" style="display: none;">' +
+'<div class="lightbox-content">' +
+'<button class="lightbox-close" aria-label="Close">&times;</button>' +
+'<button class="lightbox-prev" aria-label="Previous">&#10094;</button>' +
+'<button class="lightbox-next" aria-label="Next">&#10095;</button>' +
+'<img src="" alt="" class="lightbox-image">' +
+'<div class="lightbox-caption"></div>' +
+'</div></div>';
+document.body.insertAdjacentHTML('beforeend', lightboxHTML);
+}
+
+const lightbox = document.getElementById('gallery-lightbox');
+const lightboxImg = lightbox.querySelector('.lightbox-image');
+const lightboxCaption = lightbox.querySelector('.lightbox-caption');
+const closeBtn = lightbox.querySelector('.lightbox-close');
+const prevBtn = lightbox.querySelector('.lightbox-prev');
+const nextBtn = lightbox.querySelector('.lightbox-next');
+
+let currentImages = [];
+let currentIndex = 0;
+
+function openLightbox(images, index) {
+currentImages = images;
+currentIndex = index;
+showImage(currentIndex);
+lightbox.style.display = 'flex';
+document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+lightbox.style.display = 'none';
+document.body.style.overflow = '';
+}
+
+function showImage(index) {
+if (currentImages.length === 0) return;
+currentIndex = (index + currentImages.length) % currentImages.length;
+const img = currentImages[currentIndex];
+lightboxImg.src = img.dataset.full;
+lightboxImg.alt = img.alt;
+lightboxCaption.textContent = img.dataset.caption || img.alt || '';
+prevBtn.style.display = currentImages.length > 1 ? 'block' : 'none';
+nextBtn.style.display = currentImages.length > 1 ? 'block' : 'none';
+}
+
+function nextImage() {
+showImage(currentIndex + 1);
+}
+
+function prevImage() {
+showImage(currentIndex - 1);
+}
+
+closeBtn.addEventListener('click', closeLightbox);
+prevBtn.addEventListener('click', prevImage);
+nextBtn.addEventListener('click', nextImage);
+
+lightbox.addEventListener('click', function(e) {
+if (e.target === lightbox) {
+closeLightbox();
+}
+});
+
+document.addEventListener('keydown', function(e) {
+if (lightbox.style.display !== 'flex') return;
+if (e.key === 'Escape') closeLightbox();
+if (e.key === 'ArrowRight') nextImage();
+if (e.key === 'ArrowLeft') prevImage();
+});
+
+// Initialize all galleries on the page
+document.querySelectorAll('.image-gallery').forEach(gallery => {
+const thumbnails = Array.from(gallery.querySelectorAll('.gallery-thumbnail'));
+thumbnails.forEach((thumb, index) => {
+thumb.style.cursor = 'pointer';
+thumb.addEventListener('click', () => openLightbox(thumbnails, index));
+});
+});
+};
+
+if (document.readyState === 'loading') {
+document.addEventListener('DOMContentLoaded', init);
+} else {
+init();
+}
+})();
+</script>

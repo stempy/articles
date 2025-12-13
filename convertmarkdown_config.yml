@@ -32,6 +32,7 @@ content_types:
     css_files:                       # CSS files to include (relative to output HTML)
       - ../css/styles.css
       - ../css/portfolio.css
+      - ../css/image-gallery.css
     back_link: ../index.html         # Back link for navigation
     output_subdir: portfolio         # Output to site/portfolio/
     include_paths:                   # Additional paths to copy to output
@@ -52,6 +53,7 @@ content_types:
     css_files:                       # CSS files to include
       - ../../css/styles.css
       - ../../css/article.css
+      - ../../css/image-gallery.css
     back_link: ../../index.html      # Back link for navigation
     output_subdir: posts             # Output to w/posts/
 

@@ -122,11 +122,7 @@ for (var index = 0; index < mdFiles.Count; index++)
             continue;
         }
 
-        // Process gallery liquid tags BEFORE processor runs
-        // This prevents the gallery HTML from being wrapped in <p> tags
-        body = Gallery.ProcessGalleries(body, rawFrontmatter);
-
-        // Process generic template includes BEFORE processor runs
+        // Process template includes (including gallery) BEFORE processor runs
         // This prevents the partial HTML from being wrapped in <p> tags
         body = TemplateInclude.ProcessIncludes(body, rawFrontmatter, handlebars, mdFile);
 

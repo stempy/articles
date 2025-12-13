@@ -101,12 +101,6 @@ The converter uses a **plugin-based architecture** where different content types
 - `RegisterHandlebarsHelpers()`: Custom Handlebars helpers (eq, if, inc)
 - `CopyIncludedPaths()`: Copies static assets
 
-**Gallery.cs** (`ConvertMarkdown/Gallery.cs`)
-- Processes Jekyll-style `{% include gallery %}` liquid tags
-- Parses frontmatter gallery arrays
-- Renders responsive image galleries with configurable layouts (half, third)
-- Must run BEFORE processor to prevent wrapping gallery HTML in `<p>` tags
-
 **CustomFileSystem.cs** (`ConvertMarkdown/CustomFileSystem.cs`)
 - Handlebars file system adapter for template loading
 
@@ -176,7 +170,6 @@ When modifying templates or adding new content types, use the modern generic cla
 │   ├── ConvertMarkdown.cs     # Main entry point
 │   ├── Helpers.cs             # Core helper functions
 │   ├── SoftwareHelpers.cs     # Software list parsing
-│   ├── Gallery.cs             # Gallery liquid tag processor
 │   ├── TemplateInclude.cs     # Generic template include processor
 │   ├── Frontmatter.cs         # Frontmatter DTO
 │   ├── CustomFileSystem.cs    # Handlebars file system
@@ -190,6 +183,7 @@ When modifying templates or adding new content types, use the modern generic cla
 │   ├── post.hbs
 │   ├── software-list.hbs
 │   ├── partials/              # Reusable include templates
+│   │   ├── gallery.hbs
 │   │   ├── card.hbs
 │   │   ├── stats.hbs
 │   │   └── README.md
@@ -202,8 +196,8 @@ When modifying templates or adding new content types, use the modern generic cla
 
 ## Important Implementation Details
 
-### Gallery Processing Order
-Gallery liquid tags MUST be processed BEFORE Markdig conversion (`ConvertMarkdown.cs:99`), otherwise the rendered HTML gets wrapped in `<p>` tags.
+### Template Include Processing Order
+Template includes (including gallery) MUST be processed BEFORE Markdig conversion, otherwise the rendered HTML gets wrapped in `<p>` tags. This is handled by `TemplateInclude.ProcessIncludes()` in `ConvertMarkdown.cs`.
 
 ### Frontmatter Title Fallback
 The system has multiple fallback strategies for missing titles:
@@ -397,6 +391,7 @@ card_data:
 4. Use in markdown: `{% include TEMPLATE_NAME data="FRONTMATTER_KEY" %}`
 
 **Built-in Partials:**
+- `gallery`: Responsive image gallery with auto-layout detection (supports `id`, `layout`, `caption`, `class` parameters)
 - `card`: Display card with image, title, description, tags, link
 - `stats`: Display metrics grid with values and labels
 
@@ -417,6 +412,6 @@ Use: `{% include stats data="sidebar.metrics" %}`
 
 **Technical Notes:**
 - Partials are pre-registered at startup from `templates/partials/`
-- Processing happens BEFORE markdown conversion (same as Gallery.cs)
-- Does not affect existing `{% include gallery %}` system
+- Processing happens BEFORE markdown conversion to prevent HTML wrapping in `<p>` tags
+- Gallery partial includes auto-layout detection (2 items = "half", 3+ = "third")
 - See `templates/partials/README.md` for detailed documentation

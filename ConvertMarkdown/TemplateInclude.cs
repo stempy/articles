@@ -25,9 +25,8 @@ public static class TemplateInclude
         FileInfo? sourceFile = null)
     {
         // Pattern: {% include TEMPLATE_NAME data=KEY %}
-        // Negative lookahead (?!gallery\b) excludes "gallery" to preserve Gallery.cs behavior
         // Captures: 1=template_name, 2=parameters (data=key, etc.)
-        var pattern = @"{%\s*include\s+(?!gallery\b)(\w+)\s*([^%]*?)%}";
+        var pattern = @"{%\s*include\s+(\w+)\s*([^%]*?)%}";
         var regex = new Regex(pattern, RegexOptions.Multiline);
 
         return regex.Replace(content, match =>
@@ -126,27 +125,102 @@ public static class TemplateInclude
             return $"<!-- Template '{templateName}' not found in partials -->";
         }
 
-        // Get data parameter
-        if (!parameters.TryGetValue("data", out var dataKey) || string.IsNullOrWhiteSpace(dataKey))
+        // Build template context with 'page' containing all frontmatter
+        var context = new Dictionary<string, object>
         {
-            AnsiConsole.MarkupLine(
-                "[yellow]⚠ Warning:[/] No 'data' parameter provided for template '{0}'{1}",
-                templateName.EscapeMarkup(),
-                sourceFileStr.EscapeMarkup()
-            );
-            return $"<!-- No 'data' parameter provided for template '{templateName}' -->";
-        }
+            ["page"] = frontmatterData
+        };
 
-        // Extract data from frontmatter
-        var data = ExtractDataFromFrontmatter(frontmatterData, dataKey);
-        if (data == null)
+        // Special handling for gallery template: support 'id' parameter to select gallery
+        if (templateName == "gallery")
         {
-            AnsiConsole.MarkupLine(
-                "[yellow]⚠ Warning:[/] Data key '{0}' not found in frontmatter{1}",
-                dataKey.EscapeMarkup(),
-                sourceFileStr.EscapeMarkup()
-            );
-            return $"<!-- Data key '{dataKey}' not found in frontmatter -->";
+            object? galleryData = null;
+
+            // If 'id' parameter is provided, use page[id], otherwise use page.gallery
+            if (parameters.TryGetValue("id", out var galleryId) && !string.IsNullOrWhiteSpace(galleryId))
+            {
+                galleryData = ExtractDataFromFrontmatter(frontmatterData, galleryId);
+            }
+            else if (frontmatterData.TryGetValue("gallery", out var defaultGallery))
+            {
+                galleryData = defaultGallery;
+            }
+
+            if (galleryData != null)
+            {
+                context["gallery"] = galleryData;
+
+                // Auto-detect layout based on gallery size if not explicitly provided
+                if (!parameters.ContainsKey("layout"))
+                {
+                    var count = 0;
+                    if (galleryData is System.Collections.IList list)
+                    {
+                        count = list.Count;
+                    }
+                    else if (galleryData is System.Collections.IEnumerable enumerable)
+                    {
+                        count = enumerable.Cast<object>().Count();
+                    }
+
+                    if (count == 2)
+                    {
+                        context["layout"] = "half";
+                    }
+                    else if (count >= 3)
+                    {
+                        context["layout"] = "third";
+                    }
+                }
+            }
+
+            // Add all other parameters (caption, layout, class, etc.)
+            foreach (var param in parameters)
+            {
+                if (param.Key == "id") continue; // Already handled above
+                context[param.Key] = param.Value;
+            }
+        }
+        else
+        {
+            // For non-gallery templates: standard parameter handling
+            // Add all parameters (caption, layout, class, etc.) to the context
+            foreach (var param in parameters)
+            {
+                // Skip 'data' parameter - handled separately below
+                if (param.Key == "data") continue;
+                context[param.Key] = param.Value;
+            }
+
+            // For backwards compatibility with existing partials (card, stats),
+            // also spread the extracted data directly into context if 'data' parameter exists
+            if (parameters.TryGetValue("data", out var dataKey) && !string.IsNullOrWhiteSpace(dataKey))
+            {
+                var extractedData = ExtractDataFromFrontmatter(frontmatterData, dataKey);
+                if (extractedData != null)
+                {
+                    // If extracted data is a dictionary, spread its properties into context
+                    if (extractedData is Dictionary<string, object> dict)
+                    {
+                        foreach (var kvp in dict)
+                        {
+                            context[kvp.Key] = kvp.Value;
+                        }
+                    }
+                    else if (extractedData is Dictionary<object, object> objDict)
+                    {
+                        foreach (var kvp in objDict)
+                        {
+                            context[kvp.Key.ToString() ?? ""] = kvp.Value;
+                        }
+                    }
+                    // If it's a list or other type, store it as 'items' or 'data'
+                    else if (extractedData is System.Collections.IEnumerable)
+                    {
+                        context["items"] = extractedData;
+                    }
+                }
+            }
         }
 
         // Render template
@@ -157,7 +231,7 @@ public static class TemplateInclude
 
             // Create a StringWriter to capture the output
             using var writer = new StringWriter();
-            template(writer, data);
+            template(writer, context);
             return writer.ToString();
         }
         catch (Exception ex)

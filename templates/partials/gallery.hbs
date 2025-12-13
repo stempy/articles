@@ -1,0 +1,14 @@
+<figure class="{{layout}} {{class}}">
+{{#each gallery}}
+    {{#if url}}
+        <a href="{{url}}"{{#if title}} title="{{title}}"{{/if}}>
+        <img src="{{image_path}}" alt="{{#if alt}}{{alt}}{{/if}}">
+        </a>
+    {{else}}
+        <img src="{{image_path}}" alt="{{#if alt}}{{alt}}{{/if}}">
+    {{/if}}
+{{/each}}
+{{#if caption}}
+    <figcaption>{{caption}}</figcaption>
+{{/if}}
+</figure>

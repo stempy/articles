@@ -134,6 +134,7 @@ for (var index = 0; index < mdFiles.Count; index++)
         {
             ["title"] = frontmatter.Title,
             ["css_files"] = contentTypeConfig.CssFiles,
+            ["js_files"] = contentTypeConfig.JsFiles,
             ["footer_text"] = config.Defaults?.FooterText ?? "Articles"
         };
 
@@ -141,6 +142,11 @@ for (var index = 0; index < mdFiles.Count; index++)
         var cssLinks = string.Join("\n    ", contentTypeConfig.CssFiles.Select(css =>
             $"<link rel=\"stylesheet\" href=\"{css}\">"));
         templateData["css_links"] = cssLinks;
+
+        // Generate JS script tags
+        var jsScripts = string.Join("\n    ", contentTypeConfig.JsFiles.Select(js =>
+            $"<script src=\"{js}\"></script>"));
+        templateData["js_scripts"] = jsScripts;
 
         // Merge processor results
         foreach (var kvp in result.TemplateData)

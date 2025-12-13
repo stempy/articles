@@ -1,5 +1,21 @@
+{{!-- Support both generic (data="key") and backward-compatible (no data parameter) usage --}}
+{{!-- Set galleryData to items if provided, otherwise use page.gallery for backward compatibility --}}
+{{#if items}}
+{{!-- Auto-detect layout based on item count if not provided --}}
+{{#if layout}}
 <figure class="{{layout}} {{class}}">
-{{#each gallery}}
+{{else}}
+{{#if (eq (length items) 2)}}
+<figure class="half {{class}}">
+{{else}}
+{{#if (eq (length items) 1)}}
+<figure class="{{class}}">
+{{else}}
+<figure class="third {{class}}">
+{{/if}}
+{{/if}}
+{{/if}}
+{{#each items}}
     {{#if url}}
         <a href="{{url}}"{{#if title}} title="{{title}}"{{/if}}>
         <img src="{{image_path}}" alt="{{#if alt}}{{alt}}{{/if}}">
@@ -12,3 +28,32 @@
     <figcaption>{{caption}}</figcaption>
 {{/if}}
 </figure>
+{{else}}
+{{!-- Backward compatibility: use page.gallery when no data parameter provided --}}
+{{#if layout}}
+<figure class="{{layout}} {{class}}">
+{{else}}
+{{#if (eq (length page.gallery) 2)}}
+<figure class="half {{class}}">
+{{else}}
+{{#if (eq (length page.gallery) 1)}}
+<figure class="{{class}}">
+{{else}}
+<figure class="third {{class}}">
+{{/if}}
+{{/if}}
+{{/if}}
+{{#each page.gallery}}
+    {{#if url}}
+        <a href="{{url}}"{{#if title}} title="{{title}}"{{/if}}>
+        <img src="{{image_path}}" alt="{{#if alt}}{{alt}}{{/if}}">
+        </a>
+    {{else}}
+        <img src="{{image_path}}" alt="{{#if alt}}{{alt}}{{/if}}">
+    {{/if}}
+{{/each}}
+{{#if caption}}
+    <figcaption>{{caption}}</figcaption>
+{{/if}}
+</figure>
+{{/if}}

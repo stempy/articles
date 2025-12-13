@@ -131,94 +131,40 @@ public static class TemplateInclude
             ["page"] = frontmatterData
         };
 
-        // Special handling for gallery template: support 'id' parameter to select gallery
-        if (templateName == "gallery")
+        // Generic parameter handling for all templates
+        // Add all parameters to the context
+        foreach (var param in parameters)
         {
-            object? galleryData = null;
+            // Skip 'data' parameter - handled separately below
+            if (param.Key == "data") continue;
+            context[param.Key] = param.Value;
+        }
 
-            // If 'id' parameter is provided, use page[id], otherwise use page.gallery
-            if (parameters.TryGetValue("id", out var galleryId) && !string.IsNullOrWhiteSpace(galleryId))
+        // Extract and add data from frontmatter if 'data' parameter exists
+        if (parameters.TryGetValue("data", out var dataKey) && !string.IsNullOrWhiteSpace(dataKey))
+        {
+            var extractedData = ExtractDataFromFrontmatter(frontmatterData, dataKey);
+            if (extractedData != null)
             {
-                galleryData = ExtractDataFromFrontmatter(frontmatterData, galleryId);
-            }
-            else if (frontmatterData.TryGetValue("gallery", out var defaultGallery))
-            {
-                galleryData = defaultGallery;
-            }
-
-            if (galleryData != null)
-            {
-                context["gallery"] = galleryData;
-
-                // Auto-detect layout based on gallery size if not explicitly provided
-                if (!parameters.ContainsKey("layout"))
+                // If extracted data is a dictionary, spread its properties into context
+                if (extractedData is Dictionary<string, object> dict)
                 {
-                    var count = 0;
-                    if (galleryData is System.Collections.IList list)
+                    foreach (var kvp in dict)
                     {
-                        count = list.Count;
-                    }
-                    else if (galleryData is System.Collections.IEnumerable enumerable)
-                    {
-                        count = enumerable.Cast<object>().Count();
-                    }
-
-                    if (count == 2)
-                    {
-                        context["layout"] = "half";
-                    }
-                    else if (count >= 3)
-                    {
-                        context["layout"] = "third";
+                        context[kvp.Key] = kvp.Value;
                     }
                 }
-            }
-
-            // Add all other parameters (caption, layout, class, etc.)
-            foreach (var param in parameters)
-            {
-                if (param.Key == "id") continue; // Already handled above
-                context[param.Key] = param.Value;
-            }
-        }
-        else
-        {
-            // For non-gallery templates: standard parameter handling
-            // Add all parameters (caption, layout, class, etc.) to the context
-            foreach (var param in parameters)
-            {
-                // Skip 'data' parameter - handled separately below
-                if (param.Key == "data") continue;
-                context[param.Key] = param.Value;
-            }
-
-            // For backwards compatibility with existing partials (card, stats),
-            // also spread the extracted data directly into context if 'data' parameter exists
-            if (parameters.TryGetValue("data", out var dataKey) && !string.IsNullOrWhiteSpace(dataKey))
-            {
-                var extractedData = ExtractDataFromFrontmatter(frontmatterData, dataKey);
-                if (extractedData != null)
+                else if (extractedData is Dictionary<object, object> objDict)
                 {
-                    // If extracted data is a dictionary, spread its properties into context
-                    if (extractedData is Dictionary<string, object> dict)
+                    foreach (var kvp in objDict)
                     {
-                        foreach (var kvp in dict)
-                        {
-                            context[kvp.Key] = kvp.Value;
-                        }
+                        context[kvp.Key.ToString() ?? ""] = kvp.Value;
                     }
-                    else if (extractedData is Dictionary<object, object> objDict)
-                    {
-                        foreach (var kvp in objDict)
-                        {
-                            context[kvp.Key.ToString() ?? ""] = kvp.Value;
-                        }
-                    }
-                    // If it's a list or other type, store it as 'items' or 'data'
-                    else if (extractedData is System.Collections.IEnumerable)
-                    {
-                        context["items"] = extractedData;
-                    }
+                }
+                // If it's a list or other type, store it as 'items'
+                else if (extractedData is System.Collections.IEnumerable)
+                {
+                    context["items"] = extractedData;
                 }
             }
         }

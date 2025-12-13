@@ -297,6 +297,23 @@ static class Helpers
                 output.Write((value + 1).ToString());
             }
         });
+
+        // Register length helper (count items in array/enumerable)
+        handlebars.RegisterHelper("length", (context, arguments) =>
+        {
+            if (arguments.Length > 0)
+            {
+                if (arguments[0] is System.Collections.IList list)
+                {
+                    return list.Count;
+                }
+                else if (arguments[0] is System.Collections.IEnumerable enumerable)
+                {
+                    return enumerable.Cast<object>().Count();
+                }
+            }
+            return 0;
+        });
     }
 
     public static void CopyIncludedPaths(Config config, DirectoryInfo sourceRoot)

@@ -30,6 +30,9 @@ Helpers.RegisterHandlebarsHelpers(handlebars);
 // Register layout partials
 fileSystem.RegisterLayoutPartials(handlebars);
 
+// Register include partials
+fileSystem.RegisterIncludePartials(handlebars);
+
 // Setup processor registry
 var registry = new ProcessorRegistry();
 registry.Register(new IndexPageProcessor());
@@ -122,6 +125,10 @@ for (var index = 0; index < mdFiles.Count; index++)
         // Process gallery liquid tags BEFORE processor runs
         // This prevents the gallery HTML from being wrapped in <p> tags
         body = Gallery.ProcessGalleries(body, rawFrontmatter);
+
+        // Process generic template includes BEFORE processor runs
+        // This prevents the partial HTML from being wrapped in <p> tags
+        body = TemplateInclude.ProcessIncludes(body, rawFrontmatter, handlebars, mdFile);
 
         // Process content with processor
         var result = processor.Process(body, rawFrontmatter, context);

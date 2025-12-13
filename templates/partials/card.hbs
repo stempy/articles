@@ -1,0 +1,25 @@
+<div class="card">
+{{#if image}}
+<div class="card-image">
+<img src="{{image}}" alt="{{title}}">
+</div>
+{{/if}}
+<div class="card-body">
+{{#if title}}
+<h3 class="card-title">{{title}}</h3>
+{{/if}}
+{{#if description}}
+<p class="card-description">{{description}}</p>
+{{/if}}
+{{#if tags}}
+<div class="card-tags">
+{{#each tags}}
+<span class="tag">{{this}}</span>
+{{/each}}
+</div>
+{{/if}}
+{{#if link}}
+<a href="{{link}}" class="card-link">Learn More →</a>
+{{/if}}
+</div>
+</div>

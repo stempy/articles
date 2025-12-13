@@ -177,6 +177,7 @@ When modifying templates or adding new content types, use the modern generic cla
 │   ├── Helpers.cs             # Core helper functions
 │   ├── SoftwareHelpers.cs     # Software list parsing
 │   ├── Gallery.cs             # Gallery liquid tag processor
+│   ├── TemplateInclude.cs     # Generic template include processor
 │   ├── Frontmatter.cs         # Frontmatter DTO
 │   ├── CustomFileSystem.cs    # Handlebars file system
 │   └── Dtos/                  # Configuration DTOs
@@ -188,7 +189,11 @@ When modifying templates or adding new content types, use the modern generic cla
 │   ├── index.hbs
 │   ├── post.hbs
 │   ├── software-list.hbs
-│   └── partials/
+│   ├── partials/              # Reusable include templates
+│   │   ├── card.hbs
+│   │   ├── stats.hbs
+│   │   └── README.md
+│   └── layouts/               # Layout partials
 ├── css/                       # CSS stylesheets
 ├── w/                         # Generated HTML output (gitignored)
 ├── convert_config_generic.yml # SSG configuration
@@ -366,3 +371,52 @@ gallery:
 ```
 2. Use liquid tag in body: `{% include gallery %}`
 3. Optional parameters: `{% include gallery id="gallery2" layout="half" caption="My Gallery" %}`
+
+### Using Template Includes
+
+The SSG supports generic template includes for reusable content components using Handlebars partials.
+
+**Syntax:**
+```yaml
+---
+card_data:
+  title: My Card
+  description: Card description
+  link: https://example.com
+---
+
+{% include card data="card_data" %}
+```
+
+**Important:** Parameter values must be quoted (`data="key"`), not unquoted.
+
+**Creating Custom Partials:**
+1. Create `.hbs` file in `templates/partials/` (e.g., `card.hbs`)
+2. Write Handlebars template WITHOUT indentation (indented HTML will be treated as code blocks)
+3. Use Handlebars syntax: `{{title}}`, `{{#if}}`, `{{#each}}`, etc.
+4. Use in markdown: `{% include TEMPLATE_NAME data="FRONTMATTER_KEY" %}`
+
+**Built-in Partials:**
+- `card`: Display card with image, title, description, tags, link
+- `stats`: Display metrics grid with values and labels
+
+**Nested Data Access:**
+```yaml
+sidebar:
+  metrics:
+    - value: 100
+      label: Downloads
+```
+
+Use: `{% include stats data="sidebar.metrics" %}`
+
+**Error Handling:**
+- Missing template → HTML comment + console warning (non-fatal)
+- Missing data key → HTML comment + console warning (non-fatal)
+- Template render error → HTML comment with error message
+
+**Technical Notes:**
+- Partials are pre-registered at startup from `templates/partials/`
+- Processing happens BEFORE markdown conversion (same as Gallery.cs)
+- Does not affect existing `{% include gallery %}` system
+- See `templates/partials/README.md` for detailed documentation

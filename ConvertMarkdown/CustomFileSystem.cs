@@ -62,4 +62,29 @@ class CustomFileSystem : ViewEngineFileSystem
 
         Console.WriteLine($"[Layouts] Registered {layoutFiles.Length} layout partials");
     }
+
+    public void RegisterIncludePartials(IHandlebars handlebars)
+    {
+        var partialsDir = Path.Combine(_templatesDir, "partials");
+
+        if (!Directory.Exists(partialsDir))
+        {
+            Console.WriteLine($"[Partials] Directory not found: {partialsDir}");
+            Console.WriteLine($"[Partials] Skipping partial registration (create {partialsDir} to use {{% include %}} tags)");
+            return;
+        }
+
+        var partialFiles = Directory.GetFiles(partialsDir, "*.hbs");
+        foreach (var partialFile in partialFiles)
+        {
+            var partialName = Path.GetFileNameWithoutExtension(partialFile);
+            var partialContent = File.ReadAllText(partialFile);
+
+            // Register as partial for use in {% include TEMPLATE data=KEY %} tags
+            handlebars.RegisterTemplate(partialName, partialContent);
+            Console.WriteLine($"[Partials] Registered partial: {partialName}");
+        }
+
+        Console.WriteLine($"[Partials] Registered {partialFiles.Length} include partials");
+    }
 }

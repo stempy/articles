@@ -26,7 +26,7 @@ my_data:
 
 ### card.hbs
 
-Display a card component with image, title, description, tags, and link.
+Display a single card component with image, title, description, tags, and link.
 
 **Expected data structure:**
 ```yaml
@@ -41,6 +41,30 @@ card_data:
 **Usage:**
 ```markdown
 {% include card data="card_data" %}
+```
+
+### cards.hbs
+
+Display multiple cards in a responsive grid layout.
+
+**Expected data structure:**
+```yaml
+project_cards:
+  - title: Project One
+    description: First project description
+    image: /images/project1.jpg
+    link: /portfolio/project1.html
+    tags: [web, react]
+  - title: Project Two
+    description: Second project description
+    image: /images/project2.jpg
+    link: /portfolio/project2.html
+    tags: [mobile, swift]
+```
+
+**Usage:**
+```markdown
+{% include cards data="project_cards" %}
 ```
 
 ### stats.hbs

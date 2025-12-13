@@ -108,9 +108,9 @@ This document tests various template include scenarios with different frontmatte
 
 ### Multiple Project Cards
 
-This tests if card includes work with array iteration in markdown (may need multiple includes):
+This tests the cards partial with an array of card data:
 
-{% include card data="project_cards" %}
+{% include cards data="project_cards" %}
 
 ## Stats Tests
 

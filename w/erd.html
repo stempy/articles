@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ERD & Database Design Tools Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0e13;
+    --surface: #14171e;
+    --surface2: #1a1e28;
+    --border: #252a36;
+    --text: #d4d8e0;
+    --text-dim: #7a8194;
+    --accent: #4fc3f7;
+    --accent2: #81c784;
+    --accent3: #ffb74d;
+    --accent4: #ce93d8;
+    --tag-bg: rgba(79, 195, 247, 0.12);
+    --tag-border: rgba(79, 195, 247, 0.25);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.5px;
+  }
+
+  .subtitle {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1.25rem;
+  }
+
+  .category {
+    margin-bottom: 2rem;
+  }
+
+  .category-header {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 0.5rem 0;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .cat-gui { color: var(--accent); border-bottom: 2px solid var(--accent); }
+  .cat-code { color: var(--accent2); border-bottom: 2px solid var(--accent2); }
+  .cat-diag { color: var(--accent3); border-bottom: 2px solid var(--accent3); }
+  .cat-admin { color: var(--accent4); border-bottom: 2px solid var(--accent4); }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+
+  thead th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+
+  tbody tr:hover { background: var(--surface); }
+
+  td {
+    padding: 0.6rem 0.75rem;
+    vertical-align: top;
+  }
+
+  .tool-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #fff;
+    white-space: nowrap;
+  }
+
+  .year {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    margin: 1px 2px;
+    white-space: nowrap;
+  }
+
+  .tag-sql { background: rgba(79,195,247,0.1); color: var(--accent); border: 1px solid rgba(79,195,247,0.2); }
+  .tag-oss { background: rgba(129,199,132,0.1); color: var(--accent2); border: 1px solid rgba(129,199,132,0.2); }
+  .tag-paid { background: rgba(255,183,77,0.1); color: var(--accent3); border: 1px solid rgba(255,183,77,0.2); }
+  .tag-free { background: rgba(129,199,132,0.1); color: var(--accent2); border: 1px solid rgba(129,199,132,0.2); }
+  .tag-web { background: rgba(206,147,216,0.1); color: var(--accent4); border: 1px solid rgba(206,147,216,0.2); }
+  .tag-dead { background: rgba(255,82,82,0.1); color: #ff5252; border: 1px solid rgba(255,82,82,0.2); }
+  .tag-cli { background: rgba(255,255,255,0.06); color: var(--text-dim); border: 1px solid rgba(255,255,255,0.1); }
+
+  .notes {
+    color: var(--text-dim);
+    font-size: 0.8rem;
+  }
+
+  .footer {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  @media (max-width: 700px) {
+    body { padding: 1rem 0.75rem; }
+    table { font-size: 0.78rem; }
+    td, th { padding: 0.4rem 0.5rem; }
+    .tag { font-size: 0.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<h1>// ERD & Database Design Tools</h1>
+<div class="subtitle">Tools that output SQL or can be converted to .sql — GUI modelers, diagram-as-code, and admin tools with ERD support</div>
+
+<!-- GUI MODELERS -->
+<div class="category">
+  <div class="category-header cat-gui">&#x25A0; GUI / Visual Modelers</div>
+  <table>
+    <thead><tr><th>Tool</th><th>First</th><th>SQL Output</th><th>Tags</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="tool-name">ERwin Data Modeler</td>
+        <td class="year">~1993</td>
+        <td>DDL forward-eng to all major DBs</td>
+        <td><span class="tag tag-paid">paid</span></td>
+        <td class="notes">Enterprise standard. IDEF1X/IE notation. Now owned by Quest. 30+ year history.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">Oracle SQL Data Modeler</td>
+        <td class="year">~2009</td>
+        <td>DDL for Oracle, SQL Server, DB2+</td>
+        <td><span class="tag tag-free">free</span></td>
+        <td class="notes">Free standalone or integrated into SQL Developer. Logical/physical/relational.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">IBM InfoSphere Data Architect</td>
+        <td class="year">~2007</td>
+        <td>DDL for DB2, Oracle, SQL Server+</td>
+        <td><span class="tag tag-paid">paid</span></td>
+        <td class="notes">Eclipse-based. Successor to Rational Data Architect. Enterprise data modeling.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">Embarcadero ER/Studio</td>
+        <td class="year">~1998</td>
+        <td>DDL for all major DBs</td>
+        <td><span class="tag tag-paid">paid</span></td>
+        <td class="notes">Enterprise. Logical/physical modeling. Team collaboration features.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">Sparx Enterprise Architect</td>
+        <td class="year">2000</td>
+        <td>DDL for major DBs via data model profiles</td>
+        <td><span class="tag tag-paid">paid</span></td>
+        <td class="notes">UML-focused but has strong ERD/DDL generation. Broad modeling tool.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">FabForce DBDesigner 4</td>
+        <td class="year">2001</td>
+        <td>DDL for MySQL, Oracle, MSSQL, ODBC</td>
+        <td><span class="tag tag-oss">GPL</span><span class="tag tag-dead">defunct</span></td>
+        <td class="notes">Delphi-based. Spiritual predecessor to MySQL Workbench. Last release 4.0.5.6.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">MySQL Workbench</td>
+        <td class="year">2005</td>
+        <td>DDL for MySQL/MariaDB</td>
+        <td><span class="tag tag-free">free</span><span class="tag tag-oss">OSS</span></td>
+        <td class="notes">Official MySQL GUI. Successor to DBDesigner 4. Visual EER diagrams + forward/reverse eng.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">Navicat Data Modeler</td>
+        <td class="year">~2012</td>
+        <td>DDL for MySQL, PG, SQLite, SQL Server, Oracle</td>
+        <td><span class="tag tag-paid">paid</span></td>
+        <td class="notes">Cross-platform visual modeler. Conceptual/logical/physical. Separate from Navicat DB client.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">DbSchema</td>
+        <td class="year">~2012</td>
+        <td>DDL for any JDBC-compatible DB</td>
+        <td><span class="tag tag-paid">freemium</span></td>
+        <td class="notes">Java-based. Interactive ERD, schema sync, visual query builder. Git integration.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">Vertabelo</td>
+        <td class="year">2013</td>
+        <td>DDL for PG, MySQL, MSSQL, Oracle, SQLite+</td>
+        <td><span class="tag tag-web">web</span><span class="tag tag-paid">freemium</span></td>
+        <td class="notes">Browser-based collaborative data modeler. Team features. Auto-generate SQL.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">SqlDBM</td>
+        <td class="year">~2017</td>
+        <td>DDL for SQL Server, MySQL, PG, Snowflake, BigQuery, Redshift</td>
+        <td><span class="tag tag-web">web</span><span class="tag tag-paid">freemium</span></td>
+        <td class="notes">Cloud-native database modeler. Forward/reverse eng. Team collaboration.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">DrawDB</td>
+        <td class="year">2024</td>
+        <td>DDL for MySQL, PG, SQLite, MSSQL, MariaDB</td>
+        <td><span class="tag tag-web">web</span><span class="tag tag-oss">OSS</span></td>
+        <td class="notes">Browser-based, no account needed. Visual editor exports SQL. Fast-growing OSS project.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- DATABASE-AS-CODE / DSL -->
+<div class="category">
+  <div class="category-header cat-code">&#x25A0; Database-as-Code / DSL</div>
+  <table>
+    <thead><tr><th>Tool</th><th>First</th><th>SQL Output</th><th>Tags</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="tool-name">DBML / dbdiagram.io</td>
+        <td class="year">2018</td>
+        <td>dbml2sql → PG, MySQL, MSSQL, Oracle</td>
+        <td><span class="tag tag-oss">OSS</span><span class="tag tag-web">web</span><span class="tag tag-cli">CLI</span></td>
+        <td class="notes">Database Markup Language. CLI + web visualizer. Bi-directional SQL↔DBML. Also dbdocs.io for docs.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">Prisma (schema.prisma)</td>
+        <td class="year">2019</td>
+        <td>Migrations generate SQL for PG, MySQL, SQLite, MSSQL, CockroachDB</td>
+        <td><span class="tag tag-oss">OSS</span><span class="tag tag-cli">CLI</span></td>
+        <td class="notes">Node.js ORM with declarative schema. prisma migrate produces .sql files. prisma db pull for introspection.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">Atlas (by Ariga)</td>
+        <td class="year">2021</td>
+        <td>DDL for PG, MySQL, SQLite, MSSQL, CockroachDB+</td>
+        <td><span class="tag tag-oss">OSS</span><span class="tag tag-cli">CLI</span></td>
+        <td class="notes">HCL-based schema DSL. Declarative migrations, schema diff, ERD visualizer. Go-based.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">Schemacrawler</td>
+        <td class="year">~2007</td>
+        <td>Reverse-eng DDL + ERD diagrams from any JDBC DB</td>
+        <td><span class="tag tag-oss">OSS</span><span class="tag tag-cli">CLI</span></td>
+        <td class="notes">Java CLI. Generates ERD diagrams (via GraphViz) and SQL DDL from existing databases.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">SchemaHero</td>
+        <td class="year">2019</td>
+        <td>Declarative YAML → SQL for PG, MySQL, SQLite, CockroachDB</td>
+        <td><span class="tag tag-oss">OSS</span><span class="tag tag-cli">CLI</span></td>
+        <td class="notes">Kubernetes-native database schema management. YAML schema definitions.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">Drizzle ORM (drizzle-kit)</td>
+        <td class="year">2022</td>
+        <td>Migrations → SQL for PG, MySQL, SQLite</td>
+        <td><span class="tag tag-oss">OSS</span><span class="tag tag-cli">CLI</span></td>
+        <td class="notes">TypeScript schema definitions. drizzle-kit generate outputs .sql migration files. Drizzle Studio for visual browsing.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">SqlFluff + dbt</td>
+        <td class="year">2019 / 2016</td>
+        <td>SQL-native (schema defined in .sql models)</td>
+        <td><span class="tag tag-oss">OSS</span><span class="tag tag-cli">CLI</span></td>
+        <td class="notes">dbt models define schema as SQL. SqlFluff lints. Not ERD per se but schema-as-code for analytics.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">Liquibase</td>
+        <td class="year">2006</td>
+        <td>Changelogs → SQL for all major DBs</td>
+        <td><span class="tag tag-oss">OSS</span><span class="tag tag-cli">CLI</span></td>
+        <td class="notes">XML/YAML/JSON/SQL changelogs. Database migration tool, not ERD, but defines schema as code.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">Flyway</td>
+        <td class="year">2010</td>
+        <td>.sql migration files directly</td>
+        <td><span class="tag tag-oss">OSS</span><span class="tag tag-cli">CLI</span></td>
+        <td class="notes">SQL-first migration tool. Version-controlled .sql files. Now owned by Redgate.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- DIAGRAM-AS-CODE -->
+<div class="category">
+  <div class="category-header cat-diag">&#x25A0; Diagram-as-Code (text → ERD → convertible to SQL)</div>
+  <table>
+    <thead><tr><th>Tool</th><th>First</th><th>SQL Output</th><th>Tags</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="tool-name">Mermaid.js (erDiagram)</td>
+        <td class="year">2014</td>
+        <td>No native SQL. Convertible via LLMs, mermerd (reverse), or manual mapping.</td>
+        <td><span class="tag tag-oss">OSS</span></td>
+        <td class="notes">Text-based diagramming. erDiagram syntax supported since ~v8. GitHub-native rendering. Huge ecosystem.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">PlantUML (IE notation)</td>
+        <td class="year">2009</td>
+        <td>No native SQL. Text-based ERD notation; convertible manually or via tooling.</td>
+        <td><span class="tag tag-oss">OSS</span></td>
+        <td class="notes">Java-based. IE diagram support. Widely used in docs. Renders via GraphViz.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">D2 (Terrastruct)</td>
+        <td class="year">2022</td>
+        <td>No native SQL. Declarative diagramming DSL; sql_table shape type for ERDs.</td>
+        <td><span class="tag tag-oss">OSS</span></td>
+        <td class="notes">Modern diagram-as-code. sql_table keyword for ERD shapes. No SQL export but structured text.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">Structurizr (DSL)</td>
+        <td class="year">2016</td>
+        <td>No native SQL. Architecture-as-code, can model data relationships.</td>
+        <td><span class="tag tag-oss">OSS</span></td>
+        <td class="notes">C4 model focused. Not ERD-specific but can represent data stores in architecture.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">ERAlchemy</td>
+        <td class="year">~2015</td>
+        <td>Reverse-eng: reads SQLAlchemy/DB → generates ERD (GraphViz/Mermaid)</td>
+        <td><span class="tag tag-oss">OSS</span><span class="tag tag-cli">CLI</span></td>
+        <td class="notes">Python. Generates ERD from existing databases or SQLAlchemy models.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">mermerd</td>
+        <td class="year">2022</td>
+        <td>Reverse: DB → Mermaid erDiagram syntax</td>
+        <td><span class="tag tag-oss">OSS</span><span class="tag tag-cli">CLI</span></td>
+        <td class="notes">Go CLI. Connects to live DB and generates Mermaid ERD. PG, MySQL, MSSQL, SQLite.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- DB ADMIN TOOLS WITH ERD -->
+<div class="category">
+  <div class="category-header cat-admin">&#x25A0; DB Admin / Client Tools with ERD Features</div>
+  <table>
+    <thead><tr><th>Tool</th><th>First</th><th>SQL Output</th><th>Tags</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="tool-name">pgAdmin</td>
+        <td class="year">1998</td>
+        <td>DDL generation for PostgreSQL</td>
+        <td><span class="tag tag-oss">OSS</span></td>
+        <td class="notes">PostgreSQL's official admin tool. ERD designer added in pgAdmin 4. Four complete rewrites since 1998.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">SQL Server Management Studio</td>
+        <td class="year">2005</td>
+        <td>DDL for SQL Server</td>
+        <td><span class="tag tag-free">free</span></td>
+        <td class="notes">Database diagrams feature. Script tables/schemas as CREATE statements. Windows only.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">DBeaver</td>
+        <td class="year">2010</td>
+        <td>DDL generation for any JDBC DB</td>
+        <td><span class="tag tag-oss">OSS</span><span class="tag tag-paid">EE paid</span></td>
+        <td class="notes">Universal DB client. ERD viewer in CE (auto-generated from schema). ERD editor in Enterprise.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">DbGate</td>
+        <td class="year">~2020</td>
+        <td>DDL for PG, MySQL, MSSQL, SQLite, MongoDB</td>
+        <td><span class="tag tag-oss">OSS</span></td>
+        <td class="notes">Cross-platform DB manager. ER diagram viewer. Schema compare. Lightweight Electron app.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">DataGrip (JetBrains)</td>
+        <td class="year">2015</td>
+        <td>DDL for all major DBs</td>
+        <td><span class="tag tag-paid">paid</span></td>
+        <td class="notes">IDE for databases. Auto-generated ERD from schema. Script generation. Refactoring support.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">Toad Data Modeler</td>
+        <td class="year">~2004</td>
+        <td>DDL for Oracle, MySQL, PG, MSSQL, DB2+</td>
+        <td><span class="tag tag-paid">paid</span></td>
+        <td class="notes">Part of Toad family (Quest). Physical/logical modeling. Originally Case Studio before acquisition.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">HeidiSQL</td>
+        <td class="year">2006</td>
+        <td>DDL export for MySQL, PG, MSSQL, SQLite</td>
+        <td><span class="tag tag-oss">OSS</span></td>
+        <td class="notes">Windows MySQL/PG client. No visual ERD but exports full DDL. Lightweight and fast.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">phpMyAdmin</td>
+        <td class="year">1998</td>
+        <td>DDL for MySQL/MariaDB</td>
+        <td><span class="tag tag-oss">OSS</span><span class="tag tag-web">web</span></td>
+        <td class="notes">Web-based MySQL admin. Designer tab for visual ERD. Export as SQL. Ubiquitous on shared hosting.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">Adminer</td>
+        <td class="year">2007</td>
+        <td>DDL for MySQL, PG, SQLite, MSSQL, Oracle</td>
+        <td><span class="tag tag-oss">OSS</span><span class="tag tag-web">web</span></td>
+        <td class="notes">Single PHP file. Lightweight phpMyAdmin alternative. Basic schema export. No visual ERD.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">Azure Data Studio</td>
+        <td class="year">2018</td>
+        <td>DDL for SQL Server, PG</td>
+        <td><span class="tag tag-oss">OSS</span></td>
+        <td class="notes">VS Code-based. No native ERD but has schema visualization extensions. Script generation.</td>
+      </tr>
+      <tr>
+        <td class="tool-name">DbVisualizer</td>
+        <td class="year">2002</td>
+        <td>DDL for any JDBC DB</td>
+        <td><span class="tag tag-paid">freemium</span></td>
+        <td class="notes">Java-based universal DB client. References/relationships viewer. DDL export.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="footer">
+  <p>Tags: <span class="tag tag-oss">OSS</span> = open source &nbsp; <span class="tag tag-paid">paid</span> = commercial &nbsp; <span class="tag tag-free">free</span> = free (closed source) &nbsp; <span class="tag tag-web">web</span> = browser-based &nbsp; <span class="tag tag-cli">CLI</span> = command-line &nbsp; <span class="tag tag-dead">defunct</span> = no longer maintained</p>
+  <p style="margin-top: 0.5rem;">Compiled March 2026. Dates are approximate for tools where exact first-release is unclear.</p>
+</div>
+
+</body>
+</html>
